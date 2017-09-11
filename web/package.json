@@ -1,0 +1,62 @@
+{
+  "private": true,
+  "name": "mhss-client",
+  "version": "0.1.0",
+  "main": "main.js",
+  "productName": "mhss",
+  "description": "智能验收称重系统",
+  "entry": {},
+  "dependencies": {
+    "antd": "^2.1.0",
+    "atool-build": "0.7.x",
+    "babel-plugin-antd": "0.4.x",
+    "babel-plugin-transform-runtime": "^6.8.0",
+    "babel-runtime": "^6.6.1",
+    "classnames": "^2.2.3",
+    "es3ify-loader": "^0.2.0",
+    "excel-export": "^0.5.1",
+    "flux": "^2.0.3",
+    "history": "^2.0.1",
+    "iscroll": "^5.2.0",
+    "isomorphic-fetch": "^2.2.1",
+    "jquery": "^3.0.0",
+    "js-cookie": "^2.1.1",
+    "keymirror": "^0.1.1",
+    "object-assign": "^4.1.0",
+    "rc-queue-anim": "^0.11.11",
+    "rc-tween-one": "^0.9.2",
+    "react": "^15.0.2",
+    "react-dom": "^15.0.2",
+    "react-router": "^2.0.1"
+  },
+  "devDependencies": {
+    "atool-test-mocha": "^0.1.4",
+    "babel-eslint": "^6.0.0",
+    "dora": "0.3.x",
+    "dora-plugin-browser-history": "^0.1.1",
+    "dora-plugin-hmr": "0.6.x",
+    "dora-plugin-livereload": "0.3.x",
+    "dora-plugin-proxy": "0.6.x",
+    "dora-plugin-webpack": "0.6.x",
+    "eslint": "^2.7.0",
+    "eslint-config-airbnb": "6.x",
+    "eslint-plugin-react": "4.x",
+    "expect": "^1.20.1",
+    "fs-jetpack": "^0.9.2",
+    "glob": "^7.0.3",
+    "iconv-lite": "^0.4.13",
+    "pre-commit": "1.x",
+    "q": "^1.4.1",
+    "rcedit": "^0.5.1",
+    "shelljs": "^0.7.0"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "scripts": {
+    "build": "atool-build && node ./postbuild.js",
+    "lint": "eslint --ext .js,.jsx src",
+    "start": "dora -p 8001 --plugins \"webpack,hmr,proxy,livereload?enableJs=false&injectHost=127.0.0.1,browser-history?index=/src/entries/index.html\"",
+    "test": "atool-test-mocha ./src/**/__tests__/*-test.js"
+  }
+}

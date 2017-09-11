@@ -1,0 +1,141 @@
+.container{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  .detailcontainer{
+    position: absolute;
+    left: 15%;
+    width: 70%;
+    height: 100%;
+    background-color: white;
+
+    .detailtitle{
+      color: #333;
+      width: 100%;
+      height: 40px;
+      margin: 30px 0;
+      text-align: center;
+      font-size: 33px;
+      font-family: 'simhei';
+    }
+
+    .detailnumber{
+      color: #777;
+      height: 25px;
+      margin: 0px 35px;
+      font-size: 15px;
+      font-family: 'simhei';
+
+      span{
+        font-size: 16px;
+        color: #333;
+      }
+    }
+
+    .leavebtn{
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      top: 30px;
+      cursor: pointer;
+      right: 20px;
+      background-image: url('../../resource/进入.png');
+    }
+
+    .detaillist{
+      position: absolute;
+      top: 130px;
+      width: 100%;
+      bottom: 90px;
+      padding: 0 35px;
+
+      .topTable{
+        position: absolute;
+        left: 35px;
+        right: 35px;
+        top: 0;
+        bottom: 250px;
+        overflow-y: auto;
+      }
+
+      .bottomTable{
+        position: absolute;
+        padding-top: 15px;
+        left: 35px;
+        right: 35px;
+        height: 250px;
+        bottom: 0;
+        border-color: #2683C7;
+        border-style: solid;
+        border-width: 1px 0 0 0;
+        overflow-y: auto;
+
+        p{
+          margin-bottom: 10px;
+        }
+      }
+    }
+
+    .submitbtn{
+      position: absolute;
+      width: 350px;
+      left: 50%;
+      margin-left: -175px;
+      height: 50px;
+      bottom: 25px;
+      background-color: rgb(38, 131, 199);
+      text-align: center;
+      line-height: 50px;
+      border-radius: 3px;
+      color: white;
+      cursor: pointer;
+      font-size: 20px;
+      font-family: 'simhei';
+      letter-spacing: 1px;
+    }
+  }
+}
+
+
+.weightpanel{
+  height: 60px;
+  /* background-color: rgb(219, 219, 224); */
+  line-height: 60px;
+  font-family: 'simhei';
+  margin-bottom: 10px;
+
+  .weighttext{
+    font-size: 55px;
+    margin: 0px 10px 0 0;
+    background-color: rgba(38, 76, 86, 0.67);
+    color: white;
+    padding: 0 14px;
+  }
+
+  span{
+    margin: 0 5px;
+    font-size: 18px;
+  }
+}
+
+.countpanel{
+    height: 60px;
+    /* background-color: rgb(219, 219, 224); */
+    line-height: 60px;
+    font-family: 'simhei';
+    margin: 0 5px;
+    font-size: 18px;
+
+    .countinput{
+      outline: none;
+      height: 42px;
+      line-height: 42px;
+      margin-left: 5px;
+      font-size: 30px;
+      width: 80px;
+      padding: 0 0 0 5px;
+    }
+}
