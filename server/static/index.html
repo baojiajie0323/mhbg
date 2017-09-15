@@ -1,17 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>铛铛巡店业务管理平台</title>
-  <link rel="stylesheet" href="index.css" />
+  <title>testdemo</title>
 </head>
+
 <body>
-
-<div id="root"></div>
-
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=MBVvMiahaupDeMCo2sBCYqb4CZ0xG3vg"></script>
-<script src="common.js"></script>
-<script src="index.js"></script>
-
+  <input type="button" value="test1" onclick="onClickbtn1()" />
 </body>
+<script src="./jquery.min.js"></script>
+<script>
+  function onClickbtn1() {
+    var data = {
+      cmd : 'gettask',
+      data: 'aabbcc'
+    }
+    $.ajax({
+      url: '../info', type: 'POST', dataType: 'json', timeout: 10000,
+      data
+    })
+      .done(function (response) {
+        console.log('info:' + response);
+      })
+      .fail(function (xhr, textStatus, thrownError) {
+        console.log('info fail');
+      })
+  }
+
+</script>
+
 </html>
