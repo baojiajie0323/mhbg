@@ -28,14 +28,14 @@ var Action = {
       cmd: 'getorder',
       data: queryData
     }
-    console.log('getOrder:',data)
+    console.log('getOrder:', data)
     var context = this;
     $.ajax({
       url: '../info', type: 'POST', dataType: 'json', timeout: AJAXTIMEOUT,
       data
     })
       .done(function (response) {
-        console.log('getorder:' , response.data);
+        console.log('getorder:', response.data);
         if (response.code == 0) {
           context.dispatch(ActionEvent.AE_ORDER, response.data);
         } else {
@@ -46,22 +46,26 @@ var Action = {
         console.log('getorder fail');
       })
   },
-  getOrderDetail() {
+  getOrderDetail(queryData) {
     var data = {
       cmd: 'getorderdetail',
-      data: {
-        "order": '411-MH011709010015'
-      }
+      data: queryData
     }
+    var context = this;
     $.ajax({
       url: '../info', type: 'POST', dataType: 'json', timeout: AJAXTIMEOUT,
       data
     })
       .done(function (response) {
-        console.log('info:' + response);
+        console.log('getorderdetail:' + response);
+        if (response.code == 0) {
+          context.dispatch(ActionEvent.AE_ORDER_DETAIL, response.data);
+        } else {
+          message.error('获取工单详情失败！');
+        }
       })
       .fail(function (xhr, textStatus, thrownError) {
-        console.log('info fail');
+        console.log('getorderdetail fail');
       })
   },
   dispatch: function (funname, value) {

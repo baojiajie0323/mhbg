@@ -155,6 +155,10 @@ AppDispatcher.register((action) => {
       Store.emit(StoreEvent.SE_ORDER, action.value);
     }
       break;
+    case ActionEvent.AE_ORDER_DETAIL: {
+      Store.emit(StoreEvent.SE_ORDER_DETAIL, action.value);
+    }
+      break;
     default:
       break;
   }

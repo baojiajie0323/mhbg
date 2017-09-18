@@ -38,7 +38,7 @@ class info:
         return 'getTask'
 
     def getOrder(self, data):
-        # conn = self.begindb()
+        conn = self.begindb()
         # where_params = {'deptno': 30}
         print data
         sql = " SELECT tc_afr02,  \
@@ -56,35 +56,35 @@ class info:
 
         print sql
         # WHERE deptno = :deptno"
-        # cursor = conn.cursor()
-        # cursor.execute(sql)
-        # index = cursor.description
-        # result = []
-        # row = cursor.fetchone()
-        # while row:
-        #     columnIndex = 0
-        #     rowData = {}
-        #     for i in row:
-        #         rowKey = index[columnIndex][0]
-        #         rowValue = ""
-        #         if isinstance(i, str):
-        #             rowValue = i.decode('utf-8'),
-        #         else:
-        #             rowValue = i,
-        #         rowData[rowKey] = rowValue[0]
-        #         columnIndex += 1
-        #     result.append(rowData)
-        #     row = cursor.fetchone()
-        # cursor.close()
-        # self.enddb(conn)
+        cursor = conn.cursor()
+        cursor.execute(sql)
+        index = cursor.description
+        result = []
+        row = cursor.fetchone()
+        while row:
+            columnIndex = 0
+            rowData = {}
+            for i in row:
+                rowKey = index[columnIndex][0]
+                rowValue = ""
+                if isinstance(i, str):
+                    rowValue = i.decode('utf-8'),
+                else:
+                    rowValue = i,
+                rowData[rowKey] = rowValue[0]
+                columnIndex += 1
+            result.append(rowData)
+            row = cursor.fetchone()
+        cursor.close()
+        self.enddb(conn)
         return result
 
     def getOrderDetail(self, data):
         conn = self.begindb()
-        where_params = {'order': data["data[order]"]}
+        where_params = {'orderno': data["data[order]"]}
         sql = "SELECT sfa03,ima02,ima08,sfa12,sfa05,sfa06+sfa062,sfa05-sfa06-sfa062 FROM sfa_file \
         LEFT JOIN ima_file ON sfa03=ima01 \
-        WHERE sfa01=:order"
+        WHERE sfa01=:orderno"
         # WHERE deptno = :deptno"
         cursor = conn.cursor()
         cursor.execute(sql,where_params)

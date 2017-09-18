@@ -5,6 +5,34 @@
     top: 0;
     bottom: 0;
     background-color: #fff;
+    .backbtn{
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      width: 75px;
+      background: #b7b7b7;
+      padding: 8px;
+      text-align: center;
+      border-radius: 3px;
+      color: #404040;
+      cursor: pointer;
+      font-size: 14px;
+      z-index: 1;
+    }
+    .printbtn{
+      position: absolute;
+      left: 100px;
+      top: 20px;
+      width: 75px;
+      background: #b7b7b7;
+      padding: 8px;
+      text-align: center;
+      border-radius: 3px;
+      color: #404040;
+      cursor: pointer;
+      font-size: 14px;
+      z-index: 1;
+    }
     .search {
         position: absolute;
         left: 25%;
@@ -61,54 +89,26 @@
             margin-bottom: 20px;
             color: black;
         }
-        .barcode{
+        .barcode {
             position: absolute;
             right: 0;
             top: 0;
         }
-        .orderForm{
+        .orderForm {
             display: flex;
             height: 30px;
-            margin: 3px 15%;
-            background: red;
+            margin: 3px 10%;
+            .content {
+                display: flex;
+                width: 33.3%;
+            }
+            .content2 {
+                display: flex;
+                width: 50%;
+            }
         }
-    }
-}
-
-.mask {
-    position: absolute;
-    left: -15px;
-    right: -20px;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.skindetail {
-    z-index: 10;
-    position: absolute;
-    left: 25%;
-    right: 25px;
-    top: 25%;
-    bottom: 25%;
-    background: #ccc;
-    cursor: pointer;
-}
-
-.homeblock {
-    position: absolute;
-    background-color: rgba(28, 32, 51, 0.5);
-    border: 1px solid rgb(26, 62, 121);
-    border-radius: 2px;
-    .title {
-        position: absolute;
-        width: 122px;
-        height: 38px;
-        text-align: center;
-        line-height: 34px;
-        font-size: 14px;
-        color: white;
-        top: 8px;
-        left: -9px;
-        text-shadow: 0 2px 4px rgb(0, 0, 0);
+        .detailtable {
+            margin: 20px 10% 0;
+        }
     }
 }
