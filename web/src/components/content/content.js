@@ -7,7 +7,7 @@ var StoreEvent = require('../../flux/event-const').StoreEvent;
 import Action from '../../flux/actions/Actions';
 import NumberInput from './numberinput';
 import Detail from './detail';
-import { Icon, Button,Table, Input, DatePicker } from 'antd'
+import { Icon, Button, Table, Input, DatePicker } from 'antd'
 import moment from 'moment';
 const { RangePicker } = DatePicker;
 class Content extends React.Component {
@@ -15,6 +15,7 @@ class Content extends React.Component {
     super(props);
     this.state = {
       order: [],
+      curOrder: '331-MH112233445566'
     };
     this.onChangeOrder = this.onChangeOrder.bind(this);
     this.onClickQuery = this.onClickQuery.bind(this);
@@ -23,11 +24,16 @@ class Content extends React.Component {
   }
   componentDidMount() {
     Store.addChangeListener(StoreEvent.SE_ORDER, this.onChangeOrder);
+    JsBarcode("#barcode", this.state.curOrder , {
+      width: 1,
+      height: 50,
+      fontSize: 14
+    });
   }
   componentWillUnMount() {
     Store.removeChangeListener(StoreEvent.SE_ORDER, this.onChangeOrder);
   }
-  onChangeOrder(order){
+  onChangeOrder(order) {
     this.setState({
       order
     })
@@ -37,7 +43,7 @@ class Content extends React.Component {
     console.log("onDateChange", date, dateString);
   }
   onClickQuery() {
-    console.log("onClickQuery",this.c);
+    console.log("onClickQuery", this.c);
     var queryData = {
       beginDate: this.queryData[0],
       endDate: this.queryData[1],
@@ -98,8 +104,8 @@ class Content extends React.Component {
       title: '操作',
       dataIndex: 'operate',
       key: 'operate',
-      render: (text,record) => (
-       <a>打印</a> 
+      render: (text, record) => (
+        <a>打印</a>
       )
     }]
   }
@@ -110,19 +116,26 @@ class Content extends React.Component {
     const dateFormat = 'YYYY-MM-DD';
     return (
       <div className={styles.container}>
-        <div className={styles.search}>
-          <p>请选择日期：</p>
-          <RangePicker
-            defaultValue={[moment(), moment()]}
-            format={dateFormat}
-            onChange={this.onDateChange}
-          />
-          <Input ref={(c)=>this.c = c} style={{ margin: '0 15px', width: '200px' }} placeholder="请输入工单号" />
-          <Button onClick={this.onClickQuery} type="primary" icon="search">查询</Button>
+        {this.state.curOrder ? <div className={styles.order}>
+          <p className={styles.orderTitle}>工单生产任务单</p>
+          <img className={styles.barcode} id="barcode"/>
         </div>
-        <div className={styles.searchresult}>
-          <Table dataSource={this.getTableData()} columns={this.getTableColumns()} />
+        : <div>
+          <div className={styles.search}>
+            <p>请选择日期：</p>
+            <RangePicker
+              defaultValue={[moment(), moment()]}
+              format={dateFormat}
+              onChange={this.onDateChange}
+            />
+            <Input ref={(c) => this.c = c} style={{ margin: '0 15px', width: '200px' }} placeholder="请输入工单号" />
+            <Button onClick={this.onClickQuery} type="primary" icon="search">查询</Button>
+          </div>
+          <div className={styles.searchresult}>
+            <Table dataSource={this.getTableData()} columns={this.getTableColumns()} />
+          </div>
         </div>
+        }
         {/*this.state.curNumber != "" ?
           <NumberInput onEnter={this.onEnterDetail} /> :  
           <Detail curNumber={this.state.curNumber} />
