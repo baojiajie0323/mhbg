@@ -119,6 +119,18 @@ class Content extends React.Component {
         {this.state.curOrder ? <div className={styles.order}>
           <p className={styles.orderTitle}>工单生产任务单</p>
           <img className={styles.barcode} id="barcode"/>
+          <div className={styles.orderForm}>
+
+          </div>
+          <div className={styles.orderForm}>
+            
+          </div>
+          <div className={styles.orderForm}>
+            
+          </div>
+          <div className={styles.orderForm}>
+            
+          </div>
         </div>
         : <div>
           <div className={styles.search}>
