@@ -10,37 +10,37 @@ var StoreEvent = EventConst.StoreEvent;
 var _loginsuccess = false;
 var _curNumber = '';
 var _numberList = [
-      // {
-      //   number:1,
-      //   index: 2,
-      //   code:'CHILDJDYH1-24-0102003',
-      //   name:'彩印塑封袋-巧資加大印花护洗袋'
-      // },
-      // {
-      //   number:1,
-      //   index: 4,
-      //   code:'CHILDJDYH1-25-0102004',
-      //   name:'彩印塑封袋-巧資加小印花护洗袋'
-      // },
-      // {
-      //   number:1,
-      //   index: 5,
-      //   code:'CHILDJDYH1-26-0102004',
-      //   name:'彩印塑封袋-巧資加小印花护洗袋'
-      // },
-      // {
-      //   number:1,
-      //   index: 6,
-      //   code:'CHILDJDYH1-27-0102004',
-      //   name:'彩印塑封袋-巧資加小印花护洗袋'
-      // },
-      // {
-      //   number:1,
-      //   index: 7,
-      //   code:'CHILDJDYH4-27-0102004',
-      //   name:'彩印塑封袋-巧資加小印花护洗袋'
-      // }
-    ];
+  // {
+  //   number:1,
+  //   index: 2,
+  //   code:'CHILDJDYH1-24-0102003',
+  //   name:'彩印塑封袋-巧資加大印花护洗袋'
+  // },
+  // {
+  //   number:1,
+  //   index: 4,
+  //   code:'CHILDJDYH1-25-0102004',
+  //   name:'彩印塑封袋-巧資加小印花护洗袋'
+  // },
+  // {
+  //   number:1,
+  //   index: 5,
+  //   code:'CHILDJDYH1-26-0102004',
+  //   name:'彩印塑封袋-巧資加小印花护洗袋'
+  // },
+  // {
+  //   number:1,
+  //   index: 6,
+  //   code:'CHILDJDYH1-27-0102004',
+  //   name:'彩印塑封袋-巧資加小印花护洗袋'
+  // },
+  // {
+  //   number:1,
+  //   index: 7,
+  //   code:'CHILDJDYH4-27-0102004',
+  //   name:'彩印塑封袋-巧資加小印花护洗袋'
+  // }
+];
 var Store = assign({}, EventEmitter.prototype, {
   postResize: function () {
     this.emitChange(StoreEvent.SE_RESIZE);
@@ -67,11 +67,11 @@ var Store = assign({}, EventEmitter.prototype, {
 
   setNumberList: function (datalist) {
     _numberList = [];
-    for(var i = 0; i < datalist.length; i++){
-        if(this.IsNumberInfoExistByCode(datalist[i].code)){
-          continue;
-        }
-        _numberList.push(datalist[i]);
+    for (var i = 0; i < datalist.length; i++) {
+      if (this.IsNumberInfoExistByCode(datalist[i].code)) {
+        continue;
+      }
+      _numberList.push(datalist[i]);
     }
     this.emitChange(StoreEvent.SE_NUMBERLIST);
   },
@@ -94,7 +94,7 @@ var Store = assign({}, EventEmitter.prototype, {
     }
     return numberInfolist;
   },
-  IsNumberInfoExistByCode: function( scode){
+  IsNumberInfoExistByCode: function (scode) {
     for (var i = 0; i < _numberList.length; i++) {
       if (scode == _numberList[i].code) {
         return true;
@@ -104,7 +104,7 @@ var Store = assign({}, EventEmitter.prototype, {
   },
   setNumberInfo(snumber, index, code, count, weight) {
     for (var i = 0; i < _numberList.length; i++) {
-      console.log(snumber,index,code,count,weight);
+      console.log(snumber, index, code, count, weight);
       console.log(_numberList[i]);
       if (snumber == _numberList[i].number &&
         index == _numberList[i].index &&
@@ -149,6 +149,10 @@ AppDispatcher.register((action) => {
       break;
     case ActionEvent.AE_SERIAL: {
       Store.emit(StoreEvent.SE_SERIAL, action.value);
+    }
+      break;
+    case ActionEvent.AE_ORDER: {
+      Store.emit(StoreEvent.SE_ORDER, action.value);
     }
       break;
     default:

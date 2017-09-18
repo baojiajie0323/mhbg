@@ -9,47 +9,11 @@
     <!--[if lt IE 10]>
     <script src="https://as.alipayobjects.com/g/component/??console-polyfill/0.2.2/index.js,es5-shim/4.5.7/es5-shim.min.js,es5-shim/4.5.7/es5-sham.min.js,html5shiv/3.7.2/html5shiv.min.js,media-match/2.0.2/media.match.min.js"></script>
     <![endif]-->
-    <style>
-      #firstload{
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-color: rgb(48,52,88);
-        opacity: 1;
-        transition: all 0.5s ease;
-      }
-      #gifdiv{
-        position: absolute;
-        width: 248px;
-        height: 180px;
-        left: 50%;
-        top: 50%;
-        margin-left: -124px;
-        margin-top: -10px;
-        background-image:url('./loading.gif');
-        background-size: 100% 100%;
-      }
-      #root{
-        opacity: 0;
-        transition: all 0.5s ease;
-      }
-      #mhplugin{
-        position:absolute;
-        visibility:hidden;
-      }
-    </style>
 </head>
 <body>
 
-<div id="firstload">
-  <div id="gifdiv">
-  </div>
-</div>
 <div id="root"></div>
-<object id="mhplugin" type="application/x-mhplugin" width="0" height="0">
-</object>
 </body>
-<script src="./vector.js"></script>
 <script src="./common.js"></script>
 <script src="./index.js"></script>
 </html>

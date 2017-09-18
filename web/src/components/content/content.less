@@ -1,47 +1,87 @@
-.container{
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  background-color: #b5b5b5;
-
-}
-
-.mask{
-  position: absolute;
-  left: -15px;
-  right: -20px;
-  height: 100%;
-  background-color: rgba(0,0,0,0.5);
-}
-.skindetail{
-  z-index: 10;
-  position: absolute;
-  left: 25%;
-  right:25px;
-  top:25%;
-  bottom:25%;
-  background: #ccc;
-  cursor: pointer;
-}
-
-.homeblock{
-  position: absolute;
-  background-color: rgba(28,32,51,0.5);
-  border: 1px solid rgb(26,62,121);
-  border-radius: 2px;
-
-  .title{
+.container {
     position: absolute;
-    width: 122px;
-    height: 38px;
-    text-align: center;
-    line-height: 34px;
-    font-size: 14px;
-    color: white;
-    top: 8px;
-    left: -9px;
-    text-shadow: 0 2px 4px rgb(0,0,0);
-  }
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #fff;
+    .search {
+        position: absolute;
+        left: 25%;
+        right: 25%;
+        top: 0;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 1px solid #dcdcdc;
+        >p {
+            margin-right: 15px;
+            font-size: 13px;
+        }
+        .query {
+            position: relative;
+            width: 550px;
+            height: 80px;
+            border: 1px solid #5c8fbf;
+            .searchbtn {
+                position: absolute;
+                width: 80px;
+                height: 100%;
+                right: 0;
+                text-align: center;
+                line-height: 80px;
+                font-size: 30px;
+                background-color: #5c8fbf;
+                color: white;
+                cursor: pointer;
+            }
+        }
+    }
+    .searchresult {
+        position: absolute;
+        left: 15%;
+        right: 15%;
+        top: 150px;
+        bottom: 20px;
+        overflow: auto;
+    }
+}
+
+.mask {
+    position: absolute;
+    left: -15px;
+    right: -20px;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.skindetail {
+    z-index: 10;
+    position: absolute;
+    left: 25%;
+    right: 25px;
+    top: 25%;
+    bottom: 25%;
+    background: #ccc;
+    cursor: pointer;
+}
+
+.homeblock {
+    position: absolute;
+    background-color: rgba(28, 32, 51, 0.5);
+    border: 1px solid rgb(26, 62, 121);
+    border-radius: 2px;
+    .title {
+        position: absolute;
+        width: 122px;
+        height: 38px;
+        text-align: center;
+        line-height: 34px;
+        font-size: 14px;
+        color: white;
+        top: 8px;
+        left: -9px;
+        text-shadow: 0 2px 4px rgb(0, 0, 0);
+    }
 }

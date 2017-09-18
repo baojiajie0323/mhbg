@@ -7,114 +7,62 @@ var AppDispatcher = require('../AppDispatcher');
 var ActionEvent = require('../event-const').ActionEvent;
 
 var Action = {
-  plugin0: function () {
-    return document.getElementById('mhplugin');
-  },
-  addEvent: function (obj, name, func) {
-    if (obj.attachEvent) {
-      obj.attachEvent("on" + name, func);
-    } else {
-      obj.addEventListener(name, func, false);
+  getTask() {
+    var data = {
+      cmd: 'gettask',
+      data: 'aabbcc'
     }
+    $.ajax({
+      url: '../info', type: 'POST', dataType: 'json', timeout: AJAXTIMEOUT,
+      data
+    })
+      .done(function (response) {
+        console.log('info:' + response);
+      })
+      .fail(function (xhr, textStatus, thrownError) {
+        console.log('info fail');
+      })
   },
-  getErrorStr: function (code) {
-    if (code == 1001) {
-      return "数据解析失败！";
-    } else if (code == 1002) {
-      return "未连接服务器！";
-    } else if (code == 1003) {
-      return "用户名或密码错误！【用户名为工号,密码为身份证后6位】"
+  getOrder(queryData) {
+    var data = {
+      cmd: 'getorder',
+      data: queryData
     }
-    return "未知错误" + code;
-  },
-
-  init: function () {
-    this.addEvent(this.plugin0(), 'pluginNotify', this.pluginNotify.bind(this));
-    var cmd = {
-      cmd: 'init'
-    }
-    this.plugin0().PostCmd(JSON.stringify(cmd));
-  },
-
-  login: function (username, password) {
-    var cmd = {
-      cmd: 'login',
-      data: {
-        user: username,
-        pwd: password
-      }
-    }
-    this.plugin0().PostCmd(JSON.stringify(cmd));
-  },
-
-  query: function (number) {
-    var cmd = {
-      cmd: 'query',
-      data: {
-        number: number,
-      }
-    }
-    this.plugin0().PostCmd(JSON.stringify(cmd));
-  },
-
-  update: function (data) {
-    var cmd = {
-      cmd: 'update',
-      data: data
-    }
-    console.log(data);
-    this.plugin0().PostCmd(JSON.stringify(cmd));
-  },
-
-  pluginNotify(notify) {
-    console.log(notify);
-    var notifyobj = JSON.parse(notify);
-    if (notifyobj.code == 1001) {
-      message.error(this.getErrorStr(1001));
-    }
-
-    switch (notifyobj.cmd) {
-      case 'init': {
-        if (notifyobj.code != 0) {
-          message.error("oracle 连接失败！" + notifyobj.code);
+    console.log('getOrder:',data)
+    var context = this;
+    $.ajax({
+      url: '../info', type: 'POST', dataType: 'json', timeout: AJAXTIMEOUT,
+      data
+    })
+      .done(function (response) {
+        console.log('getorder:' , response.data);
+        if (response.code == 0) {
+          context.dispatch(ActionEvent.AE_ORDER, response.data);
         } else {
-          message.success("初始化成功");
+          message.error('获取工单数据失败！');
         }
-      }
-        break;
-      case 'login': {
-        if (notifyobj.code != 0) {
-          message.error("登录失败！" + this.getErrorStr(notifyobj.code));
-        } else {
-          this.dispatch(ActionEvent.AE_LOGIN, true);
-          message.success('登录成功');
-        }
-      }
-        break;
-      case 'query': {
-        if (notifyobj.code == 0) {
-          this.dispatch(ActionEvent.AE_QUERY, notifyobj.data);
-        }
-      }
-        break;
-      case 'update': {
-
-      }
-        break;
-      case 'serial': {
-        if (notifyobj.code == 0) {
-          this.dispatch(ActionEvent.AE_SERIAL, notifyobj.data);
-        }
-      }
-        break;
-      default:
-        break;
-    }
+      })
+      .fail(function (xhr, textStatus, thrownError) {
+        console.log('getorder fail');
+      })
   },
-
-
-  logout: function () {
-    this.dispatch(ActionEvent.AE_LOGIN, false);
+  getOrderDetail() {
+    var data = {
+      cmd: 'getorderdetail',
+      data: {
+        "order": '411-MH011709010015'
+      }
+    }
+    $.ajax({
+      url: '../info', type: 'POST', dataType: 'json', timeout: AJAXTIMEOUT,
+      data
+    })
+      .done(function (response) {
+        console.log('info:' + response);
+      })
+      .fail(function (xhr, textStatus, thrownError) {
+        console.log('info fail');
+      })
   },
   dispatch: function (funname, value) {
     AppDispatcher.dispatch({

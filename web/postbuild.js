@@ -76,5 +76,4 @@ var copyfile = function(src,dst){
 }
 
 copyfile( './src/entries/index.html', './dist/index.html');
-copyfile( './vector.js', './dist/vector.js');
-copyfile( './loading.gif', './dist/loading.gif');
+exists( './dist', '../server/static', copy );

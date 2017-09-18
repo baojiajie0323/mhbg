@@ -1,33 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>testdemo</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <link rel="stylesheet" type="text/css" href="./index.css"/>
+    <title>满好报工系统</title>
+    <!--[if lt IE 10]>
+    <script src="https://as.alipayobjects.com/g/component/??console-polyfill/0.2.2/index.js,es5-shim/4.5.7/es5-shim.min.js,es5-shim/4.5.7/es5-sham.min.js,html5shiv/3.7.2/html5shiv.min.js,media-match/2.0.2/media.match.min.js"></script>
+    <![endif]-->
 </head>
-
 <body>
-  <input type="button" value="test1" onclick="onClickbtn1()" />
+
+<div id="root"></div>
 </body>
-<script src="./jquery.min.js"></script>
-<script>
-  function onClickbtn1() {
-    var data = {
-      cmd : 'gettask',
-      data: 'aabbcc'
-    }
-    $.ajax({
-      url: '../info', type: 'POST', dataType: 'json', timeout: 10000,
-      data
-    })
-      .done(function (response) {
-        console.log('info:' + response);
-      })
-      .fail(function (xhr, textStatus, thrownError) {
-        console.log('info fail');
-      })
-  }
-
-</script>
-
+<script src="./common.js"></script>
+<script src="./index.js"></script>
 </html>

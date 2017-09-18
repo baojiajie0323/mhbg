@@ -25,12 +25,10 @@ class App extends React.Component {
     Store.removeChangeListener(StoreEvent.SE_LOGIN, this.onLoginChange);
   }
   componentDidMount() {
-    setTimeout(function () {
-      document.getElementById('firstload').style.opacity = 0;
-      document.getElementById('root').style.opacity = 1;
-    }, 500)
-
-    this.onRegistNotify();
+    // setTimeout(function () {
+    //   document.getElementById('firstload').style.opacity = 0;
+    //   document.getElementById('root').style.opacity = 1;
+    // }, 500)
 
     Store.addChangeListener(StoreEvent.SE_LOGIN, this.onLoginChange);
     //Action.init();
@@ -42,15 +40,6 @@ class App extends React.Component {
     })
   }
 
-
-  onRegistNotify() {
-    $(window).resize(function () {
-      Store.postResize();
-    });
-    $(document).keydown(function (event) {
-      Store.postKeydown(event.keyCode);
-    });
-  }
   render() {
 
     return (
