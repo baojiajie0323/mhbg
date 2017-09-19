@@ -76,7 +76,7 @@ var copyfile = function (src, dst) {
 }
 
 copyfile('./src/entries/index.html', './dist/index.html');
-copyfile('./jsBarcode.all.js', './dist/jsBarcode.all.js');
+copyfile('./JsBarcode.all.js', './dist/JsBarcode.all.js');
 exists('./barcodes', './dist/barcodes', copy);
 exists('./dist', '../server/static', copy);
 exists('./dist/barcodes', '../server/static/barcodes', copy);

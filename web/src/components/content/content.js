@@ -116,10 +116,10 @@ class Content extends React.Component {
       dataIndex: 'SFB081',
       key: 'SFB081',
     }, {
-      title: '完工数量',
-      dataIndex: 'SFB09',
-      key: 'SFB09',
-    }, {
+      //   title: '完工数量',
+      //   dataIndex: 'SFB09',
+      //   key: 'SFB09',
+      // }, {
       title: '工单状态',
       dataIndex: 'GDSTATUS',
       key: 'GDSTATUS',
@@ -149,33 +149,37 @@ class Content extends React.Component {
   }
   getTableDetailColumns() {
     return [{
-      title: '项次',
-      dataIndex: 'TC_AFR02',
-      key: 'TC_AFR02',
-    }, {
+      //   title: '项次',
+      //   dataIndex: 'TC_AFR02',
+      //   key: 'TC_AFR02',
+      // }, {
       title: '发料料号',
-      dataIndex: 'GDTYPE',
-      key: 'GDTYPE',
+      dataIndex: 'SFA03',
+      key: 'SFA03',
     }, {
       title: '品名',
-      dataIndex: 'SFB81',
-      key: 'SFB81',
-    }, {
-      title: '单位',
-      dataIndex: 'TC_AFR09',
-      key: 'TC_AFR09',
-    }, {
-      title: '应发量',
       dataIndex: 'IMA02',
       key: 'IMA02',
     }, {
+      title: '来源码',
+      dataIndex: 'IMA08',
+      key: 'IMA08',
+    }, {
+      title: '单位',
+      dataIndex: 'SFA12',
+      key: 'SFA12',
+    }, {
+      title: '应发量',
+      dataIndex: 'SFA05',
+      key: 'SFA05',
+    }, {
       title: '已发量',
-      dataIndex: 'SFB08',
-      key: 'SFB08',
+      dataIndex: 'SFA051',
+      key: 'SFA051',
     }, {
       title: '欠料量',
-      dataIndex: 'SFB081',
-      key: 'SFB081',
+      dataIndex: 'SFA052',
+      key: 'SFA052',
     }]
   }
   getTableDetailData() {
@@ -212,11 +216,11 @@ class Content extends React.Component {
             </div>
             <div className={styles.content}>
               <p>预计开工：</p>
-              <p>2017-09-16</p>
+              <p>{curOrder.SFB13}</p>
             </div>
             <div className={styles.content}>
               <p>预计完工：</p>
-              <p>2017-09-16</p>
+              <p>{curOrder.SFB15}</p>
             </div>
           </div>
           <div className={styles.orderForm}>
@@ -237,6 +241,10 @@ class Content extends React.Component {
             <div className={styles.content}>
               <p>已发数量：</p>
               <p>{curOrder.SFB081}</p>
+            </div>
+            <div className={styles.content}>
+              <p>工艺：</p>
+              <p>{curOrder.TC_AFR05}</p>
             </div>
           </div>
           <div className={styles.detailtable}>
