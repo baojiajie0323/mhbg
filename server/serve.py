@@ -5,10 +5,12 @@ urls = (
     '/()', 'index',    
     '/(info)', 'info',  
 )    
-app = web.application(urls, globals())  
 class index:  
     def GET(self, file):  
         web.seeother('/static/index.html'); #重定向  
-  
+
+        
+app = web.application(urls, globals()).wsgifunc() 
+
 if __name__ == "__main__":  
     app.run()  
