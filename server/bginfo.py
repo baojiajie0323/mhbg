@@ -110,7 +110,7 @@ class bginfo:
             row = cursor.fetchone()
         cursor.close()
         self.enddb(conn)
-        return 'getorderdetail'
+        return result
 
     def POST(self, name):
         web.header('Content-Type', 'text/json; charset=utf-8', unique=True)
