@@ -9,7 +9,7 @@ os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.UTF8'
 
 class bginfo:
     def begindb(self):
-        conn = cx_Oracle.connect('mh01/mh01@192.168.0.15:1521/TOPPROD')
+        conn = cx_Oracle.connect('mh01/mh01@116.246.2.202:1521/TOPPROD')
         return conn
 
     def enddb(self, conn):
@@ -57,7 +57,7 @@ class bginfo:
             where_params = {'orderno': data["data[orderno]"]}
             cursor.execute(sql,where_params)
         else:
-            sql += "WHERE sfb81 > =:begindate AND sfb81 < :enddate"
+            sql += "WHERE to_char(sfb81,'YYYY-MM-DD') > =:begindate AND to_char(sfb81,'YYYY-MM-DD') < :enddate"
             where_params = {'begindate': data["data[beginDate]"] , 'enddate': data["data[endDate]"]}
             cursor.execute(sql,where_params)
         

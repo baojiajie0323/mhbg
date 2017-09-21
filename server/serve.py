@@ -13,7 +13,8 @@ class index:
         web.seeother('/static/index.html'); #重定向  
 
 web.config.debug = True
-application = web.application(urls, globals()).wsgifunc() 
+# application = web.application(urls, globals()).wsgifunc() 
+app = web.application(urls, globals()) 
 
 if __name__ == "__main__":  
     app.run()  
