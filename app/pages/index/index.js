@@ -78,6 +78,9 @@ Page({
         }
       })
     }
+    // wx.navigateTo({
+    //   url: '../sbtj/sbtj'
+    // })
   },
   getUserInfo: function (e) {
     console.log(e)

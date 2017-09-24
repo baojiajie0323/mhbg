@@ -1,0 +1,65 @@
+<!--logs.wxml-->
+<import src="../common/order.wxml" />
+
+<view class="container">
+  <template is="order" data="{{...order}}" />
+  <view wx:if="{{state == 0}}" class="btn-area">
+    <button bindtap='ontapstart' type="primary">开始</button>
+  </view>
+  <scroll-view wx:else scroll-y="true" class="wlscroll">
+    <view class="weui-panel weui-panel_access" wx:for="{{lj}}" wx:for-index="idx" wx:for-item="item">
+      <view class="weui-panel__hd">{{item.ljmc}}</view>
+      <view class="weui-form-preview__bd">
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">料件编号</view>
+          <view class="weui-form-preview__value">{{item.ljbh}}</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">规格</view>
+          <view class="weui-form-preview__value">{{item.gg}}</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">数量</view>
+          <view class="weui-form-preview__value">{{item.count + item.dw}}</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">初盘</view>
+          <view class="weui-form-preview__value">
+            <radio-group id="{{item.ljbh}}" bindchange="radioChangeCp">
+              <label class="radio">
+                <radio value="ok" checked="{{item.cp.state == 'ok'}}" />OK
+              </label>
+              <label class="radio">
+                <radio value="ng" checked="{{item.cp.state == 'ng'}}" />NG
+              </label>
+            </radio-group>
+            <input wx:if="{{item.cp.state == 'ng'}}" class="weui-input" placeholder="请输入NG原因" />
+          </view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">复盘</view>
+          <view class="weui-form-preview__value">
+            <radio-group id="{{item.ljbh}}" bindchange="radioChangeFp">
+              <label class="radio">
+                <radio value="ok" checked="{{item.fp.state == 'ok'}}" />OK
+              </label>
+              <label class="radio">
+                <radio value="ng" checked="{{item.fp.state == 'ng'}}" />NG
+              </label>
+            </radio-group>
+            <input wx:if="{{item.fp.state == 'ng'}}" class="weui-input" placeholder="请输入NG原因" />
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="weui-panel weui-panel_access">
+
+    </view>
+    <view class="btn-area">
+      <button bindtap='ontapsubmit' type="warn">提交</button>
+    </view>
+  </scroll-view>
+  <view class="weui-footer weui-footer_fixed-bottom">
+    <view class="weui-footer__text">Copyright © 2017 上海满好日用品有限公司</view>
+  </view>
+</view>

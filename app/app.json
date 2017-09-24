@@ -1,7 +1,10 @@
 {
   "pages":[
-    "pages/index/index",
+    "pages/index/index",  
     "pages/task/task",
+    "pages/wlqd/wlqd",
+    "pages/sjqr/sjqr",
+    "pages/sbtj/sbtj",
     "pages/logs/logs"
   ],
   "window":{

@@ -11,5 +11,18 @@ Page({
         return util.formatTime(new Date(log))
       })
     })
+  },
+  scanCode: function () {
+    var that = this
+    wx.scanCode({
+      success: function (res) {
+        wx.showModal({
+          content: res.result,
+          showCancel: false,
+        });
+      },
+      fail: function (res) {
+      }
+    })
   }
 })
