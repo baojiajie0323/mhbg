@@ -78,9 +78,9 @@ Page({
         }
       })
     }
-    // wx.navigateTo({
-    //   url: '../sbtj/sbtj'
-    // })
+    wx.navigateTo({
+      url: '../task/task'
+    })
   },
   getUserInfo: function (e) {
     console.log(e)

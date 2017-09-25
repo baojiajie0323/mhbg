@@ -1,4 +1,5 @@
 @import "../common/lib/weui.wxss";
+@import "../common/steps/index.wxss";
 
 .tasktitle {
   display: flex;
@@ -6,6 +7,11 @@
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
+}
+
+.orderName{
+  font-size: 18px;
+  text-align: left;
 }
 
 .scantext {
@@ -17,8 +23,8 @@
 .taskscroll {
   position: absolute;
   width: 100%;
-  top: 150rpx;
-  bottom: 180rpx;
+  top: 50px;
+  bottom: 60px;
 }
 
 .taskcontent{

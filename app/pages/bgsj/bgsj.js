@@ -14,24 +14,6 @@ Page({
       scsl: '100',
       scdw: '箱',
     },
-    sjqr: {
-      wlmc: {
-        state: 'ok',
-        content: '',
-      },
-      wlgg: {
-        state: 'ok',
-        content: '',
-      },
-      sbcs: {
-        state: 'ok',
-        content: '',
-      },
-      cpzl: {
-        state: 'ok',
-        content: '',
-      },
-    },
     state: 0,
   },
   onLoad: function () {
@@ -43,7 +25,7 @@ Page({
   },
   ontapstart: function () {
     wx.showModal({
-      content: "确定要开始正式生产吗？",
+      content: "确定要开始报工送检吗？",
       confirmText: "确定",
       cancelText: "取消",
       success: (res) => {
@@ -59,7 +41,7 @@ Page({
   },
   ontapsubmit: function () {
     wx.showModal({
-      content: "确定要提交正式生产信息吗？",
+      content: "确定要提交报工送检信息吗？",
       confirmText: "确定",
       cancelText: "取消",
       success: (res) => {

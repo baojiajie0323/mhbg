@@ -1,4 +1,6 @@
 <!--logs.wxml-->
+<import src="../common/steps/index.wxml" />
+
 <view class="container">
   <view class="weui-panel tasktitle">
     <view class="weui-panel__hd">共3个计划，已完成1个</view>
@@ -8,11 +10,13 @@
     <view class="weui-form-preview taskcontent">
       <view class="weui-form-preview__hd">
         <view class="weui-form-preview__item">
-          <view class="weui-form-preview__label">任务状态</view>
-          <view class="weui-form-preview__value_in-hd">设备调试</view>
+          <view class="weui-form-preview__value_in-hd orderName">满好生鲜食品加工手套100只</view>
         </view>
       </view>
       <view class="weui-form-preview__bd">
+        <view class="weui-form-preview__item">
+          <template is="zan-steps" data="{{ type: 'horizon', steps: steps }}"></template>
+        </view>
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">工单单号</view>
           <view class="weui-form-preview__value">441-MH011707030001</view>
@@ -20,10 +24,6 @@
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">物料编号</view>
           <view class="weui-form-preview__value">MHGLSXSP100-12-X01</view>
-        </view>
-        <view class="weui-form-preview__item">
-          <view class="weui-form-preview__label">物料名称</view>
-          <view class="weui-form-preview__value">满好生鲜食品加工手套100只</view>
         </view>
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">生产数量</view>
@@ -39,11 +39,13 @@
     <view class="weui-form-preview taskcontent">
       <view class="weui-form-preview__hd">
         <view class="weui-form-preview__item">
-          <view class="weui-form-preview__label">任务状态</view>
-          <view class="weui-form-preview__value_in-hd">设备调试</view>
+          <view class="weui-form-preview__value_in-hd orderName">满好生鲜食品加工手套100只</view>
         </view>
       </view>
       <view class="weui-form-preview__bd">
+        <view class="weui-form-preview__item">
+          <template is="zan-steps" data="{{ type: 'horizon', steps: steps }}"></template>
+        </view>
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">工单单号</view>
           <view class="weui-form-preview__value">441-MH011707030001</view>
@@ -53,26 +55,25 @@
           <view class="weui-form-preview__value">MHGLSXSP100-12-X01</view>
         </view>
         <view class="weui-form-preview__item">
-          <view class="weui-form-preview__label">物料名称</view>
-          <view class="weui-form-preview__value">满好生鲜食品加工手套100只</view>
-        </view>
-        <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">生产数量</view>
           <view class="weui-form-preview__value">100CTN</view>
         </view>
       </view>
       <view class="weui-form-preview__ft">
-        <navigator url="" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">操作</navigator>
+        <navigator url="../zssc/zssc" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">正式生产</navigator>
+        <navigator url="../bgsj/bgsj" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">报工送检</navigator>
       </view>
     </view>
     <view class="weui-form-preview taskcontent">
       <view class="weui-form-preview__hd">
         <view class="weui-form-preview__item">
-          <view class="weui-form-preview__label">任务状态</view>
-          <view class="weui-form-preview__value_in-hd">设备调试</view>
+          <view class="weui-form-preview__value_in-hd orderName">满好生鲜食品加工手套100只</view>
         </view>
       </view>
       <view class="weui-form-preview__bd">
+        <view class="weui-form-preview__item">
+          <template is="zan-steps" data="{{ type: 'horizon', steps: steps }}"></template>
+        </view>
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">工单单号</view>
           <view class="weui-form-preview__value">441-MH011707030001</view>
@@ -82,16 +83,12 @@
           <view class="weui-form-preview__value">MHGLSXSP100-12-X01</view>
         </view>
         <view class="weui-form-preview__item">
-          <view class="weui-form-preview__label">物料名称</view>
-          <view class="weui-form-preview__value">满好生鲜食品加工手套100只</view>
-        </view>
-        <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">生产数量</view>
           <view class="weui-form-preview__value">100CTN</view>
         </view>
       </view>
       <view class="weui-form-preview__ft">
-        <navigator url="" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">操作</navigator>
+        
       </view>
     </view>
   </scroll-view>
