@@ -164,22 +164,36 @@ class Content extends React.Component {
       title: '来源码',
       dataIndex: 'IMA08',
       key: 'IMA08',
+      width: 70,
     }, {
       title: '单位',
       dataIndex: 'SFA12',
       key: 'SFA12',
+      width: 70,
     }, {
       title: '应发量',
       dataIndex: 'SFA05',
       key: 'SFA05',
+      width: 80,
+      render: (text) => {
+        return text.toFixed(3);
+      }
     }, {
       title: '已发量',
       dataIndex: 'SFA051',
       key: 'SFA051',
+      width: 80,
+      render: (text) => {
+        return text.toFixed(3);
+      },
     }, {
       title: '欠料量',
       dataIndex: 'SFA052',
       key: 'SFA052',
+      width: 80,
+      render: (text) => {
+        return text.toFixed(3);
+      }
     }]
   }
   getTableDetailData() {
@@ -229,22 +243,30 @@ class Content extends React.Component {
               <p>{curOrder.TC_AFR09}</p>
             </div>
             <div className={styles.content2}>
+              <p>生产单位：</p>
+              <p>{curOrder.IMA55}</p>
+            </div>
+            <div className={styles.content2}>
               <p>品名：</p>
               <p>{curOrder.IMA02}</p>
             </div>
           </div>
           <div className={styles.orderForm}>
-            <div className={styles.content}>
+            <div className={styles.content2}>
               <p>生产数量：</p>
-              <p>{curOrder.SFB08}</p>
+              <p>{curOrder.SFB08.toFixed(3)}</p>
             </div>
-            <div className={styles.content}>
+            <div className={styles.content2}>
               <p>已发数量：</p>
-              <p>{curOrder.SFB081}</p>
+              <p>{curOrder.SFB081.toFixed(3)}</p>
             </div>
-            <div className={styles.content}>
+            <div className={styles.content2}>
               <p>工艺：</p>
               <p>{curOrder.TC_AFR05}</p>
+            </div>
+            <div className={styles.content2}>
+              <p>线别：</p>
+              <p>{curOrder.TC_AFR07}</p>
             </div>
           </div>
           <div className={styles.detailtable}>

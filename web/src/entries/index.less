@@ -1,135 +1,148 @@
-     :global {
-        html,
-        body,
-        #root {
-            height: 100%;
-            width: 100%;
-            padding: 0;
-            margin: 0;
-            overflow: hidden;
-        }
-        input,
-        body {
-            //background: #fafafa;
-            //font-family: "SimSun","Microsoft Yahei","SimHei";
-            overflow: hidden;
-        }
-        input:focus {
-            outline-offset: 0;
-        }
-        ul {
-            margin: 0;
-            padding: 0;
-        }
-        .iScrollHorizontalScrollbar {
-            position: absolute;
-            z-index: 9999;
-            height: 16px;
-            left: 2px;
-            right: 2px;
-            bottom: 2px;
-            overflow: hidden;
-        }
-        .iScrollHorizontalScrollbar.iScrollBothScrollbars {
-            right: 18px;
-        }
-        .iScrollVerticalScrollbar {
-            position: absolute;
-            z-index: 9999;
-            width: 4px;
-            bottom: 2px;
-            top: 2px;
-            right: 2px;
-            overflow: hidden;
-        }
-        .iScrollVerticalScrollbar.iScrollBothScrollbars {
-            bottom: 18px;
-        }
-        .iScrollIndicator {
-            position: absolute;
-            /*background: #cc3f6e;
+         :global {
+            html,
+            body,
+            #root {
+                height: 100%;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+                overflow: hidden;
+            }
+            input,
+            body {
+                //background: #fafafa;
+                //font-family: "SimSun","Microsoft Yahei","SimHei";
+                overflow: hidden;
+            }
+            input:focus {
+                outline-offset: 0;
+            }
+            ul {
+                margin: 0;
+                padding: 0;
+            }
+            .iScrollHorizontalScrollbar {
+                position: absolute;
+                z-index: 9999;
+                height: 16px;
+                left: 2px;
+                right: 2px;
+                bottom: 2px;
+                overflow: hidden;
+            }
+            .iScrollHorizontalScrollbar.iScrollBothScrollbars {
+                right: 18px;
+            }
+            .iScrollVerticalScrollbar {
+                position: absolute;
+                z-index: 9999;
+                width: 4px;
+                bottom: 2px;
+                top: 2px;
+                right: 2px;
+                overflow: hidden;
+            }
+            .iScrollVerticalScrollbar.iScrollBothScrollbars {
+                bottom: 18px;
+            }
+            .iScrollIndicator {
+                position: absolute;
+                /*background: #cc3f6e;
   	border-width: 1px;
   	border-style: solid;
   	border-color: #EB97B4 #7C2845 #7C2845 #EB97B4;*/
-            border-radius: 2px;
+                border-radius: 2px;
+            }
+            .iScrollHorizontalScrollbar .iScrollIndicator {
+                height: 100%;
+                background: rgb(3, 121, 209);
+            }
+            .iScrollVerticalScrollbar .iScrollIndicator {
+                width: 100%;
+                background: rgb(3, 121, 209);
+            }
+            .ant-modal-mask {
+                background-color: rgba(0, 0, 0, 0.5);
+            }
+            .ant-select-dropdown-menu-item {
+                padding: 12px 15px;
+            }
+            .ant-table-filter-dropdown-btns {
+                font-size: 14px;
+                padding: 12px 22px;
+            } // .ant-dropdown-menu-item{
+            //   font-size: 14px;
+            //   padding: 12px 15px 12px 45px;
+            // }
+            // .ant-dropdown-menu-item:first-child, .ant-dropdown-menu-submenu-title:first-child {
+            //   border-radius: none;
+            //  }
+            //  .ant-dropdown-menu-item:last-child, .ant-dropdown-menu-submenu-title:last-child {
+            //    border-radius: none;
+            // }
+            .ant-tag {
+                line-height: 30px;
+                height: 30px;
+                padding: 0px 10px;
+                font-size: 14px;
+            }
+            .ant-tabs-nav .ant-tabs-tab-inner {
+                padding: 8px 5px;
+            }
+            .ant-tabs-nav .ant-tabs-tab {
+                margin-right: 10px;
+            }
+            .ant-table-column-sorter {
+                display: none;
+            }
+            .plugin {
+                position: absolute;
+            }
+            .ant-tree li a.ant-tree-node-selected {
+                background-color: #2DB7F5;
+            }
+            .ant-tree li a:hover {
+                background-color: #1A526B;
+            }
+            .ant-tree li a {
+                color: #FFF;
+            }
+            .ant-tree li span.ant-tree-switcher.ant-tree-roots_open:after,
+            .ant-tree li span.ant-tree-switcher.ant-tree-center_open:after,
+            .ant-tree li span.ant-tree-switcher.ant-tree-bottom_open:after,
+            .ant-tree li span.ant-tree-switcher.ant-tree-noline_open:after {
+                color: #2DB7F5;
+            }
+            .ant-table table {
+                //font-size: 15px;
+            }
+            /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+             ::-webkit-scrollbar {
+                width: 6px;
+                height: 6px; //background-color: #F5F5F5;
+            }
+            /*定义滚动条轨道 内阴影+圆角*/
+             ::-webkit-scrollbar-track {
+                -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+                border-radius: 3px; //background-color: #F5F5F5;
+            }
+            /*定义滑块 内阴影+圆角*/
+             ::-webkit-scrollbar-thumb {
+                border-radius: 3px;
+                -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+                background-color: rgb(3, 121, 209);
+            }
+            .ant-table-bordered .ant-table-tbody>tr>td,
+            .ant-table-bordered .ant-table-thead>tr>th {
+                border-right: 1px solid #000000;
+            }
+            .ant-table-bordered .ant-table-thead>tr>th {
+                border-bottom: 1px solid #000000;
+            }
+            .ant-table-tbody>tr>td {
+                border-bottom: 1px solid #000000;
+            }
+            .ant-table-bordered .ant-table-body>table {
+                border: 1px solid #000000;
+            }
         }
-        .iScrollHorizontalScrollbar .iScrollIndicator {
-            height: 100%;
-            background: rgb(3, 121, 209);
-        }
-        .iScrollVerticalScrollbar .iScrollIndicator {
-            width: 100%;
-            background: rgb(3, 121, 209);
-        }
-        .ant-modal-mask {
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-        .ant-select-dropdown-menu-item {
-            padding: 12px 15px;
-        }
-        .ant-table-filter-dropdown-btns {
-            font-size: 14px;
-            padding: 12px 22px;
-        } // .ant-dropdown-menu-item{
-        //   font-size: 14px;
-        //   padding: 12px 15px 12px 45px;
-        // }
-        // .ant-dropdown-menu-item:first-child, .ant-dropdown-menu-submenu-title:first-child {
-        //   border-radius: none;
-        //  }
-        //  .ant-dropdown-menu-item:last-child, .ant-dropdown-menu-submenu-title:last-child {
-        //    border-radius: none;
-        // }
-        .ant-tag {
-            line-height: 30px;
-            height: 30px;
-            padding: 0px 10px;
-            font-size: 14px;
-        }
-        .ant-tabs-nav .ant-tabs-tab-inner {
-            padding: 8px 5px;
-        }
-        .ant-tabs-nav .ant-tabs-tab {
-            margin-right: 10px;
-        }
-        .ant-table-column-sorter {
-            display: none;
-        }
-        .plugin {
-            position: absolute;
-        }
-        .ant-tree li a.ant-tree-node-selected {
-            background-color: #2DB7F5;
-        }
-        .ant-tree li a:hover {
-            background-color: #1A526B;
-        }
-        .ant-tree li a {
-            color: #FFF;
-        }
-        .ant-tree li span.ant-tree-switcher.ant-tree-roots_open:after,
-        .ant-tree li span.ant-tree-switcher.ant-tree-center_open:after,
-        .ant-tree li span.ant-tree-switcher.ant-tree-bottom_open:after,
-        .ant-tree li span.ant-tree-switcher.ant-tree-noline_open:after {
-            color: #2DB7F5;
-        }
-        .ant-table table {
-            //font-size: 15px;
-        }
-        /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
-         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px; //background-color: #F5F5F5;
-        }
-        /*定义滚动条轨道 内阴影+圆角*/
-         ::-webkit-scrollbar-track {
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-            border-radius: 3px; //background-color: #F5F5F5;
-        }
-        /*定义滑块 内阴影+圆角*/
-         ::-webkit-scrollbar-thumb {
-            border-radius: 3px;
-            -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
-            background-color: rgb(3, 121, 209);
-        }
-    }
