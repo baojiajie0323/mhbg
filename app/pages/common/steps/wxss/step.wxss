@@ -75,7 +75,7 @@
 .zan-steps--steps .zan-steps__step--cur .zan-steps__circle {
   width: 13px;
   height: 13px;
-  background-image: url("http://115.159.91.195/static/wait.png");
+  background-image: url("https://baojiajie0323.com/wait.png");
   background-size: 13px 13px;
 }
 

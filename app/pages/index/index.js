@@ -78,9 +78,9 @@ Page({
         }
       })
     }
-    wx.navigateTo({
-      url: '../task/task'
-    })
+    // wx.navigateTo({
+    //   url: '../task/task'
+    // })
   },
   getUserInfo: function (e) {
     console.log(e)
@@ -90,9 +90,29 @@ Page({
       hasUserInfo: true
     })
   },
-  startbg: function(){
+  startbg: function () {
     wx.navigateTo({
       url: '../task/task'
+    })
+    wx.request({
+      url: 'https://baojiajie0323.com/login',
+      method: 'GET',
+      data: {
+        
+      },
+      success: function (result) {
+        wx.showToast({
+          title: '请求成功',
+          icon: 'success',
+          mask: true,
+          duration: 2000
+        })
+        console.log('request success', result)
+      },
+
+      fail: function ({ errMsg }) {
+        console.log('request fail', errMsg)
+      }
     })
   }
 })
