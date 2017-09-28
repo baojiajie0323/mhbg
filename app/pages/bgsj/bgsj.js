@@ -1,4 +1,10 @@
 //wlqd.js
+// 引入 QCloud 小程序增强 SDK
+var qcloud = require('../../vendor/qcloud-weapp-client-sdk/index');
+
+// 引入配置
+var config = require('../../config');
+
 const util = require('../../utils/util.js')
 
 Page({

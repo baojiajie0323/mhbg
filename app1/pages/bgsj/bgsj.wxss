@@ -1,0 +1,18 @@
+@import "../common/lib/weui.wxss";
+@import "../common/order.wxss";
+
+
+.wlscroll{
+  position: absolute;
+  width: 100%;
+  top: 180px;
+  bottom: 50px;
+}
+
+.lpcontent{
+  margin: 20px 0;
+}
+
+.cpcontent{
+  margin:  10px 0;
+}

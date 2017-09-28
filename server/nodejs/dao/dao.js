@@ -3,13 +3,13 @@ var $conf = require('../conf/db');
 var $util = require('../util/util');
 
 // 使用连接池，提升性能
-var pool = null;
+var _pool = null;
 oracledb.createPool($util.extend({}, $conf.oracle), function (err, pool) {
   if (err) {
     console.error("createPool() error: " + err.message);
     return;
   }
-  pool = pool;
+  _pool = pool;
 });
 
 var dao = {
@@ -21,11 +21,11 @@ var dao = {
     LOGIN_FAIL: 4,
   },
   getPool: () => {
-    return pool;
+    return _pool;
   },
   log: (userid, logstring) => {
     console.log('log', userid, logstring);
-    pool.getConnection(function (err, connection) {
+    _pool.getConnection(function (err, connection) {
       if (connection == undefined) {
         jsonWrite(res, {}, dbcode.CONNECT_ERROR);
         return;

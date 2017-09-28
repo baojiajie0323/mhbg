@@ -1,0 +1,52 @@
+<!--logs.wxml-->
+<import src="../common/order.wxml" />
+
+<view class="container">
+  <template is="order" data="{{...order}}" />
+  <view wx:if="{{state == 0}}" class="btn-area">
+    <button bindtap='ontapstart' type="primary">开始</button>
+  </view>
+  <scroll-view wx:else scroll-y="true" class="wlscroll">
+    <view class="weui-cells weui-cells_after-title">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">开工时间</view>
+        </view>
+        <view class="weui-cell__bd">
+          <text class="weui-input" >2017-09-25 20:10</text>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">线别</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入线别" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">工序</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入工序" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">投入人数</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入人数" />
+        </view>
+      </view>
+    </view>
+
+    <view class="btn-area">
+      <button bindtap='ontapsubmit' type="warn">结束并提交</button>
+    </view>
+  </scroll-view>
+  <view class="weui-footer weui-footer_fixed-bottom">
+    <view class="weui-footer__text">Copyright © 2017 上海满好日用品有限公司</view>
+  </view>
+</view>

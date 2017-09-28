@@ -1,0 +1,111 @@
+<!--logs.wxml-->
+<import src="../common/order.wxml" />
+
+<view class="container">
+  <template is="order" data="{{...order}}" />
+  <view wx:if="{{state == 0}}" class="btn-area">
+    <button bindtap='ontapstart' type="primary">开始</button>
+  </view>
+  <scroll-view wx:else scroll-y="true" class="wlscroll">
+    <view class="weui-panel">
+      <view class="ordercontent">
+        <view class="orderinfo1">生产数量：
+          <text>100CTN</text>
+        </view>
+        <view class="orderinfo2">已发数量：
+          <text>99CTN</text>
+        </view>
+      </view>
+      <view class="ordercontent">
+        <view class="orderinfo1">工序：
+          <text>切割</text>
+        </view>
+        <view class="orderinfo2">投入人数：
+          <text>10</text>
+        </view>
+      </view>
+      <view class="ordercontent">
+        开工时间
+        <text>2017-08-25 14:35</text>
+      </view>
+      <view class="ordercontent">
+        完工时间
+        <text>2017-08-25 17:35</text>
+      </view>
+    </view>
+    <view class="weui-cells weui-cells_after-title lpcontent">
+      <view class="weui-cell">
+        <view class="weui-cell__bd">良品数量</view>
+        <input class="weui-cell__ft" placeholder='请输入良品数量' />
+      </view>
+    </view>
+    <view class="weui-cells weui-cells_after-title cpcontent">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">品名</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入料件品名" />
+        </view>
+        <view>
+          <icon bindtap='onRemoveDevice' type="cancel" size="23"></icon>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">料件编号</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入料件编号" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">数量</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入数量" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">不良原因</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入不良原因" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">判断</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">批号</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">供应商</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input" placeholder="请输入" />
+        </view>
+      </view>
+    </view>
+    <view class="btn-area">
+      <button type="default">增加不良料件</button>
+      <button bindtap='ontapsubmit' type="warn">提交</button>
+    </view>
+  </scroll-view>
+  <view class="weui-footer weui-footer_fixed-bottom">
+    <view class="weui-footer__text">Copyright © 2017 上海满好日用品有限公司</view>
+  </view>
+</view>

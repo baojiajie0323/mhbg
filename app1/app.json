@@ -1,0 +1,18 @@
+{
+  "pages":[
+    "pages/index/index",  
+    "pages/task/task",
+    "pages/wlqd/wlqd",
+    "pages/sjqr/sjqr",
+    "pages/sbtj/sbtj",
+    "pages/zssc/zssc",
+    "pages/bgsj/bgsj",
+    "pages/logs/logs"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "满好报工",
+    "navigationBarTextStyle":"black"
+  }
+}
