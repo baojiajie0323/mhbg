@@ -43,6 +43,7 @@ Page({
   data: {
     userInfo: {},
     hasUserInfo: true,
+    requestUrl: config.service.requestUrl,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     items: [
       { value: 'JXY', name: '机修员', checked: 'true' },
@@ -55,7 +56,7 @@ Page({
     welcomeText: "欢迎使用满好报工系统,请登录微信"
   },
 
- 
+
   /**
    * 点击「请求」按钮，测试带会话请求的功能
    */
@@ -86,6 +87,7 @@ Page({
     });
   },
   onLoad: function () {
+    this.doLogin();
     // wx.getSetting({
     //   success: (res) => {
     //     console.log(res);
@@ -144,10 +146,56 @@ Page({
     //   url: '../task/task'
     // })
   },
+  doLogin() {
+    showBusy('正在登录');
+    var context = this;
+    // 登录之前需要调用 qcloud.setLoginUrl() 设置登录地址，不过我们在 app.js 的入口里面已经调用过了，后面就不用再调用了
+    qcloud.login({
+      success(result) {
+        showSuccess('登录成功');
+        console.log('登录成功', result);
+        context.setData({ userInfo: result })
+      },
+
+      fail(error) {
+        showModel('登录失败', error);
+        console.log('登录失败', error);
+      }
+    });
+  },
+
   startbg: function () {
     wx.navigateTo({
       url: '../task/task'
     })
+    qcloud.request({
+      // 要请求的地址
+      url: this.data.requestUrl,
+      data: {
+        cmd: 'getorder',
+        data: {
+          beginDate: '2017-09-01',
+          endDate: '2017-09-30',
+        }
+      },
+      method: 'POST',
+      // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+      login: true,
+
+      success(result) {
+        showSuccess('请求成功完成');
+        console.log('request success', result);
+      },
+
+      fail(error) {
+        showModel('请求失败', error);
+        console.log('request fail', error);
+      },
+
+      complete() {
+        console.log('request complete');
+      }
+    });
     // wx.request({
     //   url: 'https://baojiajie0323.com/login',
     //   method: 'GET',

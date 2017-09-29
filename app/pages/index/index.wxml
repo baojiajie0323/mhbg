@@ -12,7 +12,7 @@
   </view>
   <block wx:if="{{hasUserInfo}}">
     <view class="page-section">
-      <view class="page-section-title">首次登陆，请选择你的角色</view>
+      <view class="page-section-title">请选择你的角色</view>
       <view class="weui-cells weui-cells_after-title">
         <radio-group bindchange="radioChange">
           <label class="weui-cell weui-check__label" wx:for="{{items}}" wx:key="{{item.value}}">
