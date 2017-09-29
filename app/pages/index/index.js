@@ -45,8 +45,9 @@ Page({
     hasUserInfo: true,
     requestUrl: config.service.requestUrl,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    userRole: '',
     items: [
-      { value: 'JXY', name: '机修员', checked: 'true' },
+      { value: 'JXY', name: '机修员' },
       { value: 'SCZZ', name: '生产组长' },
       { value: 'PGY', name: '品管员' },
       { value: 'CGY', name: '仓管员' },
@@ -55,93 +56,18 @@ Page({
     ],
     welcomeText: "欢迎使用满好报工系统,请登录微信"
   },
-
-
-  /**
-   * 点击「请求」按钮，测试带会话请求的功能
-   */
-  doRequest() {
-    showBusy('正在请求');
-
-    // qcloud.request() 方法和 wx.request() 方法使用是一致的，不过如果用户已经登录的情况下，会把用户的会话信息带给服务器，服务器可以跟踪用户
-    qcloud.request({
-      // 要请求的地址
-      url: this.data.requestUrl,
-
-      // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
-      login: true,
-
-      success(result) {
-        showSuccess('请求成功完成');
-        console.log('request success', result);
-      },
-
-      fail(error) {
-        showModel('请求失败', error);
-        console.log('request fail', error);
-      },
-
-      complete() {
-        console.log('request complete');
-      }
-    });
+  radioChange(value) {
+    this.setData({
+      userRole: value
+    })
+    console.log(value);
   },
   onLoad: function () {
     this.doLogin();
-    // wx.getSetting({
-    //   success: (res) => {
-    //     console.log(res);
-    //     if (!res.authSetting['scope.userInfo']) {
-    //       wx.authorize({
-    //         scope: 'scope.userInfo',
-    //         success: () => {
-    //           wx.getUserInfo({
-    //             success: res => {
-    //               app.globalData.userInfo = res.userInfo
-    //               this.setData({
-    //                 userInfo: res.userInfo,
-    //                 hasUserInfo: true
-    //               })
-    //             }
-    //           })
-    //         }
-    //       })
-    //     }
-    //     /*
-    //      * res.authSetting = {
-    //      *   "scope.userInfo": true,
-    //      *   "scope.userLocation": true
-    //      * }
-    //      */
-    //   }
-    // })
-
-    // if (app.globalData.userInfo) {
-    //   this.setData({
-    //     userInfo: app.globalData.userInfo,
-    //     hasUserInfo: true
-    //   })
-    // } else if (this.data.canIUse) {
-    //   // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-    //   // 所以此处加入 callback 以防止这种情况
-    //   app.userInfoReadyCallback = res => {
-    //     this.setData({
-    //       userInfo: res.userInfo,
-    //       hasUserInfo: true
-    //     })
-    //   }
-    // } else {
-    //   // 在没有 open-type=getUserInfo 版本的兼容处理
-    //   wx.getUserInfo({
-    //     success: res => {
-    //       app.globalData.userInfo = res.userInfo
-    //       this.setData({
-    //         userInfo: res.userInfo,
-    //         hasUserInfo: true
-    //       })
-    //     }
-    //   })
-    // }
+    var userRole = wx.getStorageSync("ROLE");
+    if (userRole) {
+      // Do something with return value
+    }
     // wx.navigateTo({
     //   url: '../task/task'
     // })
@@ -165,6 +91,7 @@ Page({
   },
 
   startbg: function () {
+    wx.setStorageSync("ROLE", this.data.userRole);
     wx.navigateTo({
       url: '../task/task'
     })
@@ -174,8 +101,8 @@ Page({
       data: {
         cmd: 'getorder',
         data: {
-          beginDate: '2017-09-01',
-          endDate: '2017-09-30',
+          beginDate: new Date().Format('yyyy-MM-dd'),
+          endDate: new Date().Format('yyyy-MM-dd'),
         }
       },
       method: 'POST',
@@ -196,25 +123,5 @@ Page({
         console.log('request complete');
       }
     });
-    // wx.request({
-    //   url: 'https://baojiajie0323.com/login',
-    //   method: 'GET',
-    //   data: {
-
-    //   },
-    //   success: function (result) {
-    //     wx.showToast({
-    //       title: '请求成功',
-    //       icon: 'success',
-    //       mask: true,
-    //       duration: 2000
-    //     })
-    //     console.log('request success', result)
-    //   },
-
-    //   fail: function ({ errMsg }) {
-    //     console.log('request fail', errMsg)
-    //   }
-    // })
   }
 });
