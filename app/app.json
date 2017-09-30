@@ -9,9 +9,9 @@
     "pages/bgsj/bgsj"
   ],
   "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#333",
+    "navigationBarTextStyle": "black",
     "navigationBarTitleText": "满好报工",
-    "navigationBarTextStyle": "white"
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
   }
 }

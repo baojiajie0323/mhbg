@@ -4,7 +4,6 @@
 
 // 引入 QCloud 小程序增强 SDK
 var qcloud = require('../../vendor/qcloud-weapp-client-sdk/index');
-
 // 引入配置
 var config = require('../../config');
 
@@ -43,7 +42,6 @@ Page({
   data: {
     userInfo: {},
     hasUserInfo: true,
-    requestUrl: config.service.requestUrl,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     userRole: '',
     items: [
@@ -58,15 +56,19 @@ Page({
   },
   radioChange(value) {
     this.setData({
-      userRole: value
+      userRole: value.detail.value
     })
     console.log(value);
   },
   onLoad: function () {
     this.doLogin();
     var userRole = wx.getStorageSync("ROLE");
+    console.log('userRole:',userRole);
     if (userRole) {
       // Do something with return value
+      this.setData({
+        userRole
+      })
     }
     // wx.navigateTo({
     //   url: '../task/task'
@@ -95,33 +97,5 @@ Page({
     wx.navigateTo({
       url: '../task/task'
     })
-    qcloud.request({
-      // 要请求的地址
-      url: this.data.requestUrl,
-      data: {
-        cmd: 'getorder',
-        data: {
-          beginDate: new Date().Format('yyyy-MM-dd'),
-          endDate: new Date().Format('yyyy-MM-dd'),
-        }
-      },
-      method: 'POST',
-      // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
-      login: true,
-
-      success(result) {
-        showSuccess('请求成功完成');
-        console.log('request success', result);
-      },
-
-      fail(error) {
-        showModel('请求失败', error);
-        console.log('request fail', error);
-      },
-
-      complete() {
-        console.log('request complete');
-      }
-    });
   }
 });
