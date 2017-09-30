@@ -74,11 +74,14 @@ Page({
       }
     })
   },
-  onLoad: function () {
-    wx.startPullDownRefresh();
+  onReady: function () {
+    console.log("onReady");
+    //wx.startPullDownRefresh();
+    this.requestInfo();
   },
   requestInfo: function () {
     var context = this;
+    console.log("request getorder");
     qcloud.request({
       // 要请求的地址
       url: config.service.requestUrl,
@@ -115,6 +118,7 @@ Page({
     });
   },
   onPullDownRefresh: function () {
+    console.log("onPullDownRefresh");
     this.requestInfo();
   }
 })
