@@ -77,7 +77,6 @@ Page({
   onReady: function () {
     console.log("onReady");
     //wx.startPullDownRefresh();
-
     this.requestInfo();
   },
   requestInfo: function () {
