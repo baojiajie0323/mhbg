@@ -1,5 +1,5 @@
 var sqlmap = {
-  log: 'insert into loginfo (logtime,userid,loginfo) values (:logtime,:userid,:loginfo)',
+  /*=============================WEB相关====================================*/
   getorder: "SELECT tc_afr02,  \
   CASE WHEN sfb02=1 THEN '一般工单' WHEN sfb02=5 THEN '返工工单' WHEN sfb02=7 THEN '委外工单' WHEN sfb02=8 THEN '返工委外工单' END GDTYPE, \
   to_char(sfb81,'YYYY-MM-DD') sfb81,to_char(sfb13,'YYYY-MM-DD') sfb13,to_char(sfb15,'YYYY-MM-DD') sfb15,tc_afr09,ima02,sfb08,sfb081, \
@@ -11,7 +11,15 @@ var sqlmap = {
   INNER JOIN sfb_file ON tc_afr02=sfb01 ",
   getorderdetail: "SELECT sfa03,ima02,ima08,sfa12,sfa05,sfa06+sfa062 sfa051,sfa05-sfa06-sfa062 sfa052 FROM sfa_file \
   LEFT JOIN ima_file ON sfa03=ima01 \
-  WHERE sfa01=:orderno"
+  WHERE sfa01=:orderno",
+
+  /*=============================APP相关====================================*/
+
+  gettodaytask: "SELECT tc_afr09,ima02,tc_afr02,tc_afr03,ima55,tc_afr04,tc_afr05 FROM tc_afr_file \
+  LEFT JOIN ima_file ON tc_afr09=ima01 \
+  WHERE tc_afr01 = to_date(:todaydate,'yyyy-mm-dd')",
+  gettaskstate: "Select tc_afq02,tc_afq03,tc_afq04,tc_afq05 FROM tc_afq_file \
+  Where tc_afq01 = to_date(:todaydate,'yyyy-mm-dd')",
 };
 
 module.exports = sqlmap;

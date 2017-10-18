@@ -21,7 +21,7 @@ var dao = {
     LOGIN_FAIL: 4,
   },
   getPool: () => {
-    return _pool;
+    return oracledb.getPool();
   },
   log: (userid, logstring) => {
     console.log('log', userid, logstring);

@@ -15,7 +15,7 @@
       </view>
       <view class="weui-form-preview__bd">
         <view class="weui-form-preview__item">
-          <template is="zan-steps" data="{{ type: 'horizon', steps: steps }}"></template>
+          <template is="zan-steps" data="{{ type: 'horizon', steps: item.steps }}"></template>
         </view>
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">工单单号</view>
@@ -27,7 +27,11 @@
         </view>
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">生产数量</view>
-          <view class="weui-form-preview__value">{{item.SFB08}}{{item.IMA55}}</view>
+          <view class="weui-form-preview__value">{{item.TC_AFR03}} {{item.IMA55}}</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">生产工艺</view>
+          <view class="weui-form-preview__value">{{item.TC_AFR04}}-{{item.TC_AFR05}}</view>
         </view>
       </view>
       <view class="weui-form-preview__ft">

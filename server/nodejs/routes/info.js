@@ -17,6 +17,15 @@ router.post('/', function (req, res, next) {
     console.log('getorderdetail');
     infoDao.getOrderDetail(req, res, next);
   }
+
+  else if (req.body.cmd == "gettodaytask") {
+    console.log('gettodaytask');
+    infoDao.getTodayTask(req, res, next);
+  } else if (req.body.cmd == "gettaskstate") {
+    console.log('gettaskstate');
+    infoDao.getTaskState(req, res, next);
+  } else if (req.body.cmd == "get")
+
 });
 
 module.exports = router;

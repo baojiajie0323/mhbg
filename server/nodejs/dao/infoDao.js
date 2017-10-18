@@ -6,10 +6,28 @@ var jsonWrite = _dao.jsonWrite;
 var dbcode = _dao.dbcode;
 
 module.exports = {
+  listresult: function (res, err, result) {
+    console.log('dbresult', err, result);
+    if (err) {
+      jsonWrite(res, {}, dbcode.FAIL);
+    } else {
+      var dbresult = [];
+      var head = result.metaData;
+      dbresult = result.rows.map((r) => {
+        var json = {};
+        r.map((r1, i) => {
+          json[head[i].name] = r1;
+        })
+        return json;
+      })
+      jsonWrite(res, dbresult, dbcode.SUCCESS);
+    }
+  },
   getOrder: function (req, res, next) {
     var pool = _dao.getPool();
     console.log('infoDao getOrder');
     var param = req.body.data;
+    var context = this;
     pool.getConnection(function (err, connection) {
       if (connection == undefined) {
         jsonWrite(res, {}, dbcode.CONNECT_ERROR);
@@ -25,21 +43,7 @@ module.exports = {
           where_params = [param.beginDate, param.endDate]
         }
         connection.execute(sqlstring, where_params, function (err, result) {
-          console.log('dbresult', err, result);
-          if (err) {
-            jsonWrite(res, {}, dbcode.FAIL);
-          } else {
-            var dbresult = [];
-            var head = result.metaData;
-            dbresult = result.rows.map((r) => {
-              var json = {};
-              r.map((r1, i) => {
-                json[head[i].name] = r1;
-              })
-              return json;
-            })
-            jsonWrite(res, dbresult, dbcode.SUCCESS);
-          }
+          context.listresult(res, err, result);
           connection.release();
         });
       }
@@ -49,6 +53,7 @@ module.exports = {
     var pool = _dao.getPool();
     console.log('infoDao getOrderDetail');
     var param = req.body.data;
+    var context = this;
     pool.getConnection(function (err, connection) {
       if (connection == undefined) {
         jsonWrite(res, {}, dbcode.CONNECT_ERROR);
@@ -57,21 +62,51 @@ module.exports = {
         var sqlstring = _sql.getorderdetail;
         var where_params = [param.order];
         connection.execute(sqlstring, where_params, function (err, result) {
-          console.log('dbresult', err, result);
-          if (err) {
-            jsonWrite(res, {}, dbcode.FAIL);
-          } else {
-            var dbresult = [];
-            var head = result.metaData;
-            dbresult = result.rows.map((r) => {
-              var json = {};
-              r.map((r1, i) => {
-                json[head[i].name] = r1;
-              })
-              return json;
-            })
-            jsonWrite(res, dbresult, dbcode.SUCCESS);
-          }
+          context.listresult(res, err, result);
+          connection.release();
+        });
+      }
+    });
+  },
+  getTodayTask: function (req, res, next) {
+    var pool = _dao.getPool();
+    console.log('infoDao getTodayTask');
+    var param = req.body.data;
+    var context = this;
+    pool.getConnection(function (err, connection) {
+
+      console.log('infoDao getTodayTask1');
+      if (connection == undefined) {
+        jsonWrite(res, {}, dbcode.CONNECT_ERROR);
+        return;
+      } else {
+        var sqlstring = _sql.gettodaytask;
+        var where_params = [param.today];
+        connection.execute(sqlstring, where_params, function (err, result) {
+
+          console.log('infoDao getTodayTask2');
+          context.listresult(res, err, result);
+
+          console.log('infoDao getTodayTask3');
+          connection.release();
+        });
+      }
+    });
+  },
+  getTaskState: function (req, res, next) {
+    var pool = _dao.getPool();
+    console.log('infoDao getTaskState');
+    var param = req.body.data;
+    var context = this;
+    pool.getConnection(function (err, connection) {
+      if (connection == undefined) {
+        jsonWrite(res, {}, dbcode.CONNECT_ERROR);
+        return;
+      } else {
+        var sqlstring = _sql.gettaskstate;
+        var where_params = [param.today];
+        connection.execute(sqlstring, where_params, function (err, result) {
+          context.listresult(res, err, result);
           connection.release();
         });
       }
