@@ -3,7 +3,7 @@
 
 <view class="container">
   <view class="weui-panel tasktitle">
-    <view class="weui-panel__hd">共3个计划，已完成1个</view>
+    <view class="weui-panel__hd">{{title}}</view>
     <text bindtap="scanCode" class="scantext">扫描工单</text>
   </view>
   <scroll-view scroll-y="true" class="taskscroll">

@@ -40,16 +40,7 @@ Page({
   data: {
     role: '',
     orderList: [],
-    contains: function (arr, obj) {
-      console.log("asdfasf")
-      var i = arr.length;
-      while (i--) {
-        if (arr[i] === obj) {
-          return true;
-        }
-      }
-      return false;
-    }
+    title:'',
   },
   scanCode: function () {
     var that = this
@@ -73,29 +64,29 @@ Page({
     //wx.startPullDownRefresh();
     this.requestInfo();
   },
-  getOrderState: function (taskStateList, tc_afr02, short) {
+  getOrderState: function (taskStateList, tc_afr02, tc_afr04, short) {
     for (var i = 0; i < taskStateList.length; i++) {
-      if (taskStateList[i].TC_AFQ02 == tc_afr02 && taskStateList[i].TC_AFQ04 == short) {
+      if (taskStateList[i].TC_AFQ02 == tc_afr02 && taskStateList[i].TC_AFQ03 == tc_afr04 && taskStateList[i].TC_AFQ04 == short) {
         return taskStateList[i].TC_AFQ05;
       }
     }
   },
-  getOperateList: function (taskStateList, tc_afr02) {
+  getOperateList: function (taskStateList, tc_afr02, tc_afr04) {
     var { role } = this.data;
     var operatelist = [];
     var checkoperate = (step) => {
-      var stepstate = this.getOrderState(taskStateList, tc_afr02, step);
+      var stepstate = this.getOrderState(taskStateList, tc_afr02, tc_afr04, step);
       if (stepstate == "1" || stepstate == "2") {
         if (step == "A") {
-          operatelist.push({ name: '物料清点', url: '../wlqd/wlqd' })
+          operatelist.push({ name: '物料清点', url: `../wlqd/wlqd?no=${tc_afr02}&type=${tc_afr04}` })
         } else if (step == "B") {
-          operatelist.push({ name: '设备调机', url: '../sbtj/sbtj' })
+          operatelist.push({ name: '设备调机', url: `../sbtj/sbtj?no=${tc_afr02}&type=${tc_afr04}` })
         } else if (step == "C") {
-          operatelist.push({ name: '首件确认', url: '../sjqr/sjqr' })
+          operatelist.push({ name: '首件确认', url: `../sjqr/sjqr?no=${tc_afr02}&type=${tc_afr04}` })
         } else if (step == "D") {
-          operatelist.push({ name: '正式生产', url: '../zssc/zssc' })
+          operatelist.push({ name: '正式生产', url: `../zssc/zssc?no=${tc_afr02}&type=${tc_afr04}` })
         } else if (step == "E") {
-          operatelist.push({ name: '报工送检', url: '../bgsj/bgsj' })
+          operatelist.push({ name: '报工送检', url: `../bgsj/bgsj?no=${tc_afr02}&type=${tc_afr04}` })
         }
       }
     }
@@ -109,9 +100,9 @@ Page({
       checkoperate("B");
     } else if (role == "SCZZ") {
       checkoperate("A");
-      var stepstateA = this.getOrderState(taskStateList, tc_afr02, "A");
-      var stepstateB = this.getOrderState(taskStateList, tc_afr02, "B");
-      var stepstateD = this.getOrderState(taskStateList, tc_afr02, "D");
+      var stepstateA = this.getOrderState(taskStateList, tc_afr02, tc_afr04, "A");
+      var stepstateB = this.getOrderState(taskStateList, tc_afr02, tc_afr04, "B");
+      var stepstateD = this.getOrderState(taskStateList, tc_afr02, tc_afr04, "D");
       if (stepstateA == "3" && stepstaeB == "3") {
         checkoperate("D");
       }
@@ -119,8 +110,8 @@ Page({
         checkoperate("E");
       }
     } else if (role == "PGY") {
-      var stepstateA = this.getOrderState(taskStateList, tc_afr02, "A");
-      var stepstateB = this.getOrderState(taskStateList, tc_afr02, "B");
+      var stepstateA = this.getOrderState(taskStateList, tc_afr02, tc_afr04, "A");
+      var stepstateB = this.getOrderState(taskStateList, tc_afr02, tc_afr04, "B");
       if (stepstateA == "3" && stepstaeB == "3") {
         checkoperate("C");
       }
@@ -128,9 +119,9 @@ Page({
     } else if (role == "ADMIN") {
       checkoperate("A");
       checkoperate("B");
-      var stepstateA = this.getOrderState(taskStateList, tc_afr02, "A");
-      var stepstateB = this.getOrderState(taskStateList, tc_afr02, "B");
-      var stepstateD = this.getOrderState(taskStateList, tc_afr02, "D");
+      var stepstateA = this.getOrderState(taskStateList, tc_afr02, tc_afr04, "A");
+      var stepstateB = this.getOrderState(taskStateList, tc_afr02, tc_afr04, "B");
+      var stepstateD = this.getOrderState(taskStateList, tc_afr02, tc_afr04, "D");
       if (stepstateA == "3" && stepstaeB == "3") {
         checkoperate("C");
         checkoperate("D");
@@ -143,22 +134,32 @@ Page({
   },
   updateTaskState: function (taskStateList) {
     var { orderList } = this.data;
+    var allOrder = orderList.length;
+    var finishOrder = 0;
     for (var i = 0; i < orderList.length; i++) {
-      var operatelist = this.getOperateList(taskStateList, orderList[i].TC_AFR02);
-      var steps = stepName.map((s) => {
-        var state = this.getOrderState(taskStateList, orderList[i].TC_AFR02, s.short);
-        return {
+      var operatelist = this.getOperateList(taskStateList, orderList[i].TC_AFR02, orderList[i].TC_AFR04);
+      var steps = [];
+      var bFinish = true;
+      for(var j = 0; j < stepName.length; j++) {
+        var s = stepName[j];
+        var state = this.getOrderState(taskStateList, orderList[i].TC_AFR02, orderList[i].TC_AFR04,s.short);
+        if(state != "3"){
+          bFinish = false;
+        }
+        steps.push({
           done: state == "1" ? false : true,
           current: state == "2" ? true : false,
           text: s.name
-        }
-      });
-
-
+        })
+      }
+      if (bFinish){
+        finishOrder ++;
+      }
       orderList[i].steps = steps;
       orderList[i].operatelist = operatelist;
     }
-    this.setData({ orderList });
+    var title = `共${allOrder}个计划，已完成${finishOrder}个 （下拉刷新）`
+    this.setData({ orderList, title});
   },
   requestInfo: function () {
     this.getTodayTask();
