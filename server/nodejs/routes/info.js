@@ -24,8 +24,11 @@ router.post('/', function (req, res, next) {
   } else if (req.body.cmd == "gettaskstate") {
     console.log('gettaskstate');
     infoDao.getTaskState(req, res, next);
-  } else if (req.body.cmd == "get")
-
+  } else if (req.body.cmd == "updatetaskstate"){
+    console.log('updatetaskstate');
+    infoDao.updateTaskState(req, res, next);
+  }
 });
+
 
 module.exports = router;

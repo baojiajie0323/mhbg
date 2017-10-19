@@ -112,4 +112,23 @@ module.exports = {
       }
     });
   },
+  updateTaskState: function (req, res, next) {
+    var pool = _dao.getPool();
+    console.log('infoDao updateTaskState');
+    var param = req.body.data;
+    var context = this;
+    pool.getConnection(function (err, connection) {
+      if (connection == undefined) {
+        jsonWrite(res, {}, dbcode.CONNECT_ERROR);
+        return;
+      } else {
+        var sqlstring = _sql.gettaskstate;
+        var where_params = [param.today];
+        connection.execute(sqlstring, where_params, function (err, result) {
+          context.listresult(res, err, result);
+          connection.release();
+        });
+      }
+    });
+  },
 };
