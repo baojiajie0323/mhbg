@@ -95,7 +95,7 @@ Page({
   startbg: function () {
     wx.setStorageSync("ROLE", this.data.userRole);
     wx.navigateTo({
-      url: '../task/task'
+      url: '../task/task?role='+ this.data.userRole
     })
   }
 });

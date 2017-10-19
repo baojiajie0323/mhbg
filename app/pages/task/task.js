@@ -29,37 +29,27 @@ var showModel = (title, content) => {
   });
 };
 
-var stepName = [{ short: 'A', name: '物料清点' }, { short: 'B', name: '设备调机' }, { short: 'C', name: '首件确认' }, { short: 'D', name: '正式生产' }, { short: 'E', name: '报工送检' }];
+var stepName = [
+  { short: 'A', name: '物料清点' },
+  { short: 'B', name: '设备调机' },
+  { short: 'C', name: '首件确认' },
+  { short: 'D', name: '正式生产' },
+  { short: 'E', name: '报工送检' }];
+
 Page({
   data: {
-    steps: [
-      {
-        current: false,
-        done: true,
-        text: '物料清点'
-      },
-      {
-        done: true,
-        current: false,
-        text: '设备调机'
-      },
-      {
-        done: true,
-        current: true,
-        text: '首件确认'
-      },
-      {
-        done: false,
-        current: false,
-        text: '正式生产'
-      },
-      {
-        done: false,
-        current: false,
-        text: '报工送检'
-      }
-    ],
+    role: '',
     orderList: [],
+    contains: function (arr, obj) {
+      console.log("asdfasf")
+      var i = arr.length;
+      while (i--) {
+        if (arr[i] === obj) {
+          return true;
+        }
+      }
+      return false;
+    }
   },
   scanCode: function () {
     var that = this
@@ -74,37 +64,101 @@ Page({
       }
     })
   },
+  onLoad: function (option) {
+    console.log("onLoad", option);
+    this.setData({ role: option.role })
+  },
   onReady: function () {
     console.log("onReady");
     //wx.startPullDownRefresh();
     this.requestInfo();
   },
-  getOrderState: function (taskStateList,tc_afr02, short) {
-    for (var i = 0; i < taskStateList.length; i++ ){
-      if(taskStateList[i].TC_AFQ02 == tc_afr02 && taskStateList[i].TC_AFQ04 == short){
+  getOrderState: function (taskStateList, tc_afr02, short) {
+    for (var i = 0; i < taskStateList.length; i++) {
+      if (taskStateList[i].TC_AFQ02 == tc_afr02 && taskStateList[i].TC_AFQ04 == short) {
         return taskStateList[i].TC_AFQ05;
       }
     }
   },
+  getOperateList: function (taskStateList, tc_afr02) {
+    var { role } = this.data;
+    var operatelist = [];
+    var checkoperate = (step) => {
+      var stepstate = this.getOrderState(taskStateList, tc_afr02, step);
+      if (stepstate == "1" || stepstate == "2") {
+        if (step == "A") {
+          operatelist.push({ name: '物料清点', url: '../wlqd/wlqd' })
+        } else if (step == "B") {
+          operatelist.push({ name: '设备调机', url: '../sbtj/sbtj' })
+        } else if (step == "C") {
+          operatelist.push({ name: '首件确认', url: '../sjqr/sjqr' })
+        } else if (step == "D") {
+          operatelist.push({ name: '正式生产', url: '../zssc/zssc' })
+        } else if (step == "E") {
+          operatelist.push({ name: '报工送检', url: '../bgsj/bgsj' })
+        }
+      }
+    }
+    //   { value: 'JXY', name: '机修员' },
+    //     { value: 'SCZZ', name: '生产组长' },
+    // { value: 'PGY', name: '品管员' },
+    // { value: 'CGY', name: '仓管员' },
+    // { value: 'SCJHY', name: '生产计划员' },
+    // { value: 'ADMIN', name: '系统管理员' },
+    if (role == "JXY") {
+      checkoperate("B");
+    } else if (role == "SCZZ") {
+      checkoperate("A");
+      var stepstateA = this.getOrderState(taskStateList, tc_afr02, "A");
+      var stepstateB = this.getOrderState(taskStateList, tc_afr02, "B");
+      var stepstateD = this.getOrderState(taskStateList, tc_afr02, "D");
+      if (stepstateA == "3" && stepstaeB == "3") {
+        checkoperate("D");
+      }
+      if (stepstateD == "3") {
+        checkoperate("E");
+      }
+    } else if (role == "PGY") {
+      var stepstateA = this.getOrderState(taskStateList, tc_afr02, "A");
+      var stepstateB = this.getOrderState(taskStateList, tc_afr02, "B");
+      if (stepstateA == "3" && stepstaeB == "3") {
+        checkoperate("C");
+      }
+    } else if (role == "SCJHY") {
+    } else if (role == "ADMIN") {
+      checkoperate("A");
+      checkoperate("B");
+      var stepstateA = this.getOrderState(taskStateList, tc_afr02, "A");
+      var stepstateB = this.getOrderState(taskStateList, tc_afr02, "B");
+      var stepstateD = this.getOrderState(taskStateList, tc_afr02, "D");
+      if (stepstateA == "3" && stepstaeB == "3") {
+        checkoperate("C");
+        checkoperate("D");
+      }
+      if (stepstateD == "3") {
+        checkoperate("E");
+      }
+    }
+    return operatelist;
+  },
   updateTaskState: function (taskStateList) {
     var { orderList } = this.data;
     for (var i = 0; i < orderList.length; i++) {
+      var operatelist = this.getOperateList(taskStateList, orderList[i].TC_AFR02);
       var steps = stepName.map((s) => {
-        var state = this.getOrderState(taskStateList, orderList[i].TC_AFR02,s.short);
+        var state = this.getOrderState(taskStateList, orderList[i].TC_AFR02, s.short);
         return {
           done: state == "1" ? false : true,
           current: state == "2" ? true : false,
           text: s.name
         }
       });
+
+
       orderList[i].steps = steps;
+      orderList[i].operatelist = operatelist;
     }
     this.setData({ orderList });
-    // if (orderList[i].TC_AFR02 == tc_afr02 && orderList[i].TC_AFR04 == tc_afr04) {
-    //   return orderList[i];
-    // }
-    // for (var i = 0;)
-    //   console.log(orderList);
   },
   requestInfo: function () {
     this.getTodayTask();

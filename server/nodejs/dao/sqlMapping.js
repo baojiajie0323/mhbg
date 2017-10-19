@@ -21,10 +21,10 @@ var sqlmap = {
   gettaskstate: "Select tc_afq02,tc_afq03,tc_afq04,tc_afq05 FROM tc_afq_file \
   Where tc_afq01 = to_date(:todaydate,'yyyy-mm-dd')",
   begintask: "Update tc_afq_file set tc_afq06=to_date(:begintime,'yyyy-mm-dd hh24:mi:ss'),tc_afq05='2' \
-  Where tc_afq01=’to_date(:todaydate,'yyyy-mm-dd') and tc_afq02=:orderno and tc_afq03=:ordertype \
+  Where tc_afq01=to_date(:todaydate,'yyyy-mm-dd') and tc_afq02=:orderno and tc_afq03=:ordertype \
   And tc_afq04=:orderstep ",
   endtask: "Update tc_afq_file set tc_afq07=to_date(:begintime,'yyyy-mm-dd hh24:mi:ss'),tc_afq05='3' \
-  Where tc_afq01=’to_date(:todaydate,'yyyy-mm-dd') and tc_afq02=:orderno and tc_afq03=:ordertype \
+  Where tc_afq01=to_date(:todaydate,'yyyy-mm-dd') and tc_afq02=:orderno and tc_afq03=:ordertype \
   And tc_afq04=:orderstep ",
 };
 

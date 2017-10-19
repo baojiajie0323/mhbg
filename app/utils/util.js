@@ -14,6 +14,8 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
+
+
 Date.prototype.Format = function (fmt) { //author: meizz
   var o = {
       "M+": this.getMonth() + 1,                 //月份

@@ -7,39 +7,37 @@
     <text bindtap="scanCode" class="scantext">扫描工单</text>
   </view>
   <scroll-view scroll-y="true" class="taskscroll">
-    <view wx:for="{{orderList}}" class="weui-form-preview taskcontent">
+    <view wx:for="{{orderList}}" wx:for-item="order" class="weui-form-preview taskcontent">
       <view class="weui-form-preview__hd">
         <view class="weui-form-preview__item">
-          <view class="weui-form-preview__value_in-hd orderName">{{item.IMA02}}</view>
+          <view class="weui-form-preview__value_in-hd orderName">{{order.IMA02}}</view>
         </view>
       </view>
       <view class="weui-form-preview__bd">
         <view class="weui-form-preview__item">
-          <template is="zan-steps" data="{{ type: 'horizon', steps: item.steps }}"></template>
+          <template is="zan-steps" data="{{ type: 'horizon', steps: order.steps }}"></template>
         </view>
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">工单单号</view>
-          <view class="weui-form-preview__value">{{item.TC_AFR02}}</view>
+          <view class="weui-form-preview__value">{{order.TC_AFR02}}</view>
         </view>
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">物料编号</view>
-          <view class="weui-form-preview__value">{{item.TC_AFR09}}</view>
+          <view class="weui-form-preview__value">{{order.TC_AFR09}}</view>
         </view>
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">生产数量</view>
-          <view class="weui-form-preview__value">{{item.TC_AFR03}} {{item.IMA55}}</view>
+          <view class="weui-form-preview__value">{{order.TC_AFR03}} {{order.IMA55}}</view>
         </view>
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">生产工艺</view>
-          <view class="weui-form-preview__value">{{item.TC_AFR04}}-{{item.TC_AFR05}}</view>
+          <view class="weui-form-preview__value">{{order.TC_AFR04}}-{{order.TC_AFR05}}</view>
         </view>
       </view>
-      <view class="weui-form-preview__ft">
-        <navigator url="../wlqd/wlqd" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">物料清点</navigator>
-        <navigator url="../sjqr/sjqr" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">首件确认</navigator>
-        <navigator url="../sbtj/sbtj" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">设备调机</navigator>
-        <navigator url="../zssc/zssc" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">正式生产</navigator>
-        <navigator url="../bgsj/bgsj" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">报工送检</navigator>
+      <view wx:if="{{order.operatelist.length > 0}}" class="weui-form-preview__ft">
+        <view wx:for="{{order.operatelist}}" wx:for-item="operate" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">
+          <navigator url="{{operate.url}}">{{operate.name}}</navigator>
+        </view>
       </view>
     </view>
   </scroll-view>

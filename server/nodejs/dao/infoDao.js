@@ -122,10 +122,20 @@ module.exports = {
         jsonWrite(res, {}, dbcode.CONNECT_ERROR);
         return;
       } else {
-        var sqlstring = _sql.gettaskstate;
-        var where_params = [param.today];
+        var sqlstring;
+        if(req.body.cmd == "begintask"){
+          sqlstring = _sql.begintask;
+        }else{
+          sqlstring = _sql.endtask;
+        }
+        var where_params = [param.begintime,param.today,param.no,param.type,param.step];
         connection.execute(sqlstring, where_params, function (err, result) {
-          context.listresult(res, err, result);
+          console.log('dbresult', err, result);
+          if (err) {
+            jsonWrite(res, {}, dbcode.FAIL);
+          } else {
+            jsonWrite(res, req.body.data, dbcode.SUCCESS);
+          }
           connection.release();
         });
       }
