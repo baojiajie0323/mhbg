@@ -1,6 +1,8 @@
+"use strict"
 
 var _dao = require('./dao');
 var _sql = require('./sqlMapping');
+var async = require('async');
 
 var jsonWrite = _dao.jsonWrite;
 var dbcode = _dao.dbcode;
@@ -123,12 +125,13 @@ module.exports = {
         return;
       } else {
         var sqlstring;
-        if(req.body.cmd == "begintask"){
+        if (param.type == "begintask") {
           sqlstring = _sql.begintask;
-        }else{
+        } else {
           sqlstring = _sql.endtask;
         }
-        var where_params = [param.begintime,param.today,param.no,param.type,param.step];
+        var where_params = [param.time, param.today, param.orderno, param.ordertype, param.step];
+        console.log(sqlstring, where_params);
         connection.execute(sqlstring, where_params, function (err, result) {
           console.log('dbresult', err, result);
           if (err) {
@@ -138,6 +141,87 @@ module.exports = {
           }
           connection.release();
         });
+      }
+    });
+  },
+  getTaskInfo: function (req, res, next) {
+    var pool = _dao.getPool();
+    console.log('infoDao getTaskInfo');
+    var param = req.body.data;
+    var context = this;
+    pool.getConnection(function (err, connection) {
+      if (connection == undefined) {
+        jsonWrite(res, {}, dbcode.CONNECT_ERROR);
+        return;
+      } else {
+        var sqlstring = _sql.gettaskinfo;
+        var where_params = [param.orderno, param.today, param.ordertype];
+        connection.execute(sqlstring, where_params, function (err, result) {
+          context.listresult(res, err, result);
+          connection.release();
+        });
+      }
+    });
+  },
+  getWlqd: function (req, res, next) {
+    var pool = _dao.getPool();
+    console.log('infoDao getWlqd');
+    var param = req.body.data;
+    var context = this;
+    pool.getConnection(function (err, connection) {
+      if (connection == undefined) {
+        jsonWrite(res, {}, dbcode.CONNECT_ERROR);
+        return;
+      } else {
+        var sqlstring = _sql.getwlqd;
+        var where_params = [param.today, param.orderno, param.ordertype];
+        connection.execute(sqlstring, where_params, function (err, result) {
+          context.listresult(res, err, result);
+          connection.release();
+        });
+      }
+    });
+  },
+  updateWlqd: function (req, res, next) {
+    var pool = _dao.getPool();
+    console.log('infoDao updateTaskState', req.body.data);
+    var param = req.body.data;
+    var context = this;
+    pool.getConnection(function (err, connection) {
+      if (connection == undefined) {
+        jsonWrite(res, {}, dbcode.CONNECT_ERROR);
+        return;
+      } else {
+        var sqlstring = _sql.updatewlqd;
+        var tasks = [];
+        for (let i = 0; i < param.wlqd.length; i++) {
+          let lj = param.wlqd[i];
+          tasks.push(function (callback) {
+            var where_params = [lj.TC_AFI09 || "", lj.TC_AFI10 || "", lj.TC_AFI11 || "", lj.TC_AFI12 || "", param.today, param.orderno, param.ordertype,lj.TC_AFI04];
+            console.log(sqlstring,where_params)
+            connection.execute(sqlstring, where_params, function (err, result) {
+              callback(err);
+            })
+          })
+        }
+        async.series(tasks, function (err, results) {
+          if (err) {
+            console.log('tasks error', err);
+            connection.rollback(); // 发生错误事务回滚
+            jsonWrite(res, {}, dbcode.FAIL);
+          } else {
+            jsonWrite(res, param, dbcode.SUCCESS);
+          }
+          connection.release();
+        });
+        // connection.execute(sqlstring, where_params, function (err, result) {
+        // console.log('dbresult', err, result);
+        // if (err) {
+        //   jsonWrite(res, {}, dbcode.FAIL);
+        // } else {
+        //   jsonWrite(res, req.body.data, dbcode.SUCCESS);
+        // }
+        // connection.release();
       }
     });
   },

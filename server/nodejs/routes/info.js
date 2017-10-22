@@ -27,6 +27,15 @@ router.post('/', function (req, res, next) {
   } else if (req.body.cmd == "updatetaskstate"){
     console.log('updatetaskstate');
     infoDao.updateTaskState(req, res, next);
+  } else if (req.body.cmd == "gettaskinfo"){
+    console.log('gettaskinfo');
+    infoDao.getTaskInfo(req, res, next);
+  } else if (req.body.cmd == "getwlqd"){
+    console.log('getwlqd');
+    infoDao.getWlqd(req, res, next);
+  } else if (req.body.cmd == "updatewlqd"){
+    console.log('updatewlqd');
+    infoDao.updateWlqd(req, res, next);
   }
 });
 

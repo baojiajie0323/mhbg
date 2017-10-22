@@ -3,51 +3,61 @@
 
 <view class="container">
   <template is="order" data="{{...order}}" />
-  <view wx:if="{{state == 0}}" class="btn-area">
+  <view wx:if="{{state == 1}}" class="btn-area">
     <button bindtap='ontapstart' type="primary">开始</button>
   </view>
   <scroll-view wx:else scroll-y="true" class="wlscroll">
-    <view class="weui-panel weui-panel_access" wx:for="{{lj}}" wx:for-index="idx" wx:for-item="item">
-      <view class="weui-panel__hd">{{item.ljmc}}</view>
+    <view class="weui-panel weui-panel_access" wx:for="{{wlqd}}" wx:for-index="idx" wx:for-item="item">
+      <view class="weui-panel__hd">{{item.TC_AFI05}}</view>
       <view class="weui-form-preview__bd">
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">料件编号</view>
-          <view class="weui-form-preview__value">{{item.ljbh}}</view>
+          <view class="weui-form-preview__value">{{item.TC_AFI04}}</view>
         </view>
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">规格</view>
-          <view class="weui-form-preview__value">{{item.gg}}</view>
+          <view class="weui-form-preview__value">{{item.TC_AFI06}}</view>
         </view>
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">数量</view>
-          <view class="weui-form-preview__value">{{item.count + item.dw}}</view>
+          <view class="weui-form-preview__value">{{item.TC_AFI07}}{{item.TC_AFI08}}</view>
         </view>
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">初盘</view>
           <view class="weui-form-preview__value">
-            <radio-group id="{{item.ljbh}}" bindchange="radioChangeCp">
+            <radio-group id="{{item.TC_AFI04}}" bindchange="radioChangeCp">
               <label class="radio">
-                <radio value="ok" checked="{{item.cp.state == 'ok'}}" />OK
+                <radio value="ok" checked="{{item.TC_AFI09 == 'ok'}}" />OK
               </label>
               <label class="radio">
-                <radio value="ng" checked="{{item.cp.state == 'ng'}}" />NG
+                <radio value="ng" checked="{{item.TC_AFI09 == 'ng'}}" />NG
               </label>
             </radio-group>
-            <input wx:if="{{item.cp.state == 'ng'}}" class="weui-input" placeholder="请输入NG原因" />
+          </view>
+        </view>
+        <view wx:if="{{item.TC_AFI09 == 'ng'}}" class="weui-form-preview__item">
+          <view class="weui-form-preview__label adjustlabel">NG原因</view>
+          <view class="weui-form-preview__value">
+            <input class="weui-input" id="{{item.TC_AFI04}}" value="{{item.TC_AFI10}}" bindinput="bindCPInput" placeholder="请输入NG原因" />
           </view>
         </view>
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">复盘</view>
           <view class="weui-form-preview__value">
-            <radio-group id="{{item.ljbh}}" bindchange="radioChangeFp">
+            <radio-group id="{{item.TC_AFI04}}" bindchange="radioChangeFp">
               <label class="radio">
-                <radio value="ok" checked="{{item.fp.state == 'ok'}}" />OK
+                <radio value="ok" checked="{{item.TC_AFI11 == 'ok'}}" />OK
               </label>
               <label class="radio">
-                <radio value="ng" checked="{{item.fp.state == 'ng'}}" />NG
+                <radio value="ng" checked="{{item.TC_AFI11 == 'ng'}}" />NG
               </label>
             </radio-group>
-            <input wx:if="{{item.fp.state == 'ng'}}" class="weui-input" placeholder="请输入NG原因" />
+          </view>
+        </view>
+        <view wx:if="{{item.TC_AFI11 == 'ng'}}" class="weui-form-preview__item">
+          <view class="weui-form-preview__label adjustlabel">NG原因</view>
+          <view class="weui-form-preview__value">
+            <input class="weui-input" placeholder="请输入NG原因" />
           </view>
         </view>
       </view>

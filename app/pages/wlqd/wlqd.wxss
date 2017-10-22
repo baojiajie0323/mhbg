@@ -8,3 +8,7 @@
   top: 180px;
   bottom: 50px;
 }
+
+.adjustlabel{
+  padding: 5px 0 0;
+}

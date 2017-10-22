@@ -62,6 +62,11 @@ Page({
   onReady: function () {
     console.log("onReady");
     //wx.startPullDownRefresh();
+    //this.requestInfo();
+  },
+  onShow: function(){
+    console.log("onShow");
+
     this.requestInfo();
   },
   getOrderState: function (taskStateList, tc_afr02, tc_afr04, short) {
@@ -78,15 +83,15 @@ Page({
       var stepstate = this.getOrderState(taskStateList, tc_afr02, tc_afr04, step);
       if (stepstate == "1" || stepstate == "2") {
         if (step == "A") {
-          operatelist.push({ name: '物料清点', url: `../wlqd/wlqd?no=${tc_afr02}&type=${tc_afr04}` })
+          operatelist.push({ name: '物料清点', url: `../wlqd/wlqd?no=${tc_afr02}&type=${tc_afr04}&state=${stepstate}` })
         } else if (step == "B") {
-          operatelist.push({ name: '设备调机', url: `../sbtj/sbtj?no=${tc_afr02}&type=${tc_afr04}` })
+          operatelist.push({ name: '设备调机', url: `../sbtj/sbtj?no=${tc_afr02}&type=${tc_afr04}&state=${stepstate}` })
         } else if (step == "C") {
-          operatelist.push({ name: '首件确认', url: `../sjqr/sjqr?no=${tc_afr02}&type=${tc_afr04}` })
+          operatelist.push({ name: '首件确认', url: `../sjqr/sjqr?no=${tc_afr02}&type=${tc_afr04}&state=${stepstate}` })
         } else if (step == "D") {
-          operatelist.push({ name: '正式生产', url: `../zssc/zssc?no=${tc_afr02}&type=${tc_afr04}` })
+          operatelist.push({ name: '正式生产', url: `../zssc/zssc?no=${tc_afr02}&type=${tc_afr04}&state=${stepstate}` })
         } else if (step == "E") {
-          operatelist.push({ name: '报工送检', url: `../bgsj/bgsj?no=${tc_afr02}&type=${tc_afr04}` })
+          operatelist.push({ name: '报工送检', url: `../bgsj/bgsj?no=${tc_afr02}&type=${tc_afr04}&state=${stepstate}` })
         }
       }
     }
@@ -103,7 +108,7 @@ Page({
       var stepstateA = this.getOrderState(taskStateList, tc_afr02, tc_afr04, "A");
       var stepstateB = this.getOrderState(taskStateList, tc_afr02, tc_afr04, "B");
       var stepstateD = this.getOrderState(taskStateList, tc_afr02, tc_afr04, "D");
-      if (stepstateA == "3" && stepstaeB == "3") {
+      if (stepstateA == "3" && stepstateB == "3") {
         checkoperate("D");
       }
       if (stepstateD == "3") {
@@ -112,7 +117,7 @@ Page({
     } else if (role == "PGY") {
       var stepstateA = this.getOrderState(taskStateList, tc_afr02, tc_afr04, "A");
       var stepstateB = this.getOrderState(taskStateList, tc_afr02, tc_afr04, "B");
-      if (stepstateA == "3" && stepstaeB == "3") {
+      if (stepstateA == "3" && stepstateB == "3") {
         checkoperate("C");
       }
     } else if (role == "SCJHY") {
@@ -122,7 +127,7 @@ Page({
       var stepstateA = this.getOrderState(taskStateList, tc_afr02, tc_afr04, "A");
       var stepstateB = this.getOrderState(taskStateList, tc_afr02, tc_afr04, "B");
       var stepstateD = this.getOrderState(taskStateList, tc_afr02, tc_afr04, "D");
-      if (stepstateA == "3" && stepstaeB == "3") {
+      if (stepstateA == "3" && stepstateB == "3") {
         checkoperate("C");
         checkoperate("D");
       }
@@ -220,7 +225,7 @@ Page({
       login: true,
 
       success(result) {
-        //showSuccess('列表更新成功');
+        showSuccess('列表更新成功');
         console.log('request success', result);
         var taskstatelist = result.data.data;
         context.updateTaskState(taskstatelist);
