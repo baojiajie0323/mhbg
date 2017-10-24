@@ -42,6 +42,33 @@ router.post('/', function (req, res, next) {
   } else if (req.body.cmd == "updatesbtj") {
     console.log('updatesbtj');
     infoDao.updateSbtj(req, res, next);
+  } else if (req.body.cmd == "getsjqr") {
+    console.log('getsjqr');
+    infoDao.getSjqr(req, res, next);
+  } else if (req.body.cmd == "updatesjqr") {
+    console.log('updatesjqr');
+    infoDao.updateSjqr(req, res, next);
+  } else if (req.body.cmd == "getzssc") {
+    console.log('getzssc');
+    infoDao.getZssc(req, res, next);
+  } else if (req.body.cmd == "updatezssc") {
+    console.log('updatezssc');
+    infoDao.updateZssc(req, res, next);
+  } else if (req.body.cmd == "getbgsj") {
+    console.log('getbgsj');
+    infoDao.getBgsj(req, res, next);
+  } else if (req.body.cmd == "getsbtj_lp") {
+    console.log('getsbtj_lp');
+    infoDao.getSbtj_lp(req, res, next);
+  } else if (req.body.cmd == "updatebgsj_lp") {
+    console.log('updatebgsj_lp');
+    infoDao.updateBgsj_lp(req, res, next);
+  } else if (req.body.cmd == "getbgsj_bl") {
+    console.log('getbgsj_bl');
+    infoDao.getBgsj_bl(req, res, next);
+  } else if (req.body.cmd == "updatebgsj_bl") {
+    console.log('updatebgsj_bl');
+    infoDao.updateBgsj_bl(req, res, next);
   }
 });
 

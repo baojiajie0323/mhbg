@@ -1,45 +1,194 @@
 //wlqd.js
 const util = require('../../utils/util.js')
+// 引入 QCloud 小程序增强 SDK
+var qcloud = require('../../vendor/qcloud-weapp-client-sdk/index');
+// 引入配置
+var config = require('../../config');
+
+// 显示繁忙提示
+var showBusy = text => wx.showToast({
+  title: text,
+  icon: 'loading',
+  duration: 10000
+});
+
+// 显示成功提示
+var showSuccess = text => wx.showToast({
+  title: text,
+  icon: 'success'
+});
+
+// 显示失败提示
+var showModel = (title, content) => {
+  wx.hideToast();
+
+  wx.showModal({
+    title,
+    content: JSON.stringify(content),
+    showCancel: false
+  });
+};
 
 Page({
   data: {
-    logs: [],
-    order: {
-      pm: '满好通用型海绵百洁布5入',
-      no: '441-MH011705020001',
-      scfz: '李陈',
-      gdlx: '一般工单',
-      cpbh: 'MHSSTYX5-12-01',
-      kdrq: '2017-08-09',
-      scsl: '100',
-      scdw: '箱',
-    },
-    sjqr: {
-      wlmc: {
-        state: 'ok',
-        content: '',
-      },
-      wlgg: {
-        state: 'ok',
-        content: '',
-      },
-      sbcs: {
-        state: 'ok',
-        content: '',
-      },
-      cpzl: {
-        state: 'ok',
-        content: '',
-      },
-    },
+    order: {},
+    sbtj: [
+      // {
+      //   TC_AFJ04: '一号机床',
+      //   TC_AFJ05: '3线',
+      //   TC_AFJ06: '鲍嘉捷',
+      //   TC_AFJ07: '左30度',
+      //   TC_AFJ08: '平切',
+      // }
+    ],
     state: 0,
   },
-  onLoad: function () {
-    this.setData({
-      logs: (wx.getStorageSync('logs') || []).map(log => {
-        return util.formatTime(new Date(log))
-      })
-    })
+  onLoad: function (option) {
+    console.log("onLoad", option);
+    this.setData({ state: option.state, no: option.no, type: option.type })
+    var no = option.no;
+    var type = option.type;
+    this.getTaskInfo(no, type);
+  },
+  getTaskInfo: function (no, type) {
+    var context = this;
+    console.log("request getTaskInfo");
+    qcloud.request({
+      // 要请求的地址
+      url: config.service.requestUrl,
+      data: {
+        cmd: 'gettaskinfo',
+        data: {
+          today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          orderno: no,
+          ordertype: type,
+        }
+      },
+      method: 'POST',
+      // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+      login: true,
+
+      success(result) {
+        //showSuccess('列表更新成功');
+        console.log('request success', result);
+        if (result.data.data.length > 0) {
+          context.setData({ order: result.data.data[0] })
+        }
+        context.getSbtj(no, type);
+      },
+      fail(error) {
+        console.log('request fail', error);
+      },
+      complete() {
+        console.log('request complete');
+      }
+    });
+  },
+  getSbtj: function (no, type) {
+    var context = this;
+    console.log("request getSbtj");
+    qcloud.request({
+      // 要请求的地址
+      url: config.service.requestUrl,
+      data: {
+        cmd: 'getsbtj',
+        data: {
+          today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          orderno: no,
+          ordertype: type,
+        }
+      },
+      method: 'POST',
+      // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+      login: true,
+
+      success(result) {
+        //showSuccess('列表更新成功');
+        console.log('request success', result);
+        context.setData({ sbtj: result.data.data })
+      },
+      fail(error) {
+        console.log('request fail', error);
+      },
+      complete() {
+        console.log('request complete');
+      }
+    });
+  },
+  updateTaskState: function (stateTypeString) {
+    var context = this;
+    console.log("request updateTaskState");
+    qcloud.request({
+      // 要请求的地址
+      url: config.service.requestUrl,
+      data: {
+        cmd: 'updatetaskstate',
+        data: {
+          type: stateTypeString,
+          today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          orderno: context.data.no,
+          ordertype: context.data.type,
+          time: new Date().Format('hh:mm:ss'),
+          step: 'B'
+        }
+      },
+      method: 'POST',
+      // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+      login: true,
+
+      success(result) {
+        //showSuccess('列表更新成功');
+        console.log('request success', result);
+        if (result.data.code == 0) {
+          context.setData({
+            state: stateTypeString == "begintask" ? 2 : 3
+          })
+          if (stateTypeString == "endtask") {
+            wx.navigateBack();
+          }
+        }
+      },
+      fail(error) {
+        console.log('request fail', error);
+      },
+      complete() {
+        console.log('request complete');
+      }
+    });
+  },
+  updateSbtj: function () {
+    var context = this;
+    console.log("request updateSbtj");
+    qcloud.request({
+      // 要请求的地址
+      url: config.service.requestUrl,
+      data: {
+        cmd: 'updatesbtj',
+        data: {
+          today: new Date("2017-10-17").Format("yyyy-MM-dd"),
+          orderno: this.data.no,
+          ordertype: this.data.type,
+          sbtj: this.data.sbtj
+        }
+      },
+      method: 'POST',
+      // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+      login: true,
+
+      success(result) {
+        //showSuccess('更新物料清点信息成功');
+        console.log('request success', result);
+        if (result.data.code == 0) {
+          context.updateTaskState('endtask');
+        }
+      },
+      fail(error) {
+        console.log('request fail', error);
+      },
+      complete() {
+        console.log('request complete');
+      }
+    });
   },
   ontapstart: function () {
     wx.showModal({
@@ -48,39 +197,114 @@ Page({
       cancelText: "取消",
       success: (res) => {
         if (res.confirm) {
-          this.setData({
-            state: 1
-          })
+          this.updateTaskState("begintask");
         } else if (res.cancel) {
           console.log('用户点击取消')
         }
       }
     })
   },
+  checkSubmit: function () {
+    var { sbtj } = this.data;
+    for (var i = 0; i < sbtj.length; i++) {
+      var lj = sbtj[i];
+      if (!lj.TC_AFJ04 || !lj.TC_AFJ05 || !lj.TC_AFJ06 || !lj.TC_AFJ07 || !lj.TC_AFJ08) {
+        wx.showModal({
+          title: '提示',
+          content: '请填写结果',
+          showCancel: false
+        })
+        return false;
+      }
+    }
+    return true;
+  },
   ontapsubmit: function () {
+    if (!this.checkSubmit()) {
+      return;
+    }
     wx.showModal({
       content: "确定要提交设备调机信息吗？",
       confirmText: "确定",
       cancelText: "取消",
       success: (res) => {
         if (res.confirm) {
-          this.setData({
-            state: 2
-          })
-          wx.navigateBack();
+          this.updateSbtj();
         } else if (res.cancel) {
           console.log('用户点击取消')
         }
       }
     })
   },
-  radioChange: function (e) {
-    var { sjqr } = this.data;
-    console.log("radioChange", e, sjqr);
+  onRemoveDevice: function (e) {
+    console.log(e);
+    var index = e.target.id;
+    wx.showModal({
+      content: "确定要删除这个设备吗？",
+      confirmText: "确定",
+      cancelText: "取消",
+      success: (res) => {
+        if (res.confirm) {
+          var { sbtj } = this.data;
+          if (sbtj.length > index) {
+            sbtj.splice(index, 1);
+            this.setData({ sbtj });
+          }
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  },
+  ontapAddDevice() {
+    var { sbtj } = this.data;
+    sbtj.push({
+      TC_AFJ04: '',
+      TC_AFJ05: '',
+      TC_AFJ06: '',
+      TC_AFJ07: '',
+      TC_AFJ08: '',
+    })
+    this.setData({ sbtj })
+  },
+  bind04Input: function (e) {
+    var { sbtj } = this.data;
     var key = e.target.id;
-    if (sjqr.hasOwnProperty(key)) {
-      sjqr[key].state = e.detail.value;
+    if (sbtj.length > key) {
+      sbtj[key].TC_AFJ04 = e.detail.value;
     }
-    this.setData({ sjqr })
+    this.setData({ sbtj })
+  },
+  bind05Input: function (e) {
+    var { sbtj } = this.data;
+    var key = e.target.id;
+    if (sbtj.length > key) {
+      sbtj[key].TC_AFJ05 = e.detail.value;
+    }
+    this.setData({ sbtj })
+  },
+  bind06Input: function (e) {
+    var { sbtj } = this.data;
+    var key = e.target.id;
+    if (sbtj.length > key) {
+      sbtj[key].TC_AFJ06 = e.detail.value;
+    }
+    this.setData({ sbtj })
+  },
+  bind07Input: function (e) {
+    var { sbtj } = this.data;
+    var key = e.target.id;
+    if (sbtj.length > key) {
+      sbtj[key].TC_AFJ07 = e.detail.value;
+    }
+    this.setData({ sbtj })
+  },
+  bind08Input: function (e) {
+    var { sbtj } = this.data;
+    var key = e.target.id;
+    if (sbtj.length > key) {
+      sbtj[key].TC_AFJ08 = e.detail.value;
+    }
+    this.setData({ sbtj })
   },
 })

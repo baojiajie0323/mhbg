@@ -251,6 +251,60 @@ module.exports = {
         for (let i = 0; i < param.sbtj.length; i++) {
           let lj = param.sbtj[i];
           tasks.push(function (callback) {
+            var where_params = [param.today, param.orderno, param.ordertype,lj.TC_AFJ04,lj.TC_AFJ05, lj.TC_AFJ06, lj.TC_AFJ07, lj.TC_AFJ08];
+            console.log(sqlstring,where_params)
+            connection.execute(sqlstring, where_params, function (err, result) {
+              callback(err);
+            })
+          })
+        }
+        async.series(tasks, function (err, results) {
+          if (err) {
+            console.log('tasks error', err);
+            connection.rollback(); // 发生错误事务回滚
+            jsonWrite(res, {}, dbcode.FAIL);
+          } else {
+            jsonWrite(res, param, dbcode.SUCCESS);
+          }
+          connection.release();
+        });
+      }
+    });
+  },
+  getSjqr: function (req, res, next) {
+    var pool = _dao.getPool();
+    console.log('infoDao getSjqr');
+    var param = req.body.data;
+    var context = this;
+    pool.getConnection(function (err, connection) {
+      if (connection == undefined) {
+        jsonWrite(res, {}, dbcode.CONNECT_ERROR);
+        return;
+      } else {
+        var sqlstring = _sql.getsjqr;
+        var where_params = [param.today, param.orderno, param.ordertype];
+        connection.execute(sqlstring, where_params, function (err, result) {
+          context.listresult(res, err, result);
+          connection.release();
+        });
+      }
+    });
+  },
+  updateSjqr: function (req, res, next) {
+    var pool = _dao.getPool();
+    console.log('infoDao updateSjqr', req.body.data);
+    var param = req.body.data;
+    var context = this;
+    pool.getConnection(function (err, connection) {
+      if (connection == undefined) {
+        jsonWrite(res, {}, dbcode.CONNECT_ERROR);
+        return;
+      } else {
+        var sqlstring = _sql.updatesjqr;
+        var tasks = [];
+        for (let i = 0; i < param.sbtj.length; i++) {
+          let lj = param.sbtj[i];
+          tasks.push(function (callback) {
             var where_params = [lj.TC_AFI09 || "", lj.TC_AFI10 || "", lj.TC_AFI11 || "", lj.TC_AFI12 || "", param.today, param.orderno, param.ordertype,lj.TC_AFI04];
             console.log(sqlstring,where_params)
             connection.execute(sqlstring, where_params, function (err, result) {

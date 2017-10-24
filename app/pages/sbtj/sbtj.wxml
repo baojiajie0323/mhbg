@@ -7,16 +7,16 @@
     <button bindtap='ontapstart' type="primary">开始</button>
   </view>
   <scroll-view wx:else scroll-y="true" class="wlscroll">
-    <view class="weui-cells weui-cells_after-title">
+    <view wx:for="{{sbtj}}" class="weui-cells weui-cells_after-title sbtjcontent">
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
           <view class="weui-label">设备名称</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入设备名称" />
+          <input class="weui-input" value="{{item.TC_AFJ04}}" id="{{index}}" bindinput="bind04Input" placeholder="请输入设备名称" />
         </view>
         <view>
-          <icon bindtap='onRemoveDevice' type="cancel" size="23"></icon>
+          <icon bindtap='onRemoveDevice' id="{{index}}" type="cancel" size="23"></icon>
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -24,7 +24,7 @@
           <view class="weui-label">线别</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入线别" />
+          <input class="weui-input" value="{{item.TC_AFJ05}}" id="{{index}}" bindinput="bind05Input" placeholder="请输入线别" />
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -32,7 +32,7 @@
           <view class="weui-label">调机人员</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入调机人员" />
+          <input class="weui-input" value="{{item.TC_AFJ06}}" id="{{index}}" bindinput="bind06Input" placeholder="请输入调机人员" />
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -40,7 +40,7 @@
           <view class="weui-label">工艺</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入工艺" />
+          <input class="weui-input" value="{{item.TC_AFJ08}}" id="{{index}}" bindinput="bind08Input" placeholder="请输入工艺" />
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -48,13 +48,12 @@
           <view class="weui-label">调整参数</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入调整参数" />
+          <input class="weui-input" value="{{item.TC_AFJ07}}" id="{{index}}" bindinput="bind07Input" placeholder="请输入调整参数" />
         </view>
       </view>
     </view>
-
     <view class="btn-area">
-      <button type="default">增加设备</button>
+      <button type="default" bindtap='ontapAddDevice'>增加设备</button>
       <button bindtap='ontapsubmit' type="warn">提交</button>
     </view>
   </scroll-view>
