@@ -184,7 +184,7 @@ module.exports = {
   },
   updateWlqd: function (req, res, next) {
     var pool = _dao.getPool();
-    console.log('infoDao updateTaskState', req.body.data);
+    console.log('infoDao updateWlqd', req.body.data);
     var param = req.body.data;
     var context = this;
     pool.getConnection(function (err, connection) {
@@ -214,14 +214,60 @@ module.exports = {
           }
           connection.release();
         });
-        // connection.execute(sqlstring, where_params, function (err, result) {
-        // console.log('dbresult', err, result);
-        // if (err) {
-        //   jsonWrite(res, {}, dbcode.FAIL);
-        // } else {
-        //   jsonWrite(res, req.body.data, dbcode.SUCCESS);
-        // }
-        // connection.release();
+      }
+    });
+  },
+  getSbtj: function (req, res, next) {
+    var pool = _dao.getPool();
+    console.log('infoDao getSbtj');
+    var param = req.body.data;
+    var context = this;
+    pool.getConnection(function (err, connection) {
+      if (connection == undefined) {
+        jsonWrite(res, {}, dbcode.CONNECT_ERROR);
+        return;
+      } else {
+        var sqlstring = _sql.getsbtj;
+        var where_params = [param.today, param.orderno, param.ordertype];
+        connection.execute(sqlstring, where_params, function (err, result) {
+          context.listresult(res, err, result);
+          connection.release();
+        });
+      }
+    });
+  },
+  updateSbtj: function (req, res, next) {
+    var pool = _dao.getPool();
+    console.log('infoDao updateSbtj', req.body.data);
+    var param = req.body.data;
+    var context = this;
+    pool.getConnection(function (err, connection) {
+      if (connection == undefined) {
+        jsonWrite(res, {}, dbcode.CONNECT_ERROR);
+        return;
+      } else {
+        var sqlstring = _sql.updatesbtj;
+        var tasks = [];
+        for (let i = 0; i < param.sbtj.length; i++) {
+          let lj = param.sbtj[i];
+          tasks.push(function (callback) {
+            var where_params = [lj.TC_AFI09 || "", lj.TC_AFI10 || "", lj.TC_AFI11 || "", lj.TC_AFI12 || "", param.today, param.orderno, param.ordertype,lj.TC_AFI04];
+            console.log(sqlstring,where_params)
+            connection.execute(sqlstring, where_params, function (err, result) {
+              callback(err);
+            })
+          })
+        }
+        async.series(tasks, function (err, results) {
+          if (err) {
+            console.log('tasks error', err);
+            connection.rollback(); // 发生错误事务回滚
+            jsonWrite(res, {}, dbcode.FAIL);
+          } else {
+            jsonWrite(res, param, dbcode.SUCCESS);
+          }
+          connection.release();
+        });
       }
     });
   },

@@ -41,6 +41,20 @@ var sqlmap = {
   updatewlqd: "update tc_afi_file set tc_afi09=:cpjg,tc_afi10=:cpsm,tc_afi11=:fpjg,tc_afi12=:fpsm \
   where tc_afi01=to_date(:todaydate,'yyyy-mm-dd') and tc_afi02=:orderno and tc_afi03=:ordertype \
   and tc_afi04=:ljbh ",
+  getsbtj: "Select tc_afj04,tc_afj05, tc_afj06, tc_afj07 from tc_afj_file \
+  Where tc_afj01=to_date(:todaydate,'yyyy-mm-dd') and tc_afj02=:orderno and tc_afj03=:ordertype ",
+  updatesbtj: "",
+  getsjqr: "Select tc_afk04,tc_afk05, tc_afk06, tc_afk07, tc_afk08, tc_afk09, tc_afk10, tc_afk11 \
+  from tc_afk_file\
+  Where tc_afk01=to_date(:todaydate,'yyyy-mm-dd') and tc_afk02=:orderno and tc_afk03=:ordertype ",
+  updatesjqr: "Update tc_afk_file \
+  set tc_afk04=:state1, tc_afk05=:bz1, tc_afk06=:state2, tc_afk07=:bz2, \
+  tc_afk08=:state3, tc_afk09=:bz3, tc_afk10=:state4, tc_afk11=:bz4 \
+  Where tc_afk01=to_date(:todaydate,'yyyy-mm-dd') and tc_afk02=:orderno and tc_afk03=:ordertype ",
+  getzssc: "Select tc_afq01,tc_afq06,tc_afl04,tc_afl06,tc_afl05 \
+  From tc_afq_file \
+  Left join tc_afl_file on tc_afq01=tc_afl01 and tc_afq02=tc_afl02 and tc_afq03=tc_afl03 \
+  Where tc_afq01=to_date(:todaydate,'yyyy-mm-dd') and tc_afq02=:orderno and tc_afq03=:ordertype ",
 };
 
 module.exports = sqlmap;
