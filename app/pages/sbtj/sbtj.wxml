@@ -3,7 +3,7 @@
 
 <view class="container">
   <template is="order" data="{{...order}}" />
-  <view wx:if="{{state == 0}}" class="btn-area">
+  <view wx:if="{{state == 1}}" class="btn-area">
     <button bindtap='ontapstart' type="primary">开始</button>
   </view>
   <scroll-view wx:else scroll-y="true" class="wlscroll">
