@@ -3,7 +3,7 @@
 
 <view class="container">
   <template is="order" data="{{...order}}" />
-  <view wx:if="{{state == 0}}" class="btn-area">
+  <view wx:if="{{state == 1}}" class="btn-area">
     <button bindtap='ontapstart' type="primary">开始</button>
   </view>
   <scroll-view wx:else scroll-y="true" class="wlscroll">
@@ -13,7 +13,7 @@
           <view class="weui-label">开工时间</view>
         </view>
         <view class="weui-cell__bd">
-          <text class="weui-input" >2017-09-25 20:10</text>
+          <text class="weui-input" >{{zssc.TC_AFQ01}} {{zssc.TC_AFQ06}}</text>
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -21,7 +21,7 @@
           <view class="weui-label">线别</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入线别" />
+          <input class="weui-input" id="TC_AFL04" value="{{zssc.TC_AFL04}}" bindinput="onBindInput" placeholder="请输入线别" />
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -29,7 +29,7 @@
           <view class="weui-label">工序</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入工序" />
+          <input class="weui-input" id="TC_AFL06" value="{{zssc.TC_AFL06}}" bindinput="onBindInput" placeholder="请输入工序" />
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -37,7 +37,7 @@
           <view class="weui-label">投入人数</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入人数" />
+          <input type="number" class="weui-input" id="TC_AFL05" value="{{zssc.TC_AFL05}}" bindinput="onBindInput" placeholder="请输入人数" />
         </view>
       </view>
     </view>

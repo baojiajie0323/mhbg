@@ -347,7 +347,7 @@ module.exports = {
       } else {
         var sqlstring = _sql.updatezssc;
         var lj = param.zssc;
-        var where_params = [lj.TC_AFL04 ,lj.TC_AFK05, param.today, param.orderno, param.ordertype];
+        var where_params = [lj.TC_AFL04 ,lj.TC_AFL05,lj.TC_AFL06, param.today, param.orderno, param.ordertype];
         console.log(sqlstring, where_params)
         connection.execute(sqlstring, where_params, function (err, result) {
           if (err) {

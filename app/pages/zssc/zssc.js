@@ -33,8 +33,8 @@ Page({
   data: {
     order: {},
     zssc: {
-      // TC_AFK04: '1',
-      // TC_AFK05: '2',
+      // TC_AFL04: '1线',
+      // TC_AFL05: 3,
     },
     state: 0,
   },
@@ -202,8 +202,8 @@ Page({
     })
   },
   checkSubmit: function () {
-    var { sjqr } = this.data;
-    if (!sjqr.TC_AFK04 || !sjqr.TC_AFK06 || !sjqr.TC_AFK08 || !sjqr.TC_AFK10) {
+    var { zssc } = this.data;
+    if (!zssc.TC_AFL04 || !zssc.TC_AFL05 || !zssc.TC_AFL06) {
       wx.showModal({
         title: '提示',
         content: '请填写结果',
@@ -230,13 +230,12 @@ Page({
       }
     })
   },
-  radioChange: function (e) {
-    var { sjqr } = this.data;
-    console.log("radioChange", e, sjqr);
+  onBindInput: function (e) {
+    var { zssc } = this.data;
     var key = e.target.id;
-    if (sjqr.hasOwnProperty(key)) {
-      sjqr[key].state = e.detail.value;
+    if (zssc.hasOwnProperty(key)) {
+      zssc[key] = e.detail.value;
     }
-    this.setData({ sjqr })
+    this.setData({ zssc })
   },
 })
