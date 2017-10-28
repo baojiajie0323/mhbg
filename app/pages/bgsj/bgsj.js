@@ -90,9 +90,9 @@ Page({
       success(result) {
         //showSuccess('列表更新成功');
         console.log('request success', result);
-        // if(result.data.data.length > 0){
-        //   context.setData({ bgsj_lp: result.data.data[0] })
-        // }
+        if (result.data.code == 0) {
+          context.setData({ bgsj: result.data.data.bgsj, bgsj_lp: result.data.data.bgsj_lp, bgsj_bl: result.data.data.bgsj_bl })
+        }
       },
       fail(error) {
         console.log('request fail', error);
@@ -196,7 +196,7 @@ Page({
     var { bgsj_lp, bgsj_bl } = this.data;
     for (var i = 0; i < bgsj_bl.length; i++) {
       var lj = bgsj_bl[i];
-      if (!lj.TC_AFN04 || !lj.TC_AFN05 || !lj.TC_AFN06 || !lj.TC_AFN07
+      if (!lj.TC_AFN04 || !lj.TC_AFN05 || !lj.TC_AFN06 
         || !lj.TC_AFN08 || !lj.TC_AFN09 || !lj.TC_AFN10 || !lj.TC_AFN11) {
         wx.showModal({
           title: '提示',
@@ -233,13 +233,53 @@ Page({
       }
     })
   },
-  radioChange: function (e) {
-    var { sjqr } = this.data;
-    console.log("radioChange", e, sjqr);
+  onLpInput: function (e) {
+    var { bgsj_lp } = this.data;
+    bgsj_lp.TC_AFM04 = parseInt(e.detail.value);
+    this.setData({ bgsj_lp })
+  },
+  onBlInput: function (e) {
+    var { bgsj_bl } = this.data;
     var key = e.target.id;
-    if (sjqr.hasOwnProperty(key)) {
-      sjqr[key].state = e.detail.value;
+    var index = e.target.dataset.index;
+    if (bgsj_bl.length > index) {
+      if(bgsj_bl[index].hasOwnProperty(key)){
+        bgsj_bl[index][key] = e.detail.value;
+      }
     }
-    this.setData({ sjqr })
+    this.setData({ bgsj_bl })
+  },
+  ontapAddLJ: function (e) {
+    var { bgsj_bl } = this.data;
+    bgsj_bl.push({
+      TC_AFN04: '',
+      TC_AFN05: '',
+      TC_AFN06: '',
+      TC_AFN07: '',
+      TC_AFN08: '',
+      TC_AFN09: '',
+      TC_AFN10: '',
+      TC_AFN11: '',
+    })
+    this.setData({ bgsj_bl })
+  },
+  onRemoveLJ: function (e) {
+    var index = e.target.id;
+    wx.showModal({
+      content: "确定要删除这个料件吗？",
+      confirmText: "确定",
+      cancelText: "取消",
+      success: (res) => {
+        if (res.confirm) {
+          var { bgsj_bl } = this.data;
+          if (bgsj_bl.length > index) {
+            bgsj_bl.splice(index, 1);
+            this.setData({ bgsj_bl });
+          }
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
   },
 })

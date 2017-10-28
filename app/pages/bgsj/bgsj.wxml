@@ -10,45 +10,45 @@
     <view class="weui-panel">
       <view class="ordercontent">
         <view class="orderinfo1">生产数量：
-          <text>100CTN</text>
+          <text>{{bgsj.TC_AFQ09}}{{bgsj.TC_AFQ11}}</text>
         </view>
         <view class="orderinfo2">已发数量：
-          <text>99CTN</text>
+          <text>{{bgsj.TC_AFQ10}}{{bgsj.TC_AFQ11}}</text>
         </view>
       </view>
       <view class="ordercontent">
         <view class="orderinfo1">工序：
-          <text>切割</text>
+          <text>{{bgsj.TC_AFQ08}}</text>
         </view>
         <view class="orderinfo2">投入人数：
-          <text>10</text>
+          <text>{{bgsj.TC_AFL05}}</text>
         </view>
       </view>
       <view class="ordercontent">
         开工时间
-        <text>2017-08-25 14:35</text>
+        <text>{{bgsj.TC_AFQ01}} {{bgsj.TC_AFQ06}}</text>
       </view>
       <view class="ordercontent">
         完工时间
-        <text>2017-08-25 17:35</text>
+        <text>{{bgsj.TC_AFQ01}} {{bgsj.TC_AFQ07}}</text>
       </view>
     </view>
     <view class="weui-cells weui-cells_after-title lpcontent">
       <view class="weui-cell">
-        <view class="weui-cell__bd">良品数量</view>
-        <input class="weui-cell__ft" placeholder='请输入良品数量' />
+        <view class="weui-cell__bd">良品数量({{bgsj_lp.TC_AFM05}})</view>
+        <input class="weui-cell__ft" type='number' value='{{bgsj_lp.TC_AFM04}}' bindinput='onLpInput' placeholder='请输入良品数量' />
       </view>
     </view>
-    <view class="weui-cells weui-cells_after-title cpcontent">
+    <view wx:for="{{bgsj_bl}}" class="weui-cells weui-cells_after-title cpcontent">
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
           <view class="weui-label">品名</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入料件品名" />
+          <input class="weui-input" data-index="{{index}}" id="TC_AFN05" value="{{item.TC_AFN05}}" bindinput='onBlInput' placeholder="请输入料件品名" />
         </view>
         <view>
-          <icon bindtap='onRemoveDevice' type="cancel" size="23"></icon>
+          <icon bindtap='onRemoveLJ' id="{{index}}" type="cancel" size="23"></icon>
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -56,7 +56,7 @@
           <view class="weui-label">料件编号</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入料件编号" />
+          <input class="weui-input" data-index="{{index}}" id="TC_AFN04" value="{{item.TC_AFN04}}" bindinput='onBlInput' placeholder="请输入料件编号" />
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -64,7 +64,7 @@
           <view class="weui-label">数量</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入数量" />
+          <input class="weui-input" data-index="{{index}}" id="TC_AFN06" value="{{item.TC_AFN06}}" bindinput='onBlInput' placeholder="请输入数量" />
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -72,7 +72,7 @@
           <view class="weui-label">不良原因</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入不良原因" />
+          <input class="weui-input" data-index="{{index}}" id="TC_AFN08" value="{{item.TC_AFN08}}" bindinput='onBlInput' placeholder="请输入不良原因" />
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -80,7 +80,7 @@
           <view class="weui-label">判断</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入" />
+          <input class="weui-input" data-index="{{index}}" id="TC_AFN09" value="{{item.TC_AFN09}}" bindinput='onBlInput' placeholder="请输入" />
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -88,7 +88,7 @@
           <view class="weui-label">批号</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入" />
+          <input class="weui-input" data-index="{{index}}" id="TC_AFN10" value="{{item.TC_AFN10}}" bindinput='onBlInput' placeholder="请输入" />
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -96,12 +96,12 @@
           <view class="weui-label">供应商</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" placeholder="请输入" />
+          <input class="weui-input" data-index="{{index}}" id="TC_AFN11" value="{{item.TC_AFN11}}" bindinput='onBlInput' placeholder="请输入" />
         </view>
       </view>
     </view>
     <view class="btn-area">
-      <button type="default">增加不良料件</button>
+      <button type="default" bindtap='ontapAddLJ' >增加不良料件</button>
       <button bindtap='ontapsubmit' type="warn">提交</button>
     </view>
   </scroll-view>

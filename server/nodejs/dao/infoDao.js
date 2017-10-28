@@ -302,7 +302,7 @@ module.exports = {
       } else {
         var sqlstring = _sql.updatesjqr;
         var lj = param.sjqr;
-        var where_params = [lj.TC_AFK04 ,lj.TC_AFK05 || "", lj.TC_AFK06 ,lj.TC_AFK07 || "", lj.TC_AFK08 ,lj.TC_AFK09 || "", lj.TC_AFK10 ,lj.TC_AFK11 || "", param.today, param.orderno, param.ordertype];
+        var where_params = [lj.TC_AFK04, lj.TC_AFK05 || "", lj.TC_AFK06, lj.TC_AFK07 || "", lj.TC_AFK08, lj.TC_AFK09 || "", lj.TC_AFK10, lj.TC_AFK11 || "", param.today, param.orderno, param.ordertype];
         console.log(sqlstring, where_params)
         connection.execute(sqlstring, where_params, function (err, result) {
           if (err) {
@@ -347,7 +347,7 @@ module.exports = {
       } else {
         var sqlstring = _sql.updatezssc;
         var lj = param.zssc;
-        var where_params = [lj.TC_AFL04 ,lj.TC_AFL05,lj.TC_AFL06, param.today, param.orderno, param.ordertype];
+        var where_params = [lj.TC_AFL04, lj.TC_AFL05, lj.TC_AFL06, param.today, param.orderno, param.ordertype];
         console.log(sqlstring, where_params)
         connection.execute(sqlstring, where_params, function (err, result) {
           if (err) {
@@ -358,6 +358,144 @@ module.exports = {
           }
           connection.release();
         })
+      }
+    });
+  },
+  getBgsj: function (req, res, next) {
+    var pool = _dao.getPool();
+    console.log('infoDao getBgsj', req.body.data);
+    var param = req.body.data;
+    var context = this;
+    pool.getConnection(function (err, connection) {
+      if (connection == undefined) {
+        jsonWrite(res, {}, dbcode.CONNECT_ERROR);
+        return;
+      } else {
+        var tasks = [];
+        var bgsj = {};
+        var bgsj_lp = {};
+        var bgsj_bl = [];
+        tasks.push(function (callback) {
+          var sqlstring = _sql.getbgsj;
+          var where_params = [param.today, param.orderno, param.ordertype];
+          console.log(sqlstring, where_params)
+          connection.execute(sqlstring, where_params, function (err, result) {
+            if (!err) {
+              var dbresult = [];
+              var head = result.metaData;
+              dbresult = result.rows.map((r) => {
+                var json = {};
+                r.map((r1, i) => {
+                  json[head[i].name] = r1;
+                })
+                return json;
+              })
+              if (dbresult.length > 0) {
+                bgsj = dbresult[0];
+              }
+            }
+            callback(err);
+          })
+        })
+        tasks.push(function (callback) {
+          var sqlstring = _sql.getbgsj_lp;
+          var where_params = [param.today, param.orderno, param.ordertype];
+          console.log(sqlstring, where_params)
+          connection.execute(sqlstring, where_params, function (err, result) {
+            if (!err) {
+              var dbresult = [];
+              var head = result.metaData;
+              dbresult = result.rows.map((r) => {
+                var json = {};
+                r.map((r1, i) => {
+                  json[head[i].name] = r1;
+                })
+                return json;
+              })
+              if (dbresult.length > 0) {
+                bgsj_lp = dbresult[0];
+              }
+            }
+            callback(err);
+          })
+        })
+        tasks.push(function (callback) {
+          var sqlstring = _sql.getbgsj_bl;
+          var where_params = [param.today, param.orderno, param.ordertype];
+          console.log(sqlstring, where_params)
+          connection.execute(sqlstring, where_params, function (err, result) {
+            if (!err) {
+              var dbresult = [];
+              var head = result.metaData;
+              dbresult = result.rows.map((r) => {
+                var json = {};
+                r.map((r1, i) => {
+                  json[head[i].name] = r1;
+                })
+                return json;
+              })
+              bgsj_bl = dbresult;
+            }
+            callback(err);
+          })
+        })
+        async.series(tasks, function (err, results) {
+          if (err) {
+            console.log('tasks error', err);
+            connection.rollback(); // 发生错误事务回滚
+            jsonWrite(res, {}, dbcode.FAIL);
+          } else {
+            jsonWrite(res, { bgsj, bgsj_lp, bgsj_bl }, dbcode.SUCCESS);
+          }
+          connection.release();
+        });
+      }
+    });
+  },
+  updateBgsj: function (req, res, next) {
+    var pool = _dao.getPool();
+    console.log('infoDao updateBgsj', req.body.data);
+    var param = req.body.data;
+    var context = this;
+    pool.getConnection(function (err, connection) {
+      if (connection == undefined) {
+        jsonWrite(res, {}, dbcode.CONNECT_ERROR);
+        return;
+      } else {
+        var tasks = [];
+        tasks.push(function (callback) {
+          var sqlstring = _sql.updatebgsj_lp;
+          var bgsj_lp = param.bgsj_lp;
+          var where_params = [bgsj_lp.TC_AFM04, param.today, param.orderno, param.ordertype];
+          console.log(sqlstring, where_params)
+          connection.execute(sqlstring, where_params, function (err, result) {
+            callback(err);
+          })
+        })
+
+        var sqlstring = _sql.updatebgsj_bl;
+        var bgsj_bl = param.bgsj_bl;
+        for (let i = 0; i < bgsj_bl.length; i++) {
+          let bl = bgsj_bl[i];
+          tasks.push(function (callback) {
+            var where_params = [param.today, param.orderno, param.ordertype, bl.TC_AFN04, bl.TC_AFN05, parseInt(bl.TC_AFN06), bl.TC_AFN07, bl.TC_AFN08, bl.TC_AFN09, bl.TC_AFN10, bl.TC_AFN11];
+            console.log(sqlstring, where_params)
+            connection.execute(sqlstring, where_params, function (err, result) {
+              callback(err);
+            })
+          })
+        }
+
+        async.series(tasks, function (err, results) {
+          if (err) {
+            console.log('tasks error', err);
+            connection.rollback(); // 发生错误事务回滚
+            jsonWrite(res, {}, dbcode.FAIL);
+          } else {
+            jsonWrite(res, param, dbcode.SUCCESS);
+          }
+          connection.release();
+        });
       }
     });
   },

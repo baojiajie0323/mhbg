@@ -63,7 +63,7 @@ var sqlmap = {
   Where tc_afq01=to_date(:todaydate,'yyyy-mm-dd') and tc_afq02=:orderno and tc_afq03=:ordertype and tc_afq04='D' ",
   updatezssc: "Update tc_afl_file set tc_afl04=:xb,tc_afl05=:rs,tc_afl06=:gx \
   Where tc_afl01=to_date(:todaydate,'yyyy-mm-dd') and tc_afl02=:orderno and tc_afl03=:ordertype ",
-  getbgsj: "select tc_afq01,tc_afq06,tc_afq07,tc_afq08,tc_afl05,tc_afq09,tc_afq10,tc_afq11 \
+  getbgsj: "select to_char(tc_afq01,'YYYY-MM-DD') tc_afq01,tc_afq06,tc_afq07,tc_afq08,tc_afl05,to_number(tc_afq09) tc_afq09,to_number(tc_afq10) tc_afq10,tc_afq11 \
   from tc_afq_file \
   inner join tc_afl_file on tc_afq01=tc_afl01 and tc_afq02=tc_afl02 and tc_afq03=tc_afl03 \
   where tc_afq01=to_date(:todaydate,'yyyy-mm-dd') and tc_afq02=:orderno and tc_afq03=:ordertype and tc_afq04='D'",
@@ -71,10 +71,10 @@ var sqlmap = {
   Where tc_afm01=to_date(:todaydate,'yyyy-mm-dd') and tc_afm02=:orderno and tc_afm03=:ordertype ",
   updatebgsj_lp: "Update tc_afm_file set tc_afm04=:lpcount \
   Where tc_afm01=to_date(:todaydate,'yyyy-mm-dd') and tc_afm02=:orderno and tc_afm03=:ordertype ",
-  getbgsj_bl: "Select tc_afn05,tc_afn04,tc_afn06,tc_afn07,tc_afn08,tc_afn09,tc_afn10,tc_afn11 \
+  getbgsj_bl: "Select tc_afn04,tc_afn05,tc_afn06,tc_afn07,tc_afn08,tc_afn09,tc_afn10,tc_afn11 \
   From tc_afn_file \
-  Where tc_afn01==to_date(:todaydate,'yyyy-mm-dd') and tc_tan02=:orderno and tc_afn03=:ordertype ",
-  updatebgsj_bl: "Insert into tc_afn_file (tc_afn01, afn02, afn03, afn04, afn05, afn06, afn07, afn08, afn09, afn10, afn11) \
+  Where tc_afn01=to_date(:todaydate,'yyyy-mm-dd') and tc_afn02=:orderno and tc_afn03=:ordertype ",
+  updatebgsj_bl: "Insert into tc_afn_file (tc_afn01, tc_afn02, tc_afn03, tc_afn04, tc_afn05, tc_afn06, tc_afn07, tc_afn08, tc_afn09, tc_afn10, tc_afn11) \
   values (to_date(:todaydate,'yyyy-mm-dd'),:orderno,:ordertype,:ljbh,:pm,:count,:dw,:blyy,:pdjg,:ph,:gys) "
 };
 

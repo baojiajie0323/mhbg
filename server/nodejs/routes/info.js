@@ -57,6 +57,9 @@ router.post('/', function (req, res, next) {
   } else if (req.body.cmd == "getbgsj") {
     console.log('getbgsj');
     infoDao.getBgsj(req, res, next);
+  } else if (req.body.cmd == "updatebgsj") {
+    console.log('updatebgsj');
+    infoDao.updateBgsj(req, res, next);
   } else if (req.body.cmd == "getsbtj_lp") {
     console.log('getsbtj_lp');
     infoDao.getSbtj_lp(req, res, next);
