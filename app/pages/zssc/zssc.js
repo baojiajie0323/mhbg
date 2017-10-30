@@ -54,7 +54,8 @@ Page({
       data: {
         cmd: 'gettaskinfo',
         data: {
-          today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          //today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          today: new Date().Format('yyyy-MM-dd'),
           orderno: no,
           ordertype: type,
         }
@@ -88,7 +89,8 @@ Page({
       data: {
         cmd: 'getzssc',
         data: {
-          today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          //today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          today: new Date().Format('yyyy-MM-dd'),
           orderno: no,
           ordertype: type,
         }
@@ -101,7 +103,12 @@ Page({
         //showSuccess('列表更新成功');
         console.log('request success', result);
         if (result.data.data.length > 0) {
-          context.setData({ zssc: result.data.data[0] })
+          var {order} = context.data;
+          var zssc = result.data.data[0];
+          if (!zssc.TC_AFL06){
+            zssc.TC_AFL06 = order.TC_AFR05;
+          }
+          context.setData({ zssc })
         }
       },
       fail(error) {
@@ -114,6 +121,7 @@ Page({
   },
   updateTaskState: function (stateTypeString) {
     var context = this;
+    var time = new Date().Format('hh:mm:ss');
     console.log("request updateTaskState");
     qcloud.request({
       // 要请求的地址
@@ -122,10 +130,11 @@ Page({
         cmd: 'updatetaskstate',
         data: {
           type: stateTypeString,
-          today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          //today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          today: new Date().Format('yyyy-MM-dd'),
           orderno: context.data.no,
           ordertype: context.data.type,
-          time: new Date().Format('hh:mm:ss'),
+          time,
           step: 'D'
         }
       },
@@ -137,8 +146,11 @@ Page({
         //showSuccess('列表更新成功');
         console.log('request success', result);
         if (result.data.code == 0) {
+          var { zssc } = context.data;
+          zssc.TC_AFQ06 = time;
           context.setData({
-            state: stateTypeString == "begintask" ? 2 : 3
+            state: stateTypeString == "begintask" ? 2 : 3,
+            zssc
           })
           if (stateTypeString == "endtask") {
             wx.navigateBack();
@@ -162,7 +174,8 @@ Page({
       data: {
         cmd: 'updatezssc',
         data: {
-          today: new Date("2017-10-17").Format("yyyy-MM-dd"),
+          //today: new Date("2017-10-17").Format("yyyy-MM-dd"),
+          today: new Date().Format("yyyy-MM-dd"),
           orderno: this.data.no,
           ordertype: this.data.type,
           zssc: this.data.zssc

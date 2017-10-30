@@ -13,7 +13,14 @@
 	"condition": {
 		"weapp": {
 			"current": -1,
-			"list": []
+			"list": [
+				{
+					"id": -1,
+					"name": "报工送检",
+					"pathName": "pages/bgsj/bgsj",
+					"query": ""
+				}
+			]
 		},
 		"search": {
 			"current": -1,

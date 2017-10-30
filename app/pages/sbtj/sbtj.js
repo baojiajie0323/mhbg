@@ -59,7 +59,8 @@ Page({
       data: {
         cmd: 'gettaskinfo',
         data: {
-          today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          //today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          today: new Date().Format('yyyy-MM-dd'),
           orderno: no,
           ordertype: type,
         }
@@ -93,7 +94,8 @@ Page({
       data: {
         cmd: 'getsbtj',
         data: {
-          today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          //today: new Date("2017-10-17").Format('yyyy-MM-dd'), wx.canIUse(string)
+          today: new Date().Format('yyyy-MM-dd'),
           orderno: no,
           ordertype: type,
         }
@@ -125,7 +127,8 @@ Page({
         cmd: 'updatetaskstate',
         data: {
           type: stateTypeString,
-          today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          //today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          today: new Date().Format('yyyy-MM-dd'),
           orderno: context.data.no,
           ordertype: context.data.type,
           time: new Date().Format('hh:mm:ss'),
@@ -165,7 +168,8 @@ Page({
       data: {
         cmd: 'updatesbtj',
         data: {
-          today: new Date("2017-10-17").Format("yyyy-MM-dd"),
+          //today: new Date("2017-10-17").Format("yyyy-MM-dd"),
+          today: new Date().Format("yyyy-MM-dd"),
           orderno: this.data.no,
           ordertype: this.data.type,
           sbtj: this.data.sbtj

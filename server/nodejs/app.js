@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const config = require('./config');
 var info = require('./routes/info');
+var _dao = require('./dao/dao');
 
 const app = express();
 
@@ -44,3 +45,12 @@ process.on('uncaughtException', error => {
 http.createServer(app).listen(config.port, () => {
     console.log('Express server listening on port: %s', config.port);
 });
+
+setInterval(() => {
+    var pool = _dao.getPool();
+    console.log('interval connect oracle begin');
+    pool.getConnection(function (err, connection) {
+        console.log('interval connect oracle end');
+        connection.release();
+    })
+}, 60 * 1000)

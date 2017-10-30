@@ -97,5 +97,53 @@ Page({
     wx.navigateTo({
       url: '../task/task?role='+ this.data.userRole
     })
-  }
+  },
+  ontapMore: function(){
+    wx.showActionSheet({
+      itemList: ['重启后台服务'],
+      success: (res) => {
+        console.log(res.tapIndex);
+        if(res.tapIndex == 0){
+          this.restartServe();
+        }
+      },
+      fail: function (res) {
+        console.log(res.errMsg)
+      }
+    })
+  },
+  restartServe: function () {
+    var context = this;
+    console.log("request restartServe");
+    qcloud.request({
+      // 要请求的地址
+      url: config.service.requestUrl,
+      data: {
+        cmd: 'restartserve',
+        data: {
+        }
+      },
+      method: 'POST',
+      // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+      login: true,
+
+      success(result) {
+        //showSuccess('列表更新成功');
+        console.log('request success', result);
+        wx.showToast({
+          title: '重启后台服务成功',
+        })
+      },
+
+      fail(error) {
+        //showModel('请求失败', error);
+        console.log('request fail', error);
+      },
+
+      complete() {
+        console.log('request complete');
+        wx.stopPullDownRefresh();
+      }
+    });
+  },
 });

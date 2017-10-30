@@ -41,7 +41,7 @@ module.exports = {
           sqlstring += "WHERE TC_AFR02=:orderno"
           where_params = [param.orderno]
         } else {
-          sqlstring += "WHERE to_char(sfb81,'YYYY-MM-DD') >= :begindate AND to_char(sfb81,'YYYY-MM-DD') <= :enddate"
+          sqlstring += "WHERE to_char(tc_afr01,'YYYY-MM-DD') >= :begindate AND to_char(tc_afr01,'YYYY-MM-DD') <= :enddate"
           where_params = [param.beginDate, param.endDate]
         }
         connection.execute(sqlstring, where_params, function (err, result) {
@@ -375,6 +375,8 @@ module.exports = {
         var bgsj = {};
         var bgsj_lp = {};
         var bgsj_bl = [];
+        var bgsj_blyy = [];
+        var bgsj_bllj = [];
         tasks.push(function (callback) {
           var sqlstring = _sql.getbgsj;
           var where_params = [param.today, param.orderno, param.ordertype];
@@ -439,13 +441,52 @@ module.exports = {
             callback(err);
           })
         })
+        tasks.push(function (callback) {
+          var sqlstring = _sql.getbgsj_blyy;
+          console.log(sqlstring)
+          connection.execute(sqlstring, [], function (err, result) {
+            if (!err) {
+              var dbresult = [];
+              var head = result.metaData;
+              dbresult = result.rows.map((r) => {
+                var json = {};
+                r.map((r1, i) => {
+                  json[head[i].name] = r1;
+                })
+                return json;
+              })
+              bgsj_blyy = dbresult;
+            }
+            callback(err);
+          })
+        })
+        tasks.push(function (callback) {
+          var sqlstring = _sql.getbgsj_bllj;
+          var where_params = [param.orderno];
+          console.log(sqlstring, where_params)
+          connection.execute(sqlstring, where_params, function (err, result) {
+            if (!err) {
+              var dbresult = [];
+              var head = result.metaData;
+              dbresult = result.rows.map((r) => {
+                var json = {};
+                r.map((r1, i) => {
+                  json[head[i].name] = r1;
+                })
+                return json;
+              })
+              bgsj_bllj = dbresult;
+            }
+            callback(err);
+          })
+        })
         async.series(tasks, function (err, results) {
           if (err) {
             console.log('tasks error', err);
             connection.rollback(); // 发生错误事务回滚
             jsonWrite(res, {}, dbcode.FAIL);
           } else {
-            jsonWrite(res, { bgsj, bgsj_lp, bgsj_bl }, dbcode.SUCCESS);
+            jsonWrite(res, { bgsj, bgsj_lp, bgsj_bl,bgsj_blyy,bgsj_bllj }, dbcode.SUCCESS);
           }
           connection.release();
         });

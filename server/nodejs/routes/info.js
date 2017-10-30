@@ -16,6 +16,9 @@ router.post('/', function (req, res, next) {
   } else if (req.body.cmd == "getorderdetail") {
     console.log('getorderdetail');
     infoDao.getOrderDetail(req, res, next);
+  } else if (req.body.cmd == "restartserve") {
+    console.log('restartserve');
+    process.exit();  
   }
 
   else if (req.body.cmd == "gettodaytask") {

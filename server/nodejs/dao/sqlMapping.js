@@ -75,7 +75,11 @@ var sqlmap = {
   From tc_afn_file \
   Where tc_afn01=to_date(:todaydate,'yyyy-mm-dd') and tc_afn02=:orderno and tc_afn03=:ordertype ",
   updatebgsj_bl: "Insert into tc_afn_file (tc_afn01, tc_afn02, tc_afn03, tc_afn04, tc_afn05, tc_afn06, tc_afn07, tc_afn08, tc_afn09, tc_afn10, tc_afn11) \
-  values (to_date(:todaydate,'yyyy-mm-dd'),:orderno,:ordertype,:ljbh,:pm,:count,:dw,:blyy,:pdjg,:ph,:gys) "
+  values (to_date(:todaydate,'yyyy-mm-dd'),:orderno,:ordertype,:ljbh,:pm,:count,:dw,:blyy,:pdjg,:ph,:gys) ",
+  getbgsj_blyy: "SELECT qce01,qce03 FROM qce_file WHERE qce04='1' AND qceacti='Y'",
+  getbgsj_bllj: "SELECT sfa03,ima02 FROM sfa_file \
+  LEFT JOIN ima_file ON sfa03=ima01 \
+  WHERE sfa01=:orderno ",
 };
 
 module.exports = sqlmap;

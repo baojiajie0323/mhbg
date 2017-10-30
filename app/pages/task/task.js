@@ -40,20 +40,76 @@ Page({
   data: {
     role: '',
     orderList: [],
-    title:'',
+    taskstatelist: [],
+    title: '下拉刷新任务列表',
   },
   scanCode: function () {
-    var that = this
+    var context = this
     wx.scanCode({
       success: function (res) {
-        wx.showModal({
-          content: res.result,
-          showCancel: false,
-        });
+        var resultcontent = "";
+        var taskInfo = context.getTaskInfo(res.result);
+        if (taskInfo) {
+          var operateList = context.getOperateList(context.data.taskstatelist, taskInfo.TC_AFR02, taskInfo.TC_AFR04);
+          console.log(operateList);
+          var itemList = operateList.map((op) => { return op.name });
+          resultcontent = `工单单号:${taskInfo.TC_AFR02} \r\n物料名称:${taskInfo.IMA02}`
+          wx.showModal({
+            title: `扫描成功(${res.result})`,
+            content: resultcontent,
+            confirmText: "操作",
+            cancelText: "取消",
+            success: function (res) {
+              console.log(res);
+              if (res.confirm) {
+                wx.showActionSheet({
+                  itemList,
+                  success: function (res) {
+                    console.log(res.tapIndex);
+                    if(operateList.length > res.tapIndex){
+                      wx.navigateTo({
+                        url: operateList[res.tapIndex].url,
+                      })
+                    }
+                  },
+                  fail: function (res) {
+                    console.log(res.errMsg)
+                  }
+                })
+              } else {
+                console.log('用户点击辅助操作')
+              }
+            }
+          });
+        } else {
+          resultcontent = "无相关信息";
+          wx.showModal({
+            title: `扫描成功(${res.result})`,
+            content: resultcontent,
+            confirmText: "确定",
+            showCancel: false,
+            success: function (res) {
+              console.log(res);
+              if (res.confirm) {
+                console.log('用户点击主操作')
+              } else {
+                console.log('用户点击辅助操作')
+              }
+            }
+          });
+        }
       },
       fail: function (res) {
       }
     })
+  },
+  getTaskInfo: function (orderno) {
+    var { orderList } = this.data;
+    for (var i = 0; i < orderList.length; i++) {
+      if (orderList[i].TC_AFR02 == orderno) {
+        return orderList[i];
+      }
+    }
   },
   onLoad: function (option) {
     console.log("onLoad", option);
@@ -64,7 +120,7 @@ Page({
     //wx.startPullDownRefresh();
     //this.requestInfo();
   },
-  onShow: function(){
+  onShow: function () {
     console.log("onShow");
 
     this.requestInfo();
@@ -145,10 +201,10 @@ Page({
       var operatelist = this.getOperateList(taskStateList, orderList[i].TC_AFR02, orderList[i].TC_AFR04);
       var steps = [];
       var bFinish = true;
-      for(var j = 0; j < stepName.length; j++) {
+      for (var j = 0; j < stepName.length; j++) {
         var s = stepName[j];
-        var state = this.getOrderState(taskStateList, orderList[i].TC_AFR02, orderList[i].TC_AFR04,s.short);
-        if(state != "3"){
+        var state = this.getOrderState(taskStateList, orderList[i].TC_AFR02, orderList[i].TC_AFR04, s.short);
+        if (state != "3") {
           bFinish = false;
         }
         steps.push({
@@ -157,14 +213,14 @@ Page({
           text: s.name
         })
       }
-      if (bFinish){
-        finishOrder ++;
+      if (bFinish) {
+        finishOrder++;
       }
       orderList[i].steps = steps;
       orderList[i].operatelist = operatelist;
     }
     var title = `共${allOrder}个计划，已完成${finishOrder}个 （下拉刷新）`
-    this.setData({ orderList, title});
+    this.setData({ orderList, title });
   },
   requestInfo: function () {
     this.getTodayTask();
@@ -178,9 +234,8 @@ Page({
       data: {
         cmd: 'gettodaytask',
         data: {
-          today: new Date("2017-10-17").Format('yyyy-MM-dd')
-          //beginDate: new Date().Format('yyyy-MM-dd'),
-          //endDate: new Date().Format('yyyy-MM-dd'),
+          //today: new Date("2017-10-17").Format('yyyy-MM-dd')
+          today: new Date().Format('yyyy-MM-dd')
         }
       },
       method: 'POST',
@@ -217,7 +272,8 @@ Page({
       data: {
         cmd: 'gettaskstate',
         data: {
-          today: new Date("2017-10-17").Format('yyyy-MM-dd')
+          //today: new Date("2017-10-17").Format('yyyy-MM-dd')
+          today: new Date().Format('yyyy-MM-dd')
         }
       },
       method: 'POST',
@@ -229,6 +285,7 @@ Page({
         console.log('request success', result);
         var taskstatelist = result.data.data;
         context.updateTaskState(taskstatelist);
+        context.setData({ taskstatelist });
       },
 
       fail(error) {

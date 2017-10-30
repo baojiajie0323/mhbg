@@ -10,6 +10,7 @@ const util = require('../../utils/util.js')
 Page({
   data: {
     order: {},
+    bgsj: {},
     bgsj_lp: {
       // TC_AFM04 10
       // TC_AFM05 箱
@@ -25,6 +26,21 @@ Page({
       //   TC_AFN10 批号
       //   TC_AFN11 供应商
       // }
+    ],
+    bllj: [{
+      SFA03: '请选择料件编号',
+      IMA02: '请选择料件品名'
+    }],
+    blyy: [{
+      'QCE03': '请选择不良原因',
+    }],
+    blpd: [
+      '请选择判断结果',
+      '退供应商',
+      '满好承担',
+      '下阶料报废',
+      '退上道工序',
+      '供应商承担'
     ],
     state: 0,
   },
@@ -44,7 +60,8 @@ Page({
       data: {
         cmd: 'gettaskinfo',
         data: {
-          today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          //today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          today: new Date().Format('yyyy-MM-dd'),
           orderno: no,
           ordertype: type,
         }
@@ -78,7 +95,8 @@ Page({
       data: {
         cmd: 'getbgsj',
         data: {
-          today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          //today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          today: new Date().Format('yyyy-MM-dd'),
           orderno: no,
           ordertype: type,
         }
@@ -91,7 +109,14 @@ Page({
         //showSuccess('列表更新成功');
         console.log('request success', result);
         if (result.data.code == 0) {
-          context.setData({ bgsj: result.data.data.bgsj, bgsj_lp: result.data.data.bgsj_lp, bgsj_bl: result.data.data.bgsj_bl })
+          context.setData({
+            bgsj: result.data.data.bgsj,
+            bgsj_lp: result.data.data.bgsj_lp,
+            bgsj_bl: result.data.data.bgsj_bl,
+            blyy: '',
+            bllj: context.data.bllj.concat(result.data.data.bgsj_bllj),
+            blyy: context.data.blyy.concat(result.data.data.bgsj_blyy),
+          })
         }
       },
       fail(error) {
@@ -112,7 +137,8 @@ Page({
         cmd: 'updatetaskstate',
         data: {
           type: stateTypeString,
-          today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          //today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          today: new Date().Format('yyyy-MM-dd'),
           orderno: context.data.no,
           ordertype: context.data.type,
           time: new Date().Format('hh:mm:ss'),
@@ -152,11 +178,12 @@ Page({
       data: {
         cmd: 'updatebgsj',
         data: {
-          today: new Date("2017-10-17").Format("yyyy-MM-dd"),
+          //today: new Date("2017-10-17").Format("yyyy-MM-dd"),
+          today: new Date().Format("yyyy-MM-dd"),
           orderno: this.data.no,
           ordertype: this.data.type,
           bgsj_lp: this.data.bgsj_lp,
-          bgsj_bl: this.data.bgsj_bl
+          bgsj_bl: this.data.bgsj_bl,
         }
       },
       method: 'POST',
@@ -196,7 +223,7 @@ Page({
     var { bgsj_lp, bgsj_bl } = this.data;
     for (var i = 0; i < bgsj_bl.length; i++) {
       var lj = bgsj_bl[i];
-      if (!lj.TC_AFN04 || !lj.TC_AFN05 || !lj.TC_AFN06 
+      if (!lj.TC_AFN04 || !lj.TC_AFN05 || !lj.TC_AFN06
         || !lj.TC_AFN08 || !lj.TC_AFN09 || !lj.TC_AFN10 || !lj.TC_AFN11) {
         wx.showModal({
           title: '提示',
@@ -243,8 +270,16 @@ Page({
     var key = e.target.id;
     var index = e.target.dataset.index;
     if (bgsj_bl.length > index) {
-      if(bgsj_bl[index].hasOwnProperty(key)){
+      if (bgsj_bl[index].hasOwnProperty(key)) {
         bgsj_bl[index][key] = e.detail.value;
+        if (key == "TC_AFN04_index") {
+          bgsj_bl[index]["TC_AFN04"] = this.data.bllj[e.detail.value].SFA03;
+          bgsj_bl[index]["TC_AFN05"] = this.data.bllj[e.detail.value].IMA02;
+        } else if (key == "TC_AFN08_index") {
+          bgsj_bl[index]["TC_AFN08"] = this.data.blyy[e.detail.value].QCE03;
+        } else if (key == "TC_AFN09_index") {
+          bgsj_bl[index]["TC_AFN09"] = this.data.blpd[e.detail.value];
+        }
       }
     }
     this.setData({ bgsj_bl })
@@ -253,11 +288,14 @@ Page({
     var { bgsj_bl } = this.data;
     bgsj_bl.push({
       TC_AFN04: '',
+      TC_AFN04_index: 0,
       TC_AFN05: '',
       TC_AFN06: '',
       TC_AFN07: '',
       TC_AFN08: '',
+      TC_AFN08_index: 0,
       TC_AFN09: '',
+      TC_AFN09_index: 0,
       TC_AFN10: '',
       TC_AFN11: '',
     })
@@ -281,5 +319,17 @@ Page({
         }
       }
     })
+  },
+  bindblyyChange: function (e) {
+    console.log('bindblyyChange', e);
+    var { bgsj_bl } = this.data;
+    var key = e.target.id;
+    var index = e.target.dataset.index;
+    if (bgsj_bl.length > index) {
+      if (bgsj_bl[index].hasOwnProperty(key)) {
+        bgsj_bl[index][key] = e.detail.value;
+      }
+    }
+    this.setData({ bgsj_bl })
   },
 })

@@ -37,3 +37,7 @@
 .startbgbtn{
   margin: 0 30rpx;
 }
+
+.reloadserver{
+  color: #4183c4;
+}

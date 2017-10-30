@@ -55,12 +55,14 @@ Page({
     var context = this;
     console.log("request getTaskInfo");
     qcloud.request({
+
       // 要请求的地址
       url: config.service.requestUrl,
       data: {
         cmd: 'gettaskinfo',
         data: {
-          today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          //today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          today: new Date().Format('yyyy-MM-dd'),
           orderno: no,
           ordertype: type,
         }
@@ -94,7 +96,8 @@ Page({
       data: {
         cmd: 'getsjqr',
         data: {
-          today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          //today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          today: new Date().Format('yyyy-MM-dd'),
           orderno: no,
           ordertype: type,
         }
@@ -128,7 +131,8 @@ Page({
         cmd: 'updatetaskstate',
         data: {
           type: stateTypeString,
-          today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          //today: new Date("2017-10-17").Format('yyyy-MM-dd'),
+          today: new Date().Format('yyyy-MM-dd'),
           orderno: context.data.no,
           ordertype: context.data.type,
           time: new Date().Format('hh:mm:ss'),
@@ -168,7 +172,8 @@ Page({
       data: {
         cmd: 'updatesjqr',
         data: {
-          today: new Date("2017-10-17").Format("yyyy-MM-dd"),
+          //today: new Date("2017-10-17").Format("yyyy-MM-dd"),
+          today: new Date().Format("yyyy-MM-dd"),
           orderno: this.data.no,
           ordertype: this.data.type,
           sjqr: this.data.sjqr
