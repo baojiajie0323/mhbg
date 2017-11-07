@@ -46,11 +46,11 @@ http.createServer(app).listen(config.port, () => {
     console.log('Express server listening on port: %s', config.port);
 });
 
-setInterval(() => {
-    var pool = _dao.getPool();
-    console.log('interval connect oracle begin');
-    pool.getConnection(function (err, connection) {
-        console.log('interval connect oracle end');
-        connection.release();
-    })
-}, 60 * 1000)
+// setInterval(() => {
+//     var pool = _dao.getPool();
+//     console.log('interval connect oracle begin');
+//     pool.getConnection(function (err, connection) {
+//         console.log('interval connect oracle end');
+//         connection.release();
+//     })
+// }, 60 * 1000)

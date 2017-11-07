@@ -14,7 +14,9 @@ var sqlmap = {
   WHERE sfa01=:orderno",
 
   /*=============================APP相关====================================*/
-
+  login: "SELECT tc_afv03,tc_afv05 \
+  FROM tc_afv_file \
+  WHERE tc_afv01=:username and tc_afv02=:password and tc_afv04='Y' ",
   gettodaytask: "SELECT tc_afr09,ima02,tc_afr02,tc_afr03,ima55,tc_afr04,tc_afr05 FROM tc_afr_file \
   LEFT JOIN ima_file ON tc_afr09=ima01 \
   WHERE tc_afr01 = to_date(:todaydate,'yyyy-mm-dd')",
@@ -57,7 +59,7 @@ var sqlmap = {
   set tc_afk04=:state1, tc_afk05=:bz1, tc_afk06=:state2, tc_afk07=:bz2, \
   tc_afk08=:state3, tc_afk09=:bz3, tc_afk10=:state4, tc_afk11=:bz4 \
   Where tc_afk01=to_date(:todaydate,'yyyy-mm-dd') and tc_afk02=:orderno and tc_afk03=:ordertype ",
-  getzssc: "Select to_char(tc_afq01,'YYYY-MM-DD') tc_afq01,tc_afq06,tc_afl04,tc_afl06,tc_afl05 \
+  getzssc: "Select to_char(tc_afq01,'YYYY-MM-DD') tc_afq01,tc_afq06,tc_afl04,tc_afl06,tc_afl05,tc_afl07 \
   From tc_afq_file \
   Left join tc_afl_file on tc_afq01=tc_afl01 and tc_afq02=tc_afl02 and tc_afq03=tc_afl03 \
   Where tc_afq01=to_date(:todaydate,'yyyy-mm-dd') and tc_afq02=:orderno and tc_afq03=:ordertype and tc_afq04='D' ",

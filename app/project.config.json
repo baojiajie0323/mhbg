@@ -4,24 +4,14 @@
 		"urlCheck": true,
 		"es6": true,
 		"postcss": true,
-		"minified": true
+		"minified": true,
+		"newFeature": true
 	},
-	"compileType": "weapp",
+	"compileType": "miniprogram",
 	"libVersion": "1.5.4",
 	"appid": "wx00fc9d1e1f09fe64",
 	"projectname": "%E6%BB%A1%E5%A5%BD%E6%8A%A5%E5%B7%A5",
 	"condition": {
-		"weapp": {
-			"current": -1,
-			"list": [
-				{
-					"id": -1,
-					"name": "报工送检",
-					"pathName": "pages/bgsj/bgsj",
-					"query": ""
-				}
-			]
-		},
 		"search": {
 			"current": -1,
 			"list": []
@@ -29,6 +19,23 @@
 		"conversation": {
 			"current": -1,
 			"list": []
+		},
+		"miniprogram": {
+			"current": -1,
+			"list": [
+				{
+					"id": -1,
+					"name": "报工送检",
+					"pathName": "pages/bgsj/bgsj",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "正式生产",
+					"pathName": "pages/zssc/zssc",
+					"query": ""
+				}
+			]
 		}
 	}
 }

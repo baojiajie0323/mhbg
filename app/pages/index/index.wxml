@@ -12,21 +12,25 @@
   </view>
   <block wx:if="{{hasUserInfo}}">
     <view class="page-section">
-      <view class="page-section-title">请选择你的角色</view>
+      <view class="page-section-title">请输入账号信息后开始报工</view>
       <view class="weui-cells weui-cells_after-title">
-        <radio-group bindchange="radioChange">
-          <label class="weui-cell weui-check__label" wx:for="{{items}}" wx:key="{{item.value}}">
-            <view class="weui-cell__hd">
-              <radio value="{{item.value}}" checked="{{item.value == userRole}}" />
-            </view>
-            <view class="weui-cell__bd">{{item.name}}</view>
-          </label>
-        </radio-group>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__bd">
+            <input class="weui-input" value="{{username}}" bindinput="onbindInput_user" placeholder="请输入账号" />
+          </view>
+        </view>
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__bd">
+            <input class="weui-input" password="{{true}}" value="{{password}}" bindinput="onbindInput_pass" placeholder="请输入密码" />
+          </view>
+        </view>
       </view>
     </view>
     <button bindtap="startbg" class="startbgbtn" type="primary">开始报工</button>
   </block>
   <view class="weui-footer weui-footer_fixed-bottom">
-    <view class="weui-footer__text">Copyright © 2017 上海满好日用品有限公司 |<text bindtap='ontapMore' class="reloadserver"> 更多操作</text></view>
+    <view class="weui-footer__text">Copyright © 2017 上海满好日用品有限公司 |
+      <text bindtap='ontapMore' class="reloadserver"> 更多操作</text>
+    </view>
   </view>
 </view>

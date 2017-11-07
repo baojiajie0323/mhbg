@@ -13,7 +13,7 @@
           <view class="weui-label">开工时间</view>
         </view>
         <view class="weui-cell__bd">
-          <text class="weui-input" >{{zssc.TC_AFQ01}} {{zssc.TC_AFQ06}}</text>
+          <text class="weui-input">{{zssc.TC_AFQ01}} {{zssc.TC_AFQ06}}</text>
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -30,6 +30,16 @@
         </view>
         <view class="weui-cell__bd">
           <input class="weui-input" id="TC_AFL06" value="{{zssc.TC_AFL06}}" bindinput="onBindInput" placeholder="请输入工序" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">IE标准人数</view>
+        </view>
+        <view class="weui-cell__bd">
+          <view class="weui-cell weui-cell_link ie-link" bindtap="onBindtapIE">
+            6人(点击查看分布图)
+          </view>
         </view>
       </view>
       <view class="weui-cell weui-cell_input">

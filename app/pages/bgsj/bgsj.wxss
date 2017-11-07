@@ -16,3 +16,7 @@
 .cpcontent{
   margin:  10px 0;
 }
+
+.bgsubtitle{
+  padding-top: 7px;
+}

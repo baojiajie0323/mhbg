@@ -3,14 +3,14 @@ var $conf = require('../conf/db');
 var $util = require('../util/util');
 oracledb.autoCommit = true;
 // 使用连接池，提升性能
-var _pool = null;
-oracledb.createPool($util.extend({}, $conf.oracle), function (err, pool) {
-  if (err) {
-    console.error("createPool() error: " + err.message);
-    return;
-  }
-  _pool = pool;
-});
+// var _pool = null;
+// oracledb.createPool($util.extend({}, $conf.oracle), function (err, pool) {
+//   if (err) {
+//     console.error("createPool() error: " + err.message);
+//     return;
+//   }
+//   _pool = pool;
+// });
 
 var dao = {
   dbcode: {
@@ -23,21 +23,33 @@ var dao = {
   getPool: () => {
     return oracledb.getPool();
   },
-  log: (userid, logstring) => {
-    console.log('log', userid, logstring);
-    _pool.getConnection(function (err, connection) {
-      if (connection == undefined) {
-        jsonWrite(res, {}, dbcode.CONNECT_ERROR);
+  getConnection: (res,success) => {
+    var context = this;
+    oracledb.getConnection($conf.oracle,function (err, connection) {
+      if (err) {
+        console.log(err);
+        context.jsonWrite(res, {}, dbcode.CONNECT_ERROR);
         return;
       } else {
-        var sqlstring = _sql.log;
-        var curDate = new Date().Format('yyyy-MM-dd hh:mm:ss');
-        connection.execute(sqlstring, [curDate, userid, logstring], function (err, result) {
-          connection.release();
-        });
+        success(connection);
       }
-    });
+    })
   },
+  // log: (userid, logstring) => {
+  //   console.log('log', userid, logstring);
+  //   _pool.getConnection(function (err, connection) {
+  //     if (connection == undefined) {
+  //       jsonWrite(res, {}, dbcode.CONNECT_ERROR);
+  //       return;
+  //     } else {
+  //       var sqlstring = _sql.log;
+  //       var curDate = new Date().Format('yyyy-MM-dd hh:mm:ss');
+  //       connection.execute(sqlstring, [curDate, userid, logstring], function (err, result) {
+  //         connection.release();
+  //       });
+  //     }
+  //   });
+  // },
   jsonWrite: function (res, ret, code, ncount) {
     if (code != dao.dbcode.SUCCESS) {
       if (code == dao.dbcode.CONNECT_ERROR) { res.json({ code: code, msg: '数据库连接失败' }); }

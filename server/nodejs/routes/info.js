@@ -21,7 +21,10 @@ router.post('/', function (req, res, next) {
     process.exit();  
   }
 
-  else if (req.body.cmd == "gettodaytask") {
+  else if (req.body.cmd == "login") {
+    console.log('login');
+    infoDao.login(req, res, next);
+  } else if (req.body.cmd == "gettodaytask") {
     console.log('gettodaytask');
     infoDao.getTodayTask(req, res, next);
   } else if (req.body.cmd == "gettaskstate") {

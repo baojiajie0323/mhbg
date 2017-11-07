@@ -34,11 +34,14 @@
       </view>
     </view>
     <view class="weui-cells weui-cells_after-title lpcontent">
+      <view class="page-section-title bgsubtitle">报工明细</view>
       <view class="weui-cell">
-        <view class="weui-cell__bd">良品数量({{bgsj_lp.TC_AFM05}})</view>
-        <input class="weui-cell__ft" type='number' value='{{bgsj_lp.TC_AFM04}}' bindinput='onLpInput' placeholder='请输入良品数量' />
+        <view class="weui-cell__bd">本站报工数({{bgsj_lp.TC_AFM05}})</view>
+        <input class="weui-cell__ft" type='number' value='{{bgsj_lp.TC_AFM04}}' bindinput='onLpInput' placeholder='请输入本站报工数' />
       </view>
     </view>
+    
+    <view class="page-section-title bgsubtitle">不良品明细</view>
     <view wx:for="{{bgsj_bl}}" class="weui-cells weui-cells_after-title cpcontent">
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
@@ -48,7 +51,8 @@
           <picker bindchange="onBlInput" data-index="{{index}}" id="TC_AFN04_index" value="{{item.TC_AFN04_index}}" range="{{bllj}}" range-key="IMA02">
             <view class="weui-select weui-select_in-select-after">{{bllj[item.TC_AFN04_index].IMA02}}</view>
           </picker>
-          {{/*<input class="weui-input" data-index="{{index}}" id="TC_AFN05" value="{{item.TC_AFN05}}" bindinput='onBlInput' placeholder="请输入料件品名" />*/}}
+          {{/*
+          <input class="weui-input" data-index="{{index}}" id="TC_AFN05" value="{{item.TC_AFN05}}" bindinput='onBlInput' placeholder="请输入料件品名" />*/}}
         </view>
         <view>
           <icon bindtap='onRemoveLJ' id="{{index}}" type="cancel" size="23"></icon>

@@ -3,12 +3,16 @@
 
 .tasktitle {
   display: flex;
-  height: 88rpx;
+  height: 90rpx;
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
+  font-size: '24px'
 }
-
+.tasksum{
+  padding: 0 0 0 20px;
+  color:#2964bb;
+}
 .orderName{
   font-size: 18px;
   text-align: left;
@@ -16,14 +20,13 @@
 
 .scantext {
   margin-right: 20rpx;
-  font-size: 28rpx;
-  color: #2964bb;
+  color:darkgray;
 }
 
 .taskscroll {
   position: absolute;
   width: 100%;
-  top: 50px;
+  top: 80px;
   bottom: 60px;
 }
 

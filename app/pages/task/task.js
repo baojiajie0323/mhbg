@@ -39,6 +39,7 @@ var stepName = [
 Page({
   data: {
     role: '',
+    name: '',
     orderList: [],
     taskstatelist: [],
     title: '下拉刷新任务列表',
@@ -113,7 +114,8 @@ Page({
   },
   onLoad: function (option) {
     console.log("onLoad", option);
-    this.setData({ role: option.role })
+
+    this.setData({ role: option.role, rolename: option.rolename , name: option.name })
   },
   onReady: function () {
     console.log("onReady");
@@ -219,7 +221,7 @@ Page({
       orderList[i].steps = steps;
       orderList[i].operatelist = operatelist;
     }
-    var title = `共${allOrder}个计划，已完成${finishOrder}个 （下拉刷新）`
+    var title = `共${allOrder}个计划,已完成${finishOrder}个(下拉刷新)`
     this.setData({ orderList, title });
   },
   requestInfo: function () {
@@ -234,7 +236,7 @@ Page({
       data: {
         cmd: 'gettodaytask',
         data: {
-          //today: new Date("2017-10-17").Format('yyyy-MM-dd')
+          //stoday: new Date("2017-10-17").Format('yyyy-MM-dd')
           today: new Date().Format('yyyy-MM-dd')
         }
       },
