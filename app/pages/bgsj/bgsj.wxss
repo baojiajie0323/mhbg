@@ -20,3 +20,10 @@
 .bgsubtitle{
   padding-top: 7px;
 }
+
+.weui-select{
+  max-width: 150px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}

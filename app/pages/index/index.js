@@ -131,7 +131,7 @@ Page({
             role = userRole[userInfo.TC_AFV03 - 1]
           }
 
-          wx.navigateTo({
+          wx.redirectTo({
             url: '../task/task?role=' + role.value + '&name=' + userInfo.TC_AFV05 + '&rolename=' + role.name
           })
         } else {

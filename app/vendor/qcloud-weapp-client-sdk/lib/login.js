@@ -94,7 +94,7 @@ var login = function login(options) {
         header[constants.WX_HEADER_CODE] = code;
         header[constants.WX_HEADER_ENCRYPTED_DATA] = encryptedData;
         header[constants.WX_HEADER_IV] = iv;
-        header[constants.WX_HEADER_APPID] = "wx00fc9d1e1f09fe64";
+        header[constants.WX_HEADER_APPID] = "wxc9821351db52bd3d";
 
         // 请求服务器登录地址，获得会话信息
         wx.request({

@@ -51,14 +51,12 @@
           <picker bindchange="onBlInput" data-index="{{index}}" id="TC_AFN04_index" value="{{item.TC_AFN04_index}}" range="{{bllj}}" range-key="IMA02">
             <view class="weui-select weui-select_in-select-after">{{bllj[item.TC_AFN04_index].IMA02}}</view>
           </picker>
-          {{/*
-          <input class="weui-input" data-index="{{index}}" id="TC_AFN05" value="{{item.TC_AFN05}}" bindinput='onBlInput' placeholder="请输入料件品名" />*/}}
         </view>
         <view>
           <icon bindtap='onRemoveLJ' id="{{index}}" type="cancel" size="23"></icon>
         </view>
       </view>
-      <view class="weui-cell weui-cell_input">
+       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
           <view class="weui-label">料件编号</view>
         </view>
@@ -66,7 +64,6 @@
           <picker bindchange="onBlInput" data-index="{{index}}" id="TC_AFN04_index" value="{{item.TC_AFN04_index}}" range="{{bllj}}" range-key="SFA03">
             <view class="weui-select weui-select_in-select-after">{{bllj[item.TC_AFN04_index].SFA03}}</view>
           </picker>
-          {{/*input class="weui-input" data-index="{{index}}" id="TC_AFN04" value="{{item.TC_AFN04}}" bindinput='onBlInput' placeholder="请输入料件编号" />*/}}
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -85,8 +82,6 @@
           <picker bindchange="onBlInput" data-index="{{index}}" id="TC_AFN08_index" value="{{item.TC_AFN08_index}}" range="{{blyy}}" range-key="QCE03">
             <view class="weui-select weui-select_in-select-after">{{blyy[item.TC_AFN08_index].QCE03}}</view>
           </picker>
-          {{/*
-          <input class="weui-input" data-index="{{index}}" id="TC_AFN08" value="{{item.TC_AFN08}}" bindinput='onBlInput' placeholder="请输入不良原因" />*/}}
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -97,8 +92,6 @@
           <picker bindchange="onBlInput" data-index="{{index}}" id="TC_AFN09_index" value="{{item.TC_AFN09_index}}" range="{{blpd}}">
             <view class="weui-select weui-select_in-select-after">{{blpd[item.TC_AFN09_index]}}</view>
           </picker>
-          {{/*
-          <input class="weui-input" data-index="{{index}}" id="TC_AFN09" value="{{item.TC_AFN09}}" bindinput='onBlInput' placeholder="请输入" />*/}}
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -116,7 +109,7 @@
         <view class="weui-cell__bd">
           <input class="weui-input" data-index="{{index}}" id="TC_AFN11" value="{{item.TC_AFN11}}" bindinput='onBlInput' placeholder="请输入" />
         </view>
-      </view>
+      </view> 
     </view>
     <view class="btn-area">
       <button type="default" bindtap='ontapAddLJ'>增加不良料件</button>

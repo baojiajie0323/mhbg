@@ -38,7 +38,7 @@
         </view>
         <view class="weui-cell__bd">
           <view class="weui-cell weui-cell_link ie-link" bindtap="onBindtapIE">
-            6人(点击查看分布图)
+            {{zssc.TC_AFL07}}人(点击查看分布图)
           </view>
         </view>
       </view>

@@ -252,10 +252,10 @@ Page({
     this.setData({ zssc })
   },
   onBindtapIE: function(e){
-    var { zssc } = this.data;
-    var ie = zssc.TC_AFL07;
+    var { zssc,order } = this.data;
+    var filename = `https://baojiajie0323.com/mhbg/image/${order.TC_AFR04}_${order.TC_AFR09}.png`;
     wx.previewImage({
-      urls: ["https://baojiajie0323.com/mhbg/image/ZY101=MHGLZSNJ1-12-L02.png"]
+      urls: [filename]
     })
   }
 })
