@@ -36,7 +36,8 @@ var userRole = [{ value: 'JXY', name: '机修员' },
 { value: 'PGY', name: '品管员' },
 { value: 'CGY', name: '仓管员' },
 { value: 'SCJHY', name: '生产计划员' },
-{ value: 'ADMIN', name: '系统管理员' },]
+{ value: 'ADMIN', name: '系统管理员' },
+{ value: 'SCZZ_JXY', name: '生产组长+机修员' },]
 /**
  * 使用 Page 初始化页面，具体可参考微信公众平台上的文档
  */
@@ -131,7 +132,7 @@ Page({
             role = userRole[userInfo.TC_AFV03 - 1]
           }
 
-          wx.redirectTo({
+          wx.navigateTo({
             url: '../task/task?role=' + role.value + '&name=' + userInfo.TC_AFV05 + '&rolename=' + role.name
           })
         } else {

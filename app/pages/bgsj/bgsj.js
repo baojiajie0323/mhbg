@@ -42,6 +42,9 @@ Page({
       '退上道工序',
       '供应商承担'
     ],
+    blph: [{
+      'SFE10': '请选择批号'
+    }],
     state: 0,
   },
   onLoad: function (option) {
@@ -113,9 +116,9 @@ Page({
             bgsj: result.data.data.bgsj,
             bgsj_lp: result.data.data.bgsj_lp,
             bgsj_bl: result.data.data.bgsj_bl,
-            blyy: '',
             bllj: context.data.bllj.concat(result.data.data.bgsj_bllj),
             blyy: context.data.blyy.concat(result.data.data.bgsj_blyy),
+            blph: context.data.blph.concat(result.data.data.bgsj_blph),
           })
         }
       },
@@ -224,7 +227,7 @@ Page({
     for (var i = 0; i < bgsj_bl.length; i++) {
       var lj = bgsj_bl[i];
       if (!lj.TC_AFN04 || !lj.TC_AFN05 || !lj.TC_AFN06
-        || !lj.TC_AFN08 || !lj.TC_AFN09 || !lj.TC_AFN10 || !lj.TC_AFN11) {
+        || !lj.TC_AFN08 || !lj.TC_AFN09 || !lj.TC_AFN10) {
         wx.showModal({
           title: '提示',
           content: '请填写结果',
@@ -266,7 +269,7 @@ Page({
     this.setData({ bgsj_lp })
   },
   onBlInput: function (e) {
-    var { bgsj_bl } = this.data;
+    var { bgsj_bl, blph } = this.data;
     var key = e.target.id;
     var index = e.target.dataset.index;
     if (bgsj_bl.length > index) {
@@ -275,10 +278,13 @@ Page({
         if (key == "TC_AFN04_index") {
           bgsj_bl[index]["TC_AFN04"] = this.data.bllj[e.detail.value].SFA03;
           bgsj_bl[index]["TC_AFN05"] = this.data.bllj[e.detail.value].IMA02;
+
         } else if (key == "TC_AFN08_index") {
           bgsj_bl[index]["TC_AFN08"] = this.data.blyy[e.detail.value].QCE03;
         } else if (key == "TC_AFN09_index") {
           bgsj_bl[index]["TC_AFN09"] = this.data.blpd[e.detail.value];
+        } else if (key == "TC_AFN10_index") {
+          bgsj_bl[index]["TC_AFN10"] = this.data.blph[e.detail.value].SFE10;
         }
       }
     }
@@ -297,6 +303,7 @@ Page({
       TC_AFN09: '',
       TC_AFN09_index: 0,
       TC_AFN10: '',
+      TC_AFN10_index: 0,
       TC_AFN11: '',
     })
     this.setData({ bgsj_bl })

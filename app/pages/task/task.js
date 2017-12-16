@@ -192,7 +192,19 @@ Page({
       if (stepstateD == "3") {
         checkoperate("E");
       }
-    }
+    } else if (role == "SCZZ_JXY") {
+      checkoperate("A");
+      checkoperate("B");
+      var stepstateA = this.getOrderState(taskStateList, tc_afr02, tc_afr04, "A");
+      var stepstateB = this.getOrderState(taskStateList, tc_afr02, tc_afr04, "B");
+      var stepstateD = this.getOrderState(taskStateList, tc_afr02, tc_afr04, "D");
+      if (stepstateA == "3" && stepstateB == "3") {
+        checkoperate("D");
+      }
+      if (stepstateD == "3") {
+        checkoperate("E");
+      }
+    } 
     return operatelist;
   },
   updateTaskState: function (taskStateList) {

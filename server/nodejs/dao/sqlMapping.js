@@ -82,6 +82,9 @@ var sqlmap = {
   getbgsj_bllj: "SELECT sfa03,ima02 FROM sfa_file \
   LEFT JOIN ima_file ON sfa03=ima01 \
   WHERE sfa01=:orderno ",
+  getbgsj_blph: "SELECT DISTINCT sfe10 FROM sfe_file \
+  WHERE sfe02 IN (SELECT DISTINCT tc_afs03 FROM tc_afs_file WHERE tc_afs01=to_date(:todaydate,'yyyy-mm-dd')) \
+  AND sfe01=:orderno "
 };
 
 module.exports = sqlmap;

@@ -316,6 +316,7 @@ module.exports = {
       var bgsj_bl = [];
       var bgsj_blyy = [];
       var bgsj_bllj = [];
+      var bgsj_blph = [];
       tasks.push(function (callback) {
         var sqlstring = _sql.getbgsj;
         var where_params = [param.today, param.orderno, param.ordertype];
@@ -419,13 +420,33 @@ module.exports = {
           callback(err);
         })
       })
+      tasks.push(function (callback) {
+        var sqlstring = _sql.getbgsj_blph;
+        var where_params = [param.today, param.orderno];
+        console.log(sqlstring, where_params)
+        connection.execute(sqlstring, where_params, function (err, result) {
+          if (!err) {
+            var dbresult = [];
+            var head = result.metaData;
+            dbresult = result.rows.map((r) => {
+              var json = {};
+              r.map((r1, i) => {
+                json[head[i].name] = r1;
+              })
+              return json;
+            })
+            bgsj_blph = dbresult;
+          }
+          callback(err);
+        })
+      })
       async.series(tasks, function (err, results) {
         if (err) {
           console.log('tasks error', err);
           connection.rollback(); // 发生错误事务回滚
           jsonWrite(res, {}, dbcode.FAIL);
         } else {
-          jsonWrite(res, { bgsj, bgsj_lp, bgsj_bl, bgsj_blyy, bgsj_bllj }, dbcode.SUCCESS);
+          jsonWrite(res, { bgsj, bgsj_lp, bgsj_bl, bgsj_blyy, bgsj_bllj, bgsj_blph }, dbcode.SUCCESS);
         }
         connection.release();
       });
