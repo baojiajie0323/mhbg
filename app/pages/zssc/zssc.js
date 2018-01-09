@@ -253,7 +253,7 @@ Page({
   },
   onBindtapIE: function(e){
     var { zssc,order } = this.data;
-    var filename = `https://baojiajie0323.com/mhbg/image/${order.TC_AFR04}_${order.TC_AFR09}.png`;
+    var filename = `https://62771876.myhome-sh.cn/mhbg/image/${order.TC_AFR04}_${order.TC_AFR09}.png`;
     wx.previewImage({
       urls: [filename]
     })
