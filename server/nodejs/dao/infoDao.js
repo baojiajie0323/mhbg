@@ -67,7 +67,7 @@ module.exports = {
     var context = this;
     _dao.getConnection(res, function (connection) {
       var sqlstring = _sql.login;
-      var where_params = [param.username,param.password];
+      var where_params = [param.username, param.password];
       connection.execute(sqlstring, where_params, function (err, result) {
         context.listresult(res, err, result);
         connection.release();
@@ -119,7 +119,7 @@ module.exports = {
       } else {
         sqlstring = _sql.endtask;
       }
-      var where_params = [param.time, param.today, param.orderno, param.ordertype, param.step];
+      var where_params = [param.time, param.today, param.orderno, param.dh, param.xh, param.user, param.step];
       console.log(sqlstring, where_params);
       connection.execute(sqlstring, where_params, function (err, result) {
         console.log('dbresult', err, result);
@@ -139,7 +139,7 @@ module.exports = {
     var context = this;
     _dao.getConnection(res, function (connection) {
       var sqlstring = _sql.gettaskinfo;
-      var where_params = [param.orderno, param.today, param.ordertype];
+      var where_params = [param.orderno, param.today, param.dh, param.xh];
       connection.execute(sqlstring, where_params, function (err, result) {
         context.listresult(res, err, result);
         connection.release();
@@ -153,7 +153,7 @@ module.exports = {
     var context = this;
     _dao.getConnection(res, function (connection) {
       var sqlstring = _sql.getwlqd;
-      var where_params = [param.today, param.orderno, param.ordertype];
+      var where_params = [param.today, param.orderno, param.gy];
       connection.execute(sqlstring, where_params, function (err, result) {
         context.listresult(res, err, result);
         connection.release();
@@ -171,7 +171,7 @@ module.exports = {
       for (let i = 0; i < param.wlqd.length; i++) {
         let lj = param.wlqd[i];
         tasks.push(function (callback) {
-          var where_params = [lj.TC_AFI09 || "", lj.TC_AFI10 || "", lj.TC_AFI11 || "", lj.TC_AFI12 || "", param.today, param.orderno, param.ordertype, lj.TC_AFI04];
+          var where_params = [lj.TC_AFI09 || "", lj.TC_AFI10 || "", lj.TC_AFI11 || "", lj.TC_AFI12 || "", param.today, param.orderno, param.gy, lj.TC_AFI04];
           console.log(sqlstring, where_params)
           connection.execute(sqlstring, where_params, function (err, result) {
             callback(err);
@@ -197,7 +197,7 @@ module.exports = {
     var context = this;
     _dao.getConnection(res, function (connection) {
       var sqlstring = _sql.getsbtj;
-      var where_params = [param.today, param.orderno, param.ordertype];
+      var where_params = [param.today, param.orderno, param.dh, param.xh, param.user];
       connection.execute(sqlstring, where_params, function (err, result) {
         context.listresult(res, err, result);
         connection.release();
@@ -215,7 +215,7 @@ module.exports = {
       for (let i = 0; i < param.sbtj.length; i++) {
         let lj = param.sbtj[i];
         tasks.push(function (callback) {
-          var where_params = [param.today, param.orderno, param.ordertype, lj.TC_AFJ04, lj.TC_AFJ05, lj.TC_AFJ06, lj.TC_AFJ07, lj.TC_AFJ08];
+          var where_params = [param.today, param.orderno, param.ordertype, lj.TC_AFJ04, lj.TC_AFJ05, lj.TC_AFJ06, lj.TC_AFJ07, lj.TC_AFJ08, param.dh, param.xh, param.user == 'tiptop' ? 1 : 2, param.user];
           console.log(sqlstring, where_params)
           connection.execute(sqlstring, where_params, function (err, result) {
             callback(err);
@@ -241,7 +241,7 @@ module.exports = {
     var context = this;
     _dao.getConnection(res, function (connection) {
       var sqlstring = _sql.getsjqr;
-      var where_params = [param.today, param.orderno, param.ordertype];
+      var where_params = [param.today, param.orderno, param.dh, param.xh];
       connection.execute(sqlstring, where_params, function (err, result) {
         context.listresult(res, err, result);
         connection.release();
@@ -256,7 +256,7 @@ module.exports = {
     _dao.getConnection(res, function (connection) {
       var sqlstring = _sql.updatesjqr;
       var lj = param.sjqr;
-      var where_params = [lj.TC_AFK04, lj.TC_AFK05 || "", lj.TC_AFK06, lj.TC_AFK07 || "", lj.TC_AFK08, lj.TC_AFK09 || "", lj.TC_AFK10, lj.TC_AFK11 || "", param.today, param.orderno, param.ordertype];
+      var where_params = [lj.TC_AFK04, lj.TC_AFK05 || "", lj.TC_AFK06, lj.TC_AFK07 || "", lj.TC_AFK08, lj.TC_AFK09 || "", lj.TC_AFK10, lj.TC_AFK11 || "", param.today, param.orderno, param.dh, param.xh];
       console.log(sqlstring, where_params)
       connection.execute(sqlstring, where_params, function (err, result) {
         if (err) {
@@ -276,7 +276,7 @@ module.exports = {
     var context = this;
     _dao.getConnection(res, function (connection) {
       var sqlstring = _sql.getzssc;
-      var where_params = [param.today, param.orderno, param.ordertype];
+      var where_params = [param.today, param.orderno, param.dh, param.xh];
       connection.execute(sqlstring, where_params, function (err, result) {
         context.listresult(res, err, result);
         connection.release();
@@ -291,7 +291,7 @@ module.exports = {
     _dao.getConnection(res, function (connection) {
       var sqlstring = _sql.updatezssc;
       var lj = param.zssc;
-      var where_params = [lj.TC_AFL04, lj.TC_AFL05, lj.TC_AFL06, param.today, param.orderno, param.ordertype];
+      var where_params = [lj.TC_AFL04, lj.TC_AFL05, lj.TC_AFL06, param.today, param.orderno, param.dh, param.xh];
       console.log(sqlstring, where_params)
       connection.execute(sqlstring, where_params, function (err, result) {
         if (err) {
@@ -319,7 +319,7 @@ module.exports = {
       var bgsj_blph = [];
       tasks.push(function (callback) {
         var sqlstring = _sql.getbgsj;
-        var where_params = [param.today, param.orderno, param.ordertype];
+        var where_params = [param.today, param.orderno, param.dh, param.xh];
         console.log(sqlstring, where_params)
         connection.execute(sqlstring, where_params, function (err, result) {
           if (!err) {
@@ -341,7 +341,7 @@ module.exports = {
       })
       tasks.push(function (callback) {
         var sqlstring = _sql.getbgsj_lp;
-        var where_params = [param.today, param.orderno, param.ordertype];
+        var where_params = [param.today, param.orderno, param.dh, param.xh];
         console.log(sqlstring, where_params)
         connection.execute(sqlstring, where_params, function (err, result) {
           if (!err) {
@@ -363,7 +363,7 @@ module.exports = {
       })
       tasks.push(function (callback) {
         var sqlstring = _sql.getbgsj_bl;
-        var where_params = [param.today, param.orderno, param.ordertype];
+        var where_params = [param.today, param.orderno, param.dh, param.xh];
         console.log(sqlstring, where_params)
         connection.execute(sqlstring, where_params, function (err, result) {
           if (!err) {
@@ -462,7 +462,7 @@ module.exports = {
       tasks.push(function (callback) {
         var sqlstring = _sql.updatebgsj_lp;
         var bgsj_lp = param.bgsj_lp;
-        var where_params = [bgsj_lp.TC_AFM04, param.today, param.orderno, param.ordertype];
+        var where_params = [bgsj_lp.TC_AFM04, param.today, param.orderno, param.dh, param.xh];
         console.log(sqlstring, where_params)
         connection.execute(sqlstring, where_params, function (err, result) {
           callback(err);
@@ -474,7 +474,7 @@ module.exports = {
       for (let i = 0; i < bgsj_bl.length; i++) {
         let bl = bgsj_bl[i];
         tasks.push(function (callback) {
-          var where_params = [param.today, param.orderno, param.ordertype, bl.TC_AFN04, bl.TC_AFN05, parseInt(bl.TC_AFN06), bl.TC_AFN07, bl.TC_AFN08, bl.TC_AFN09, bl.TC_AFN10, bl.TC_AFN11];
+          var where_params = [param.today, param.orderno, param.dh, param.xh, bl.TC_AFN04, bl.TC_AFN05, parseInt(bl.TC_AFN06), bl.TC_AFN07, bl.TC_AFN08, bl.TC_AFN09, bl.TC_AFN10, bl.TC_AFN11];
           console.log(sqlstring, where_params)
           connection.execute(sqlstring, where_params, function (err, result) {
             callback(err);

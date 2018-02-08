@@ -45,12 +45,14 @@ Page({
   },
   onLoad: function (option) {
     console.log("onLoad", option);
-    this.setData({ state: option.state, no: option.no, type: option.type })
+    this.setData({ state: option.state, no: option.no, ordertype: option.gy, dh: option.dh, xh: option.xh })
     var no = option.no;
-    var type = option.type;
-    this.getTaskInfo(no, type);
+    var ordertype = option.type
+    var dh = option.dh;
+    var xh = option.xh;
+    this.getTaskInfo(no, dh, xh);
   },
-  getTaskInfo: function (no, type) {
+  getTaskInfo: function (no, dh, xh) {
     var context = this;
     console.log("request getTaskInfo");
     qcloud.request({
@@ -62,7 +64,8 @@ Page({
           //today: new Date("2017-10-17").Format('yyyy-MM-dd'),
           today: new Date().Format('yyyy-MM-dd'),
           orderno: no,
-          ordertype: type,
+          dh,
+          xh
         }
       },
       method: 'POST',
@@ -75,7 +78,7 @@ Page({
         if (result.data.data.length > 0) {
           context.setData({ order: result.data.data[0] })
         }
-        context.getSbtj(no, type);
+        context.getSbtj(no, dh, xh);
       },
       fail(error) {
         console.log('request fail', error);
@@ -85,7 +88,7 @@ Page({
       }
     });
   },
-  getSbtj: function (no, type) {
+  getSbtj: function (no, dh, xh) {
     var context = this;
     console.log("request getSbtj");
     qcloud.request({
@@ -97,7 +100,9 @@ Page({
           //today: new Date("2017-10-17").Format('yyyy-MM-dd'), wx.canIUse(string)
           today: new Date().Format('yyyy-MM-dd'),
           orderno: no,
-          ordertype: type,
+          dh,
+          xh,
+          user: wx.getStorageSync("USERACCOUNT"),
         }
       },
       method: 'POST',
@@ -130,7 +135,9 @@ Page({
           //today: new Date("2017-10-17").Format('yyyy-MM-dd'),
           today: new Date().Format('yyyy-MM-dd'),
           orderno: context.data.no,
-          ordertype: context.data.type,
+          dh: context.data.dh,
+          xh: context.data.xh,
+          user: wx.getStorageSync("USERACCOUNT"),
           time: new Date().Format('hh:mm:ss'),
           step: 'B'
         }
@@ -171,7 +178,10 @@ Page({
           //today: new Date("2017-10-17").Format("yyyy-MM-dd"),
           today: new Date().Format("yyyy-MM-dd"),
           orderno: this.data.no,
-          ordertype: this.data.type,
+          ordertype: this.data.ordertype,
+          dh: this.data.dh,
+          xh: this.data.xh,
+          user: wx.getStorageSync("USERACCOUNT"),
           sbtj: this.data.sbtj
         }
       },

@@ -132,8 +132,15 @@ Page({
             role = userRole[userInfo.TC_AFV03 - 1]
           }
 
+          var useraccount = context.data.username;
+          if (userInfo.TC_AFV06 == 1){
+            useraccount = 'tiptop'
+          }
+          wx.setStorageSync("USERACCOUNT", useraccount);
+
+
           wx.navigateTo({
-            url: '../task/task?role=' + role.value + '&name=' + userInfo.TC_AFV05 + '&rolename=' + role.name
+            url: '../task/task?role=' + role.value + '&name=' + userInfo.TC_AFV05 + '&rolename=' + role.name + '&usertype=' + userInfo.TC_AFV06 + '&user=' + context.data.username
           })
         } else {
           wx.showModal({

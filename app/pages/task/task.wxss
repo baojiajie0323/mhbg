@@ -5,22 +5,32 @@
   display: flex;
   height: 90rpx;
   align-items: center;
-  flex-direction: row;
-  justify-content: space-between;
-  font-size: '24px'
+  font-size: '24px';
 }
-.tasksum{
+
+.tasksum {
   padding: 0 0 0 20px;
-  color:#2964bb;
+  flex-grow: 1;
 }
-.orderName{
+
+.orderName {
   font-size: 18px;
   text-align: left;
 }
 
+.taskdrive {
+  width: 1px;
+  height: 40%;
+  background-color: darkgray;
+  margin: 0 10px;
+}
+
+.typetext {
+  color: #2964bb;
+}
 .scantext {
   margin-right: 20rpx;
-  color:darkgray;
+  color: #2964bb;
 }
 
 .taskscroll {
@@ -30,7 +40,6 @@
   bottom: 60px;
 }
 
-.taskcontent{
-  margin-bottom:80rpx;
+.taskcontent {
+  margin-bottom: 80rpx;
 }
-

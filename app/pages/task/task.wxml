@@ -3,18 +3,20 @@
 
 <view class="container">
   <view class="page-section">
-    <view class="page-section-title">欢迎登录，{{name}}（{{rolename}}）</view>
+    <view class="page-section-title">{{name}}（{{usertype == 1 ? "工单" : "个人" }}/{{rolename}}）</view>
     <view class="weui-cells weui-cells_after-title">
       <view class="weui-panel tasktitle">
         <text class="tasksum">{{title}}</text>
-        <text bindtap="scanCode" class="scantext">扫描工单</text>
+        <view wx:if="{{usertype == 1}}" bindtap="switchTaskType" class="typetext">{{tasktype == 1 ? '工单':'个人'}}</view>
+        <view wx:if="{{usertype == 1}}" class="taskdrive"></view>
+        <text bindtap="scanCode" class="scantext">扫描</text>
       </view>
     </view>
   </view>
 
   <scroll-view scroll-y="true" class="taskscroll">
-    <view wx:for="{{orderList}}" wx:for-item="order" class="weui-form-preview taskcontent">
-      <view class="weui-form-preview__hd">
+    <view wx:for="{{realorderList}}" wx:for-item="order" class="weui-form-preview taskcontent">
+      <view  class="weui-form-preview__hd">
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__value_in-hd orderName">{{index+1}}. {{order.IMA02}}</view>
         </view>
@@ -37,7 +39,7 @@
         </view>
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">生产工艺</view>
-          <view class="weui-form-preview__value">{{order.TC_AFR04}}-{{order.TC_AFR05}}</view>
+          <view class="weui-form-preview__value">{{order.TC_AFR12}}-{{order.TC_AFR14}}-{{order.TC_AFR04}}-{{order.TC_AFR05}}</view>
         </view>
       </view>
       <view wx:if="{{order.operatelist.length > 0}}" class="weui-form-preview__ft">
