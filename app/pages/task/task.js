@@ -135,10 +135,24 @@ Page({
 
     this.requestInfo();
   },
-  getOrderState: function (taskStateList, tc_afr02, tc_afr12, tc_afr14, short) {
+  getOrderState: function (taskStateList, tc_afr02, tc_afr12, tc_afr14, short, tc_aft08) {
+    var { usertype, role} = this.data;
     for (var i = 0; i < taskStateList.length; i++) {
       if (taskStateList[i].TC_AFQ02 == tc_afr02 && taskStateList[i].TC_AFQ12 == tc_afr12 && taskStateList[i].TC_AFQ13 == tc_afr14 && taskStateList[i].TC_AFQ04 == short) {
-        return taskStateList[i].TC_AFQ05;
+        //如果是个人工单类型，并且不是物料轻点步骤的需要匹配到工号，因为物料清点个人工单也是公用的。
+        if (tc_aft08 && short != 'A'){
+          if (tc_aft08 == taskStateList[i].TC_AFQ15){
+            return taskStateList[i].TC_AFQ05;
+          }
+        }
+        else if (role == 'PGY' && short == 'C' && tc_aft08 != null){
+          if(tc_aft08 == taskStateList[i].TC_AFQ15){
+            return taskStateList[i].TC_AFQ05;
+          }
+        }
+        else{
+          return taskStateList[i].TC_AFQ05;
+        }
       }
     }
   },
@@ -147,21 +161,21 @@ Page({
     var operatelist = [];
     var checkoperate = (step) => {
       console.log('checkoperate', usertype, tc_afr13)
-      if (usertype == 1 && tc_afr13 == 2) {
+      if (usertype == 1 && tc_afr13 == 2 && role != "PGY") {
         return;
       }
-      var stepstate = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, step);
+      var stepstate = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, step, tc_aft08);
       if (stepstate == "1" || stepstate == "2") {
         if (step == "A") {
           operatelist.push({ name: '物料清点', url: `../wlqd/wlqd?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&gy=${tc_afr04}&state=${stepstate}` })
         } else if (step == "B") {
           operatelist.push({ name: '设备调机', url: `../sbtj/sbtj?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&gy=${tc_afr04}&state=${stepstate}` })
         } else if (step == "C") {
-          operatelist.push({ name: '首件确认', url: `../sjqr/sjqr?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&state=${stepstate}` })
+          operatelist.push({ name: '首件确认', url: `../sjqr/sjqr?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&gy=${tc_afr04}&worker=${tc_aft08?tc_aft08:'tiptop'}&state=${stepstate}` })
         } else if (step == "D") {
-          operatelist.push({ name: '正式生产', url: `../zssc/zssc?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&state=${stepstate}` })
+          operatelist.push({ name: '正式生产', url: `../zssc/zssc?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&gy=${tc_afr04}&state=${stepstate}` })
         } else if (step == "E") {
-          operatelist.push({ name: '报工送检', url: `../bgsj/bgsj?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&state=${stepstate}` })
+          operatelist.push({ name: '报工送检', url: `../bgsj/bgsj?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&gy=${tc_afr04}&state=${stepstate}` })
         }
       }
     }
@@ -175,18 +189,19 @@ Page({
       checkoperate("B");
     } else if (role == "SCZZ") {
       checkoperate("A");
-      var stepstateA = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "A");
-      var stepstateB = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "B");
-      var stepstateD = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "D");
-      if (stepstateA == "3" && stepstateB == "3") {
+      var stepstateA = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "A", tc_aft08);
+      var stepstateB = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "B", tc_aft08);
+      var stepstateC = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "C", tc_aft08);
+      var stepstateD = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "D", tc_aft08);
+      if (stepstateA == "3" && stepstateB == "3" && stepstateC == "3") {
         checkoperate("D");
       }
       if (stepstateD == "3") {
         checkoperate("E");
       }
     } else if (role == "PGY") {
-      var stepstateA = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "A");
-      var stepstateB = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "B");
+      var stepstateA = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "A", tc_aft08);
+      var stepstateB = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "B", tc_aft08);
       if (stepstateA == "3" && stepstateB == "3") {
         checkoperate("C");
       }
@@ -194,11 +209,14 @@ Page({
     } else if (role == "ADMIN") {
       checkoperate("A");
       checkoperate("B");
-      var stepstateA = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "A");
-      var stepstateB = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "B");
-      var stepstateD = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "D");
+      var stepstateA = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "A", tc_aft08);
+      var stepstateB = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "B", tc_aft08);
+      var stepstateC = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "C", tc_aft08);
+      var stepstateD = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "D", tc_aft08);
       if (stepstateA == "3" && stepstateB == "3") {
         checkoperate("C");
+      }
+      if (stepstateA == "3" && stepstateB == "3" && stepstateC == "3"){
         checkoperate("D");
       }
       if (stepstateD == "3") {
@@ -207,10 +225,11 @@ Page({
     } else if (role == "SCZZ_JXY") {
       checkoperate("A");
       checkoperate("B");
-      var stepstateA = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "A");
-      var stepstateB = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "B");
-      var stepstateD = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "D");
-      if (stepstateA == "3" && stepstateB == "3") {
+      var stepstateA = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "A", tc_aft08);
+      var stepstateB = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "B", tc_aft08);
+      var stepstateC = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "C", tc_aft08);
+      var stepstateD = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "D", tc_aft08);
+      if (stepstateA == "3" && stepstateB == "3" && stepstateC == "3") {
         checkoperate("D");
       }
       if (stepstateD == "3") {
@@ -220,10 +239,11 @@ Page({
     return operatelist;
   },
   updateTaskState: function (taskStateList) {
-    var { orderList, tasktype, user, usertype } = this.data;
+    var { orderList, tasktype, user, usertype,role } = this.data;
     var allOrder = 0;
     var finishOrder = 0;
     var realorderList = [];
+    var realorderList_merge = [];
     for (var i = 0; i < orderList.length; i++) {
       if (orderList[i].TC_AFR13 != tasktype) {
         continue;
@@ -238,7 +258,7 @@ Page({
       var bFinish = true;
       for (var j = 0; j < stepName.length; j++) {
         var s = stepName[j];
-        var state = this.getOrderState(taskStateList, orderList[i].TC_AFR02, orderList[i].TC_AFR12, orderList[i].TC_AFR14, s.short);
+        var state = this.getOrderState(taskStateList, orderList[i].TC_AFR02, orderList[i].TC_AFR12, orderList[i].TC_AFR14, s.short,orderList[i].TC_AFT08);
         if (state != "3") {
           bFinish = false;
         }
@@ -257,7 +277,33 @@ Page({
       realorderList.push(orderList[i]);
     }
     var title = `已完成${finishOrder}/${allOrder}个`;
-    this.setData({ orderList, realorderList, title });
+
+    if(usertype == 1 && tasktype == 2 && role != 'PGY'){
+      var existOrder = function (TC_AFR02,TC_AFR12,TC_AFR14){
+        for (var i = 0; i < realorderList_merge.length; i++){
+          if(realorderList_merge[i].TC_AFR02 == TC_AFR02 &&
+            realorderList_merge[i].TC_AFR12 == TC_AFR12 &&
+            realorderList_merge[i].TC_AFR14 == TC_AFR14){
+              return realorderList_merge[i];
+            }
+        }
+      }
+      for (var i = 0; i < realorderList.length; i++) {
+        var order = realorderList[i];
+        order.userStep = {
+          user: order.TC_AFV05,
+          steps: order.steps
+        }
+        var taskOrder = existOrder(order.TC_AFR02,order.TC_AFR12,order.TC_AFR14);
+        if(taskOrder){
+          taskOrder.userSteps.push(order.userStep);
+        }else{
+          order.userSteps = [order.userStep];
+          realorderList_merge.push(order);
+        }
+      } 
+    }
+    this.setData({ orderList, realorderList, realorderList_merge, title });
   },
   requestInfo: function () {
     this.getTodayTask();

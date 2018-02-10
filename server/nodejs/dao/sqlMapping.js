@@ -17,9 +17,10 @@ var sqlmap = {
   login: "SELECT tc_afv03,tc_afv05,tc_afv06 \
   FROM tc_afv_file \
   WHERE tc_afv01=:username and tc_afv02=:password and tc_afv04='Y' ",
-  gettodaytask: "SELECT tc_afr09,ima02,tc_afr02,tc_afr03,ima55,tc_afr04,tc_afr05,tc_aft08,tc_afr12,tc_afr13,tc_afr14 FROM tc_afr_file \
+  gettodaytask: "SELECT tc_afr09,ima02,tc_afr02,tc_afr03,ima55,tc_afr04,tc_afr05,tc_aft08,tc_afv05,tc_afr12,tc_afr13,tc_afr14 FROM tc_afr_file \
   LEFT JOIN ima_file ON tc_afr09=ima01 \
   LEFT JOIN tc_aft_file ON tc_afr01 = tc_aft01 AND tc_afr02 = tc_aft02 AND tc_afr12 = tc_aft05 AND tc_afr14 = tc_aft06 \
+  LEFT JOIN tc_afv_file ON tc_aft08 = tc_afv01 \
   WHERE tc_afr01 = to_date(:todaydate,'yyyy-mm-dd')",
   gettaskstate: "Select tc_afq02,tc_afq03,tc_afq04,tc_afq05,tc_afq12,tc_afq13,tc_afq14,tc_afq15 FROM tc_afq_file \
   Where tc_afq01 = to_date(:todaydate,'yyyy-mm-dd')",
@@ -55,30 +56,30 @@ var sqlmap = {
   INSERT (tc_afj01,tc_afj02,tc_afj03,tc_afj04,tc_afj05,tc_afj06,tc_afj07,tc_afj08,tc_afj09,tc_afj10,tc_afj11,tc_afj12) VALUES (to_date(aa.a1,'yyyy-mm-dd'),aa.a2,aa.a3,aa.a4,aa.a5,aa.a6,aa.a7,aa.a8,aa.a9,aa.a10,aa.a11,aa.a12) ",
   getsjqr: "Select tc_afk04,tc_afk05, tc_afk06, tc_afk07, tc_afk08, tc_afk09, tc_afk10, tc_afk11 \
   from tc_afk_file\
-  Where tc_afk01=to_date(:todaydate,'yyyy-mm-dd') and tc_afk02=:orderno and tc_afk03=:ordertype ",
+  Where tc_afk01=to_date(:todaydate,'yyyy-mm-dd') and tc_afk02=:orderno and tc_afk13=:dh and tc_afk14 =:xh and tc_afk16 =:useraccount ",
   updatesjqr: "Update tc_afk_file \
   set tc_afk04=:state1, tc_afk05=:bz1, tc_afk06=:state2, tc_afk07=:bz2, \
   tc_afk08=:state3, tc_afk09=:bz3, tc_afk10=:state4, tc_afk11=:bz4 \
-  Where tc_afk01=to_date(:todaydate,'yyyy-mm-dd') and tc_afk02=:orderno and tc_afk03=:ordertype ",
+  Where tc_afk01=to_date(:todaydate,'yyyy-mm-dd') and tc_afk02=:orderno and tc_afk13=:dh and tc_afk14 =:xh and tc_afk16 =:useraccount ",
   getzssc: "Select to_char(tc_afq01,'YYYY-MM-DD') tc_afq01,tc_afq06,tc_afl04,tc_afl06,tc_afl05,tc_afl07 \
   From tc_afq_file \
-  Left join tc_afl_file on tc_afq01=tc_afl01 and tc_afq02=tc_afl02 and tc_afq03=tc_afl03 \
-  Where tc_afq01=to_date(:todaydate,'yyyy-mm-dd') and tc_afq02=:orderno and tc_afq03=:ordertype and tc_afq04='D' ",
+  Left join tc_afl_file on tc_afq01=tc_afl01 and tc_afq02=tc_afl02 and tc_afq12=tc_afl08 and tc_afq13=tc_afl09 and tc_afq15=tc_afl11 \
+  Where tc_afq01=to_date(:todaydate,'yyyy-mm-dd') and tc_afq02=:orderno and tc_afq12=:dh and tc_afq13 =:xh and tc_afq15 =:useraccount and tc_afq04='D' ",
   updatezssc: "Update tc_afl_file set tc_afl04=:xb,tc_afl05=:rs,tc_afl06=:gx \
-  Where tc_afl01=to_date(:todaydate,'yyyy-mm-dd') and tc_afl02=:orderno and tc_afl03=:ordertype ",
+  Where tc_afl01=to_date(:todaydate,'yyyy-mm-dd') and tc_afl02=:orderno and tc_afl08=:dh and tc_afl09=:xh and tc_afl11=:useraccount ",
   getbgsj: "select to_char(tc_afq01,'YYYY-MM-DD') tc_afq01,tc_afq06,tc_afq07,tc_afq08,tc_afl05,to_number(tc_afq09) tc_afq09,to_number(tc_afq10) tc_afq10,tc_afq11 \
   from tc_afq_file \
-  inner join tc_afl_file on tc_afq01=tc_afl01 and tc_afq02=tc_afl02 and tc_afq03=tc_afl03 \
-  where tc_afq01=to_date(:todaydate,'yyyy-mm-dd') and tc_afq02=:orderno and tc_afq03=:ordertype and tc_afq04='D'",
+  inner join tc_afl_file on tc_afq01=tc_afl01 and tc_afq02=tc_afl02 and tc_afq12=tc_afl08 and tc_afq13=tc_afl09 and tc_afq15=tc_afl11 \
+  where tc_afq01=to_date(:todaydate,'yyyy-mm-dd') and tc_afq02=:orderno and tc_afq12=:dh and tc_afq13 =:xh and tc_afq15 =:useraccount and tc_afq04='D'",
   getbgsj_lp: "Select tc_afm04,tc_afm05 from tc_afm_file \
-  Where tc_afm01=to_date(:todaydate,'yyyy-mm-dd') and tc_afm02=:orderno and tc_afm03=:ordertype ",
+  Where tc_afm01=to_date(:todaydate,'yyyy-mm-dd') and tc_afm02=:orderno and tc_afm07=:dh and tc_afm08=:xh and tc_afm10=:useraccount ",
   updatebgsj_lp: "Update tc_afm_file set tc_afm04=:lpcount \
-  Where tc_afm01=to_date(:todaydate,'yyyy-mm-dd') and tc_afm02=:orderno and tc_afm03=:ordertype ",
+  Where tc_afm01=to_date(:todaydate,'yyyy-mm-dd') and tc_afm02=:orderno and tc_afm07=:dh and tc_afm08=:xh and tc_afm10=:useraccount ",
   getbgsj_bl: "Select tc_afn04,tc_afn05,tc_afn06,tc_afn07,tc_afn08,tc_afn09,tc_afn10,tc_afn11 \
   From tc_afn_file \
-  Where tc_afn01=to_date(:todaydate,'yyyy-mm-dd') and tc_afn02=:orderno and tc_afn03=:ordertype ",
-  updatebgsj_bl: "Insert into tc_afn_file (tc_afn01, tc_afn02, tc_afn03, tc_afn04, tc_afn05, tc_afn06, tc_afn07, tc_afn08, tc_afn09, tc_afn10, tc_afn11) \
-  values (to_date(:todaydate,'yyyy-mm-dd'),:orderno,:ordertype,:ljbh,:pm,:count,:dw,:blyy,:pdjg,:ph,:gys) ",
+  Where tc_afn01=to_date(:todaydate,'yyyy-mm-dd') and tc_afn02=:orderno and tc_afn12=:dh and tc_afn13=:xh and tc_afn15=:useraccount ",
+  updatebgsj_bl: "Insert into tc_afn_file (tc_afn01, tc_afn02, tc_afn03, tc_afn04, tc_afn05, tc_afn06, tc_afn07, tc_afn08, tc_afn09, tc_afn10, tc_afn11 ,tc_afn12,tc_afn13,tc_afn14,tc_afn15) \
+  values (to_date(:todaydate,'yyyy-mm-dd'),:orderno,:ordertype,:ljbh,:pm,:count,:dw,:blyy,:pdjg,:ph,:gys,:dh,:xh,:tasktype,:useraccount) ",
   getbgsj_blyy: "SELECT qce01,qce03 FROM qce_file WHERE qce04='1' AND qceacti='Y'",
   getbgsj_bllj: "SELECT sfa03,ima02 FROM sfa_file \
   LEFT JOIN ima_file ON sfa03=ima01 \

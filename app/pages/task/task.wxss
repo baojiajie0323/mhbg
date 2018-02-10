@@ -43,3 +43,7 @@
 .taskcontent {
   margin-bottom: 80rpx;
 }
+
+.userinfo{
+  text-align: left;
+}

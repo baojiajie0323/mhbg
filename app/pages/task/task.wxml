@@ -15,16 +15,27 @@
   </view>
 
   <scroll-view scroll-y="true" class="taskscroll">
-    <view wx:for="{{realorderList}}" wx:for-item="order" class="weui-form-preview taskcontent">
+    <view wx:for="{{realorderList_merge.length > 0 ? realorderList_merge : realorderList}}" wx:for-item="order" class="weui-form-preview taskcontent">
       <view  class="weui-form-preview__hd">
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__value_in-hd orderName">{{index+1}}. {{order.IMA02}}</view>
         </view>
       </view>
       <view class="weui-form-preview__bd">
-        <view class="weui-form-preview__item">
-          <template is="zan-steps" data="{{ type: 'horizon', steps: order.steps }}"></template>
-        </view>
+        <block wx:if="{{order.userSteps}}" >
+          <block wx:for="{{order.userSteps}}" wx:for-item="step">
+            <view wx:if="{{step.user}}" class="userinfo"><text>{{step.user}}</text></view>
+            <view class="weui-form-preview__item">
+              <template is="zan-steps" data="{{ type: 'horizon', steps: step.steps }}"></template>
+            </view>
+          </block>
+        </block>
+        <block wx:else>
+          <view wx:if="{{order.TC_AFV05}}" class="userinfo"><text>{{order.TC_AFV05}}</text></view>
+          <view class="weui-form-preview__item">
+            <template is="zan-steps" data="{{ type: 'horizon', steps: order.steps }}"></template>
+          </view>
+        </block>
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">工单单号</view>
           <view class="weui-form-preview__value">{{order.TC_AFR02}}</view>
