@@ -1,0 +1,14 @@
+/* tabs: [""] */
+
+<template name="bottomTab">
+  <view class="bottomTabContainer">
+   <view class="{{cursel == 0 ? 'tabcontent tabcontent_sel' : 'tabcontent' }}" bindtap="onClickTab_task">
+    <image src="{{cursel == 0 ?  '../../image/task_sel.png' : '../../image/task.png'}}" />
+    <text>今日任务</text>
+   </view>
+   <view class="{{cursel == 1 ? 'tabcontent tabcontent_sel' : 'tabcontent' }}" bindtap="onClickTab_lq">
+    <image src="{{cursel == 1 ?  '../../image/lq_sel.png' : '../../image/lq.png'}}" />
+    <text>利器管理</text>
+   </view>
+  </view>
+</template>

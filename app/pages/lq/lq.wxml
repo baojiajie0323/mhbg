@@ -1,0 +1,42 @@
+<!--lq.wxml-->
+<import src="../common/bottomTab.wxml" />
+
+<view class="container">
+  <view class="brcontainer">
+    <button type="primary" bindtap="onClickBr" >利器借出</button>
+  </view>
+  <scroll-view scroll-y="true" class="taskscroll">
+    <view wx:for="{{brlist}}" wx:for-item="lq" class="weui-form-preview taskcontent">
+      <view  class="weui-form-preview__hd">
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">{{index+1}}. 借出设备</view>
+          <view class="weui-form-preview__value_in-hd"> {{lq.devicetype}}</view>
+        </view>
+      </view>
+      <view class="weui-form-preview__bd">
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">借料人</view>
+          <view class="weui-form-preview__value">{{lq.bruser}}</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">借出数量</view>
+          <view class="weui-form-preview__value">{{lq.devicecount}}</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">借出日期</view>
+          <view class="weui-form-preview__value">{{lq.brdate}}</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">持续时间</view>
+          <view class="weui-form-preview__value">{{"3天12小时"}}</view>
+        </view>
+      </view>
+      <view class="weui-form-preview__ft">
+        <view class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">
+          <navigator url="{{'../lq_rt/lq_rt'}}">归还</navigator>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+  <template is="bottomTab" data="{{cursel:1}}"></template>
+</view>

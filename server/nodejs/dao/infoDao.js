@@ -495,4 +495,18 @@ module.exports = {
       });
     });
   },
+
+  getBrlist: function(req,res,next) {
+    console.log('infoDao getbrlist');
+    var param = req.body.data;
+    var context = this;
+    _dao.getConnection(res, function (connection) {
+      var sqlstring = _sql.getbrlist;
+      var where_params = [param.today];
+      connection.execute(sqlstring, where_params, function (err, result) {
+        context.listresult(res, err, result);
+        connection.release();
+      });
+    });
+  },
 };

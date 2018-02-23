@@ -1,0 +1,17 @@
+@import "../common/lib/weui.wxss";
+@import "../common/bottomTab.wxss";
+
+.taskscroll {
+  position: absolute;
+  width: 100%;
+  top: 70px;
+  bottom: 60px;
+}
+
+.taskcontent {
+  margin-bottom: 80rpx;
+}
+
+.brcontainer{
+  margin: 0 10px;
+}

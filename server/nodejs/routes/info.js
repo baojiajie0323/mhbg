@@ -18,7 +18,7 @@ router.post('/', function (req, res, next) {
     infoDao.getOrderDetail(req, res, next);
   } else if (req.body.cmd == "restartserve") {
     console.log('restartserve');
-    process.exit();  
+    process.exit();
   }
 
   else if (req.body.cmd == "login") {
@@ -78,6 +78,9 @@ router.post('/', function (req, res, next) {
   } else if (req.body.cmd == "updatebgsj_bl") {
     console.log('updatebgsj_bl');
     infoDao.updateBgsj_bl(req, res, next);
+  } else if (req.body.cmd == "getbrlist") {
+    console.log('getbrlist');
+    infoDao.getBrlist(req, res, next);
   }
 });
 

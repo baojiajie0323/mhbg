@@ -1,0 +1,35 @@
+<!--lq——br.wxml-->
+
+<view class="container">
+ <view class="weui-cells weui-cells_after-title cpcontent">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">利器类型</view>
+        </view>
+        <view class="weui-cell__bd">
+          <picker bindchange="onBlInput" id="TC_AFN04_index" value="{{item.TC_AFN04_index}}" range="{{bllj}}" range-key="IMA02">
+            <view class="weui-select weui-select_in-select-after">{{bllj[item.TC_AFN04_index].IMA02}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">数量</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input rightalign" data-index="{{index}}" id="TC_AFN06" value="{{item.TC_AFN06}}" bindinput='onBlInput' placeholder="请输入数量" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">借料人</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input rightalign" data-index="{{index}}" id="TC_AFN06" value="{{item.TC_AFN06}}" bindinput='onBlInput' placeholder="请输入借料人" />
+        </view>
+      </view>
+    </view>
+  <view class="brcontainer">
+    <button type="primary">确定</button>
+  </view>
+</view>

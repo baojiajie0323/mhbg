@@ -35,14 +35,14 @@
           <input class="weui-input" value="{{item.TC_AFJ06}}" id="{{index}}" bindinput="bind06Input" placeholder="请输入调机人员" />
         </view>
       </view>
-      <view class="weui-cell weui-cell_input">
+      <!-- <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
           <view class="weui-label">工艺</view>
         </view>
         <view class="weui-cell__bd">
           <input class="weui-input" value="{{item.TC_AFJ08}}" id="{{index}}" bindinput="bind08Input" placeholder="请输入工艺" />
         </view>
-      </view>
+      </view> -->
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
           <view class="weui-label">调整参数</view>

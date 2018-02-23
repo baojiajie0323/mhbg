@@ -1,5 +1,6 @@
 <!--logs.wxml-->
 <import src="../common/steps/index.wxml" />
+<import src="../common/bottomTab.wxml" />
 
 <view class="container">
   <view class="page-section">
@@ -60,7 +61,5 @@
       </view>
     </view>
   </scroll-view>
-  <view class="weui-footer weui-footer_fixed-bottom">
-    <view class="weui-footer__text">Copyright © 2017 上海满好日用品有限公司</view>
-  </view>
+  <template is="bottomTab" data="{{cursel:0}}"></template>
 </view>

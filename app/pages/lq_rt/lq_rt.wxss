@@ -1,0 +1,9 @@
+@import "../common/lib/weui.wxss";
+
+.cpcontent{
+  margin:  10px 0;
+}
+
+.rightalign{
+  text-align: right;
+}

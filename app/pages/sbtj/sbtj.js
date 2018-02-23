@@ -222,7 +222,7 @@ Page({
     var { sbtj } = this.data;
     for (var i = 0; i < sbtj.length; i++) {
       var lj = sbtj[i];
-      if (!lj.TC_AFJ04 || !lj.TC_AFJ05 || !lj.TC_AFJ06 || !lj.TC_AFJ07 || !lj.TC_AFJ08) {
+      if (!lj.TC_AFJ04 || !lj.TC_AFJ05 || !lj.TC_AFJ06 || !lj.TC_AFJ07 ) {
         wx.showModal({
           title: '提示',
           content: '请填写结果',

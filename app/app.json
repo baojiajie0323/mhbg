@@ -2,6 +2,9 @@
   "pages": [
     "pages/index/index",
     "pages/task/task",
+    "pages/lq/lq",
+    "pages/lq_br/lq_br",
+    "pages/lq_rt/lq_rt",
     "pages/wlqd/wlqd",
     "pages/sjqr/sjqr",
     "pages/sbtj/sbtj",
