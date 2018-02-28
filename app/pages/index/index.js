@@ -138,10 +138,18 @@ Page({
           }
           wx.setStorageSync("USERACCOUNT", useraccount);
 
+          wx.setStorageSync("role", role.value);
+          wx.setStorageSync("name", userInfo.TC_AFV05);
+          wx.setStorageSync("rolename", role.name);
+          wx.setStorageSync("usertype", userInfo.TC_AFV06);
+          wx.setStorageSync("user", context.data.username);
 
-          wx.navigateTo({
-            url: '../task/task?role=' + role.value + '&name=' + userInfo.TC_AFV05 + '&rolename=' + role.name + '&usertype=' + userInfo.TC_AFV06 + '&user=' + context.data.username
+          wx.switchTab({
+            url: '../task/task'
           })
+          // wx.navigateTo({
+          //   url: '../task/task?role=' + role.value + '&name=' + userInfo.TC_AFV05 + '&rolename=' + role.name + '&usertype=' + userInfo.TC_AFV06 + '&user=' + context.data.username
+          // })
         } else {
           wx.showModal({
             title: '登录失败',

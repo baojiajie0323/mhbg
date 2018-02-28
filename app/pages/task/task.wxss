@@ -1,6 +1,5 @@
 @import "../common/lib/weui.wxss";
 @import "../common/steps/index.wxss";
-@import "../common/bottomTab.wxss";
 
 .tasktitle {
   display: flex;
@@ -38,7 +37,7 @@
   position: absolute;
   width: 100%;
   top: 80px;
-  bottom: 60px;
+  bottom: 0;
 }
 
 .taskcontent {

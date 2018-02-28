@@ -61,5 +61,4 @@
       </view>
     </view>
   </scroll-view>
-  <template is="bottomTab" data="{{cursel:0}}"></template>
 </view>

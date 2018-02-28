@@ -16,5 +16,25 @@
     "navigationBarTitleText": "满好报工",
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/task/task",
+        "iconPath": "image/task.png",
+        "selectedIconPath": "image/task_sel.png",
+        "text": "今日任务"
+      },
+      {
+        "pagePath": "pages/lq/lq",
+        "iconPath": "image/lq.png",
+        "selectedIconPath": "image/lq_sel.png",
+        "text": "利器管理"
+      }
+    ]
   }
 }
