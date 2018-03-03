@@ -61,7 +61,7 @@ Page({
     this.requestInfo();
   },
   requestInfo: function () {
-    this.getLqList();
+    //this.getLqList();
     //this.getBrList();
   },
   getLqList: function () {

@@ -88,9 +88,10 @@ var sqlmap = {
   WHERE sfe02 IN (SELECT DISTINCT tc_afs03 FROM tc_afs_file WHERE tc_afs01=to_date(:todaydate,'yyyy-mm-dd')) \
   AND sfe01=:orderno ",
 
-
+/*=============================利器管理====================================*/
   getlqlist:"select tc_afx01,tc_afx02 from tc_afx_file",
-
+  addbrinfo:"insert into tc_afw_file (tc_afw01,tc_afw02,tc_afw03,tc_afw04,tc_afw05,tc_afw06,tc_afw07,tc_afw08,tc_afw09,tc_afw10,tc_afw11,tc_afw12,tc_afw13,tc_afw14,tc_afw15) \
+  values (:lqbh,:lqmc,:lqxh,:lqsl,to_date(:jcrq,'yyyy-mm-dd'),:jcsj,'','',:jcgh,'','N','','','','')",
 };
 
 module.exports = sqlmap;

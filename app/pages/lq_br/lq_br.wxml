@@ -4,12 +4,30 @@
  <view class="weui-cells weui-cells_after-title cpcontent">
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
-          <view class="weui-label">利器类型</view>
+          <view class="weui-label">利器编号</view>
+        </view>
+        <view class="weui-cell__bd rightalign">
+          <picker bindchange="onlqInput" id="lqbh" value="{{lqbh}}" range="{{lqlist}}" range-key="TC_AFX01">
+            <view class="weui-select weui-select_in-select-after">{{lqlist[lqbh].TC_AFX01}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">利器名称</view>
+        </view>
+        <view class="weui-cell__bd rightalign">
+          <picker bindchange="onlqInput" id="lqbh" value="{{lqbh}}" range="{{lqlist}}" range-key="TC_AFX02">
+            <view class="weui-select weui-select_in-select-after">{{lqlist[lqbh].TC_AFX02}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">序号</view>
         </view>
         <view class="weui-cell__bd">
-          <picker bindchange="onBlInput" id="TC_AFN04_index" value="{{item.TC_AFN04_index}}" range="{{bllj}}" range-key="IMA02">
-            <view class="weui-select weui-select_in-select-after">{{bllj[item.TC_AFN04_index].IMA02}}</view>
-          </picker>
+          <input class="weui-input rightalign" id="lqxh" value="{{lqxh}}" bindinput='onlqInput' placeholder="请输入序号" />
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
@@ -17,19 +35,19 @@
           <view class="weui-label">数量</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input rightalign" data-index="{{index}}" id="TC_AFN06" value="{{item.TC_AFN06}}" bindinput='onBlInput' placeholder="请输入数量" />
+          <input class="weui-input rightalign" id="lqsl" value="{{lqsl}}" bindinput='onlqInput' placeholder="请输入数量" />
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
-          <view class="weui-label">借料人</view>
+          <view class="weui-label">借出人工号</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input rightalign" data-index="{{index}}" id="TC_AFN06" value="{{item.TC_AFN06}}" bindinput='onBlInput' placeholder="请输入借料人" />
+          <input class="weui-input rightalign" id="jcgh" value="{{jcgh}}" bindinput='onlqInput' placeholder="请输入借出人工号" />
         </view>
       </view>
     </view>
   <view class="brcontainer">
-    <button type="primary">确定</button>
+    <button bindtap="onClickOK" type="primary">确定</button>
   </view>
 </view>

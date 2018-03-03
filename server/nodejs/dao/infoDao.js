@@ -520,4 +520,24 @@ module.exports = {
       });
     });
   },
+  addBrinfo: function(req,res,next) {
+    console.log('infoDao addBrinfo');
+    var param = req.body.data;
+    var context = this;
+    _dao.getConnection(res, function (connection) {
+      var sqlstring = _sql.addbrinfo;
+      var nowDate = new Date();
+      var paramlist = [param.lqbh,param.lqmc,param.lqxh,parseInt(param.lqsl),nowDate.Format("yyyy-MM-dd"),nowDate.Format("hh:mm:ss"),param.jcgh]
+      console.log(paramlist);
+      connection.execute(sqlstring, paramlist, function (err, result) {
+        if (err) {
+          console.log('addBrinfo error', err);
+          jsonWrite(res, {}, dbcode.FAIL);
+        } else {
+          jsonWrite(res, param, dbcode.SUCCESS);
+        }
+        connection.release();
+      });
+    });
+  },
 };

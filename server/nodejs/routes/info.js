@@ -84,7 +84,10 @@ router.post('/', function (req, res, next) {
   } else if (req.body.cmd == "getbrlist") {
     console.log('getbrlist');
     infoDao.getBrlist(req, res, next);
-  }
+  } else if (req.body.cmd == "addbrinfo") {
+    console.log('addbrinfo');
+    infoDao.addBrinfo(req, res, next);
+  } 
 });
 
 
