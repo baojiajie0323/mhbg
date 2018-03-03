@@ -61,7 +61,43 @@ Page({
     this.requestInfo();
   },
   requestInfo: function () {
-    this.getBrList();
+    this.getLqList();
+    //this.getBrList();
+  },
+  getLqList: function () {
+    var context = this;
+    console.log("request getLqList");
+    qcloud.request({
+      // 要请求的地址
+      url: config.service.requestUrl,
+      data: {
+        cmd: 'getlqlist',
+        data: {
+          //stoday: new Date("2017-10-17").Format('yyyy-MM-dd')
+          //today: new Date().Format('yyyy-MM-dd')
+        }
+      },
+      method: 'POST',
+      // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+      login: true,
+
+      success(result) {
+        //showSuccess('列表更新成功');
+        console.log('request success', result);
+        context.setData({
+          lqlist: result.data.data
+        })
+      },
+
+      fail(error) {
+        //showModel('请求失败', error);
+        console.log('request fail', error);
+      },
+
+      complete() {
+        console.log('request complete');
+      }
+    });
   },
   getBrList: function () {
     var context = this;
@@ -98,7 +134,7 @@ Page({
       }
     });
   },
-  onClickBr : function(){
+  onClickBr(){
     wx.navigateTo({
       url: '../lq_br/lq_br',
     })

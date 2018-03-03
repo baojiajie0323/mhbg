@@ -78,6 +78,9 @@ router.post('/', function (req, res, next) {
   } else if (req.body.cmd == "updatebgsj_bl") {
     console.log('updatebgsj_bl');
     infoDao.updateBgsj_bl(req, res, next);
+  } else if (req.body.cmd == "getlqlist") {
+    console.log('getlqlist');
+    infoDao.getLqlist(req, res, next);
   } else if (req.body.cmd == "getbrlist") {
     console.log('getbrlist');
     infoDao.getBrlist(req, res, next);

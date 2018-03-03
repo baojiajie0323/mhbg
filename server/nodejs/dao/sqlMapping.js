@@ -89,7 +89,7 @@ var sqlmap = {
   AND sfe01=:orderno ",
 
 
-  getbrlist:"",
+  getlqlist:"select tc_afx01,tc_afx02 from tc_afx_file",
 
 };
 
