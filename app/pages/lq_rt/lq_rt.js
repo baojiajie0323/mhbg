@@ -31,49 +31,64 @@ var showModel = (title, content) => {
 
 Page({
   data: {
-    brlist: [{
-      brdate: '2018-02-23 15:20:00',
-      devicetype: '工业剪刀',
-      devicecount: '3',
-      bruser: '鲍嘉捷',
-    }, {
-      brdate: '2018-02-23 15:20:00',
-      devicetype: '工业剪刀',
-      devicecount: '3',
-      bruser: '鲍嘉捷',
-    }, {
-      brdate: '2018-02-23 15:20:00',
-      devicetype: '工业剪刀',
-      devicecount: '3',
-      bruser: '鲍嘉捷',
-    }, {
-      brdate: '2018-02-23 15:20:00',
-      devicetype: '工业剪刀',
-      devicecount: '3',
-      bruser: '鲍嘉捷',
-    }]
   },
   onLoad: function (option) {
     console.log("onLoad", option);
+    this.setData({lq: JSON.parse(option.lq)})
     // this.setData({ role: option.role, rolename: option.rolename, name: option.name, usertype: option.usertype, user: option.user, tasktype: option.usertype })
   },
   onShow: function () {
     //this.requestInfo();
   },
   requestInfo: function () {
-    this.getBrList();
   },
-  getBrList: function () {
+  onRtInput: function (e) {
+    var key = e.target.id;
+    console.log('onRtInput', e);
+    //this.setData({ bgsj_bl })
+    if (key == "rtgh") {
+      //var lqbh = lqlist[parseInt(e.detail.value)].TC_AFX01;
+      this.setData({ rtgh: e.detail.value })
+    }
+  },
+  onClickOK: function () {
+    const { rtgh } = this.data;
+    if (!rtgh) {
+      wx.showModal({
+        title: '提示',
+        content: '请填写记录',
+        showCancel: false
+      })
+      return;
+    }
+    wx.showModal({
+      content: "确定要提交利器归还记录吗？",
+      confirmText: "确定",
+      cancelText: "取消",
+      success: (res) => {
+        if (res.confirm) {
+          this.updateBrRecord();
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
+  },
+  updateBrRecord: function () {
+    const { lq,rtgh } = this.data;
     var context = this;
-    console.log("request getBrList");
+    console.log("request updateBrRecord");
     qcloud.request({
       // 要请求的地址
       url: config.service.requestUrl,
       data: {
-        cmd: 'getbrlist',
+        cmd: 'updatertinfo',
         data: {
-          //stoday: new Date("2017-10-17").Format('yyyy-MM-dd')
-          //today: new Date().Format('yyyy-MM-dd')
+          lqbh: lq.TC_AFW01,
+          lqxh: lq.TC_AFW03,
+          jcrq: lq.TC_AFW05,
+          jcsj: lq.TC_AFW06,
+          rtgh
         }
       },
       method: 'POST',
@@ -81,26 +96,20 @@ Page({
       login: true,
 
       success(result) {
-        //showSuccess('列表更新成功');
+        //showSuccess('更新物料清点信息成功');
         console.log('request success', result);
-        context.setData({
-          brlist: result.data.data
-        })
+        if (result.data.code == 0) {
+          //context.updateTaskState('endtask');
+          showSuccess("提交记录成功");
+          wx.navigateBack()
+        }
       },
-
       fail(error) {
-        //showModel('请求失败', error);
         console.log('request fail', error);
       },
-
       complete() {
         console.log('request complete');
       }
     });
   },
-  onClickBr: function () {
-    wx.navigateTo({
-      url: '../lq_br/lq_br',
-    })
-  }
 })

@@ -90,8 +90,14 @@ var sqlmap = {
 
 /*=============================利器管理====================================*/
   getlqlist:"select tc_afx01,tc_afx02 from tc_afx_file",
+  getbrlist:"SELECT tc_afw01, tc_afw02, tc_afw03,tc_afw09, gen02,tc_afw04,to_char(tc_afw05,'YYYY-MM-DD') tc_afw05,tc_afw06 \
+  from tc_afw_file \
+  left join gen_file on tc_afw09=gen01 \
+  where tc_afw11='N'",
   addbrinfo:"insert into tc_afw_file (tc_afw01,tc_afw02,tc_afw03,tc_afw04,tc_afw05,tc_afw06,tc_afw07,tc_afw08,tc_afw09,tc_afw10,tc_afw11,tc_afw12,tc_afw13,tc_afw14,tc_afw15) \
   values (:lqbh,:lqmc,:lqxh,:lqsl,to_date(:jcrq,'yyyy-mm-dd'),:jcsj,'','',:jcgh,'','N','','','','')",
+  updatertinfo:"update tc_afw_file set tc_afw07=:ghrq,tc_afw08=:ghsj,tc_afw10=:ghgh,tc_afw11='Y' \
+  where tc_afw01=:lqbh and tc_afw03=:lqxh and tc_afw05=to_date(:jcrq,'yyyy-mm-dd') and tc_afw06=:jcsj"
 };
 
 module.exports = sqlmap;

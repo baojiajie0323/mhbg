@@ -87,6 +87,9 @@ router.post('/', function (req, res, next) {
   } else if (req.body.cmd == "addbrinfo") {
     console.log('addbrinfo');
     infoDao.addBrinfo(req, res, next);
+  } else if (req.body.cmd == "updatertinfo") {
+    console.log('updatertinfo');
+    infoDao.updateRtinfo(req, res, next);
   } 
 });
 

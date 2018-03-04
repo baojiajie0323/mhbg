@@ -5,26 +5,30 @@
     <view class="weui-form-preview taskcontent">
       <view class="weui-form-preview__hd">
         <view class="weui-form-preview__item">
-          <view class="weui-form-preview__label">借出设备</view>
-          <view class="weui-form-preview__value_in-hd"> {{lq.devicetype}}</view>
+          <view class="weui-form-preview__label">借出利器</view>
+          <view class="weui-form-preview__value_in-hd"> {{lq.TC_AFW02}}</view>
         </view>
       </view>
       <view class="weui-form-preview__bd">
         <view class="weui-form-preview__item">
-          <view class="weui-form-preview__label">借料人</view>
-          <view class="weui-form-preview__value">{{lq.bruser}}</view>
+          <view class="weui-form-preview__label">利器编号</view>
+          <view class="weui-form-preview__value">{{lq.TC_AFW01}}</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">借出人</view>
+          <view class="weui-form-preview__value">{{lq.GEN02}} - {{lq.TC_AFW09}}</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">借出序号</view>
+          <view class="weui-form-preview__value">{{lq.TC_AFW03}}</view>
         </view>
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">借出数量</view>
-          <view class="weui-form-preview__value">{{lq.devicecount}}</view>
+          <view class="weui-form-preview__value">{{lq.TC_AFW04}}</view>
         </view>
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">借出日期</view>
-          <view class="weui-form-preview__value">{{lq.brdate}}</view>
-        </view>
-        <view class="weui-form-preview__item">
-          <view class="weui-form-preview__label">持续时间</view>
-          <view class="weui-form-preview__value">{{"3天12小时"}}</view>
+          <view class="weui-form-preview__value">{{lq.TC_AFW05}} {{lq.TC_AFW06}}</view>
         </view>
       </view>
     </view>
@@ -35,12 +39,12 @@
           <view class="weui-label">归还人</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input rightalign" data-index="{{index}}" id="TC_AFN06" value="{{item.TC_AFN06}}" bindinput='onBlInput' placeholder="请输入归还人" />
+          <input class="weui-input rightalign" id="rtgh" value="{{rtgh}}" bindinput='onRtInput' placeholder="请输入归还人工号" />
         </view>
       </view>
     </view>
   </view>
   <view class="brcontainer">
-    <button type="primary">确定</button>
+    <button bindtap="onClickOK" type="primary">确定</button>
   </view>
 </view>

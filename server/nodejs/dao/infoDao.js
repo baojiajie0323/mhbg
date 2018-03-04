@@ -513,7 +513,8 @@ module.exports = {
     var context = this;
     _dao.getConnection(res, function (connection) {
       var sqlstring = _sql.getbrlist;
-      var where_params = [param.today];
+      var where_params = [];
+      console.log(sqlstring);
       connection.execute(sqlstring, where_params, function (err, result) {
         context.listresult(res, err, result);
         connection.release();
@@ -532,6 +533,26 @@ module.exports = {
       connection.execute(sqlstring, paramlist, function (err, result) {
         if (err) {
           console.log('addBrinfo error', err);
+          jsonWrite(res, {}, dbcode.FAIL);
+        } else {
+          jsonWrite(res, param, dbcode.SUCCESS);
+        }
+        connection.release();
+      });
+    });
+  },
+  updateRtinfo: function(req,res,next) {
+    console.log('infoDao updateRtinfo');
+    var param = req.body.data;
+    var context = this;
+    _dao.getConnection(res, function (connection) {
+      var sqlstring = _sql.updatertinfo;
+      var nowDate = new Date();
+      var paramlist = [nowDate.Format("yyyyMMdd"),nowDate.Format("hh:mm:ss"),param.rtgh,param.lqbh,param.lqxh,param.jcrq,param.jcsj]
+      console.log(paramlist);
+      connection.execute(sqlstring, paramlist, function (err, result) {
+        if (err) {
+          console.log('updateRtinfo error', err);
           jsonWrite(res, {}, dbcode.FAIL);
         } else {
           jsonWrite(res, param, dbcode.SUCCESS);
