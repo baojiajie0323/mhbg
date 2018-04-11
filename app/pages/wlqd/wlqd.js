@@ -49,7 +49,7 @@ Page({
   },
   onLoad: function (option) {
     console.log("onLoad", option);
-    this.setData({ state: option.state, no: option.no, gy: option.gy, dh: option.dh, xh: option.xh })
+    this.setData({ state: option.state, no: option.no, gy: option.gy, dh: option.dh, xh: option.xh, worker: option.worker })
     var no = option.no;
     var gy = option.gy;
     var dh = option.dh;
@@ -141,7 +141,7 @@ Page({
           orderno: context.data.no,
           dh: context.data.dh,
           xh: context.data.xh,
-          user: wx.getStorageSync("USERACCOUNT"),
+          user: context.data.worker ? context.data.worker : wx.getStorageSync("USERACCOUNT"),
           time: new Date().Format('hh:mm:ss'),
           step: 'A'
         }

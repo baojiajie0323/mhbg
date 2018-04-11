@@ -4,6 +4,16 @@
  <view class="weui-cells weui-cells_after-title cpcontent">
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
+          <view class="weui-label">借出车间</view>
+        </view>
+        <view class="weui-cell__bd rightalign">
+          <picker bindchange="onlqInput" id="cjbh" value="{{cjbh}}" range="{{cjlist}}" range-key="ECA02" >
+            <view class="weui-select weui-select_in-select-after">{{cjlist[cjbh].ECA02}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
           <view class="weui-label">利器编号</view>
         </view>
         <view class="weui-cell__bd rightalign">

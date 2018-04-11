@@ -11,6 +11,10 @@
       </view>
       <view class="weui-form-preview__bd">
         <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">借出车间</view>
+          <view class="weui-form-preview__value">{{lq.TC_AFW12}}</view>
+        </view>
+        <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">利器编号</view>
           <view class="weui-form-preview__value">{{lq.TC_AFW01}}</view>
         </view>

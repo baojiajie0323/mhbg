@@ -1,0 +1,95 @@
+<!--lq——br.wxml-->
+
+<view class="container">
+ <view class="weui-cells weui-cells_after-title cpcontent">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">设备名称</view>
+        </view>
+        <view class="weui-cell__bd rightalign">
+          <picker bindchange="onsbInput" id="sbbh" value="{{sbbh}}" range="{{sblist}}" range-key="ECI06">
+            <view class="weui-select weui-select_in-select-after">{{sblist[sbbh].ECI06}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">设备编号</view>
+        </view>
+        <view class="weui-cell__bd rightalign">
+          <picker bindchange="onsbInput" id="sbbh" value="{{sbbh}}" range="{{sblist}}" range-key="ECI01">
+            <view class="weui-select weui-select_in-select-after">{{sblist[sbbh].ECI01}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">设备位置</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input rightalign" id="sbwz" value="{{sbwz}}" bindinput='onsbInput' placeholder="请输入位置" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">故障说明</view>
+        </view>
+        <view class="weui-cell__bd">
+          <input class="weui-input rightalign" id="gzsm" value="{{gzsm}}" bindinput='onsbInput' placeholder="请输入说明" />
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">工单单号</view>
+        </view>
+        <view class="weui-cell__bd rightalign">
+          <picker bindchange="onsbInput" id="gdgd" value="{{gdgd}}" range="{{gdlist_gd}}" >
+            <view class="weui-select weui-select_in-select-after">{{gdlist_gd[gdgd]}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">工艺</view>
+        </view>
+        <view class="weui-cell__bd rightalign">
+          <picker bindchange="onsbInput" id="gdgy" value="{{gdgy}}" range="{{gdlist_gy}}" >
+            <view class="weui-select weui-select_in-select-after">{{gdlist_gy[gdgy]}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">段号</view>
+        </view>
+        <view class="weui-cell__bd rightalign">
+          <picker bindchange="onsbInput" id="gddh" value="{{gddh}}" range="{{gdlist_dh}}" >
+            <view class="weui-select weui-select_in-select-after">{{gdlist_dh[gddh]}}</view>
+          </picker>
+        </view>
+      </view>
+            <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">序号</view>
+        </view>
+        <view class="weui-cell__bd rightalign">
+          <picker bindchange="onsbInput" id="gdxh" value="{{gdxh}}" range="{{gdlist_xh}}" >
+            <view class="weui-select weui-select_in-select-after">{{gdlist_xh[gdxh]}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">类型</view>
+        </view>
+        <view class="weui-cell__bd rightalign">
+          <picker bindchange="onsbInput" id="gdlx" value="{{gdlx}}" range="{{gdlist_lx}}" range-key="name">
+            <view class="weui-select weui-select_in-select-after">{{gdlist_lx[gdlx].name}}</view>
+          </picker>
+        </view>
+      </view>
+    </view>
+  <view class="brcontainer">
+    <button bindtap="onClickOK" type="primary">确定</button>
+  </view>
+</view>

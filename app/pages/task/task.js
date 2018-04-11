@@ -176,21 +176,21 @@ Page({
     var operatelist = [];
     var checkoperate = (step) => {
       console.log('checkoperate', usertype, tc_afr13)
-      if (usertype == 1 && tc_afr13 == 2 && role != "PGY") {
+      if (usertype == 1 && tc_afr13 == 2 && role != "PGY" && role != "SCZZ_JXY") {
         return;
       }
       var stepstate = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, step, tc_aft08);
       if (stepstate == "1" || stepstate == "2") {
         if (step == "A") {
-          operatelist.push({ name: '物料清点', url: `../wlqd/wlqd?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&gy=${tc_afr04}&state=${stepstate}` })
+          operatelist.push({ name: '物料清点', url: `../wlqd/wlqd?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&gy=${tc_afr04}&worker=${tc_aft08 ? tc_aft08 : 'tiptop'}&state=${stepstate}` })
         } else if (step == "B") {
-          operatelist.push({ name: '设备调机', url: `../sbtj/sbtj?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&gy=${tc_afr04}&state=${stepstate}` })
+          operatelist.push({ name: '设备调机', url: `../sbtj/sbtj?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&gy=${tc_afr04}&worker=${tc_aft08 ? tc_aft08 : 'tiptop'}&state=${stepstate}` })
         } else if (step == "C") {
           operatelist.push({ name: '首件确认', url: `../sjqr/sjqr?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&gy=${tc_afr04}&worker=${tc_aft08 ? tc_aft08 : 'tiptop'}&state=${stepstate}` })
         } else if (step == "D") {
-          operatelist.push({ name: '正式生产', url: `../zssc/zssc?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&gy=${tc_afr04}&state=${stepstate}` })
+          operatelist.push({ name: '正式生产', url: `../zssc/zssc?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&gy=${tc_afr04}&worker=${tc_aft08 ? tc_aft08 : 'tiptop'}&state=${stepstate}` })
         } else if (step == "E") {
-          operatelist.push({ name: '报工送检', url: `../bgsj/bgsj?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&gy=${tc_afr04}&state=${stepstate}` })
+          operatelist.push({ name: '报工送检', url: `../bgsj/bgsj?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&gy=${tc_afr04}&worker=${tc_aft08 ? tc_aft08 : 'tiptop'}&state=${stepstate}` })
         }
       }
     }
@@ -293,7 +293,7 @@ Page({
     }
     var title = `已完成${finishOrder}/${allOrder}个`;
 
-    if (usertype == 1 && tasktype == 2 && role != 'PGY') {
+    if (usertype == 1 && tasktype == 2 && role != 'PGY' && role != 'SCZZ_JXY') {
       var existOrder = function (TC_AFR02, TC_AFR12, TC_AFR14) {
         for (var i = 0; i < realorderList_merge.length; i++) {
           if (realorderList_merge[i].TC_AFR02 == TC_AFR02 &&

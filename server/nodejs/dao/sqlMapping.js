@@ -71,15 +71,20 @@ var sqlmap = {
   from tc_afq_file \
   inner join tc_afl_file on tc_afq01=tc_afl01 and tc_afq02=tc_afl02 and tc_afq12=tc_afl08 and tc_afq13=tc_afl09 and tc_afq15=tc_afl11 \
   where tc_afq01=to_date(:todaydate,'yyyy-mm-dd') and tc_afq02=:orderno and tc_afq12=:dh and tc_afq13 =:xh and tc_afq15 =:useraccount and tc_afq04='D'",
+  getbgsj_begintime: "select tc_afq06 \
+  from tc_afq_file \
+  where tc_afq01=to_date(:todaydate,'yyyy-mm-dd') and tc_afq02=:orderno and tc_afq12=:dh and tc_afq13 =:xh and tc_afq15 =:useraccount and tc_afq04='E'",
+  getbghis: "select sum(tc_afm04) ALLHIS from tc_afm_file \
+  where tc_afm01=to_date(:todaydate,'yyyy-mm-dd') and tc_afm02=:orderno and tc_afm07=:dh and tc_afm08=:xh and tc_afm10=:useraccount " ,
   getbgsj_lp: "Select tc_afm04,tc_afm05 from tc_afm_file \
   Where tc_afm01=to_date(:todaydate,'yyyy-mm-dd') and tc_afm02=:orderno and tc_afm07=:dh and tc_afm08=:xh and tc_afm10=:useraccount ",
-  updatebgsj_lp: "Update tc_afm_file set tc_afm04=:lpcount \
-  Where tc_afm01=to_date(:todaydate,'yyyy-mm-dd') and tc_afm02=:orderno and tc_afm07=:dh and tc_afm08=:xh and tc_afm10=:useraccount ",
+  updatebgsj_lp: "insert into tc_afm_file(tc_afm01,tc_afm02,tc_afm03,tc_afm04,tc_afm05,tc_afm07,tc_afm08,tc_afm09,tc_afm10,tc_afm11,tc_afm12,tc_afm13,tc_afm14,tc_afm15) \
+  values (to_date(:todaydate,'yyyy-mm-dd'),:orderno,:ordertype,:count,:dw,:dh,:xh,:lx,:useraccount,:zsscbegin,:zsscend,:begin,:end,:zssccount)",
   getbgsj_bl: "Select tc_afn04,tc_afn05,tc_afn06,tc_afn07,tc_afn08,tc_afn09,tc_afn10,tc_afn11 \
   From tc_afn_file \
   Where tc_afn01=to_date(:todaydate,'yyyy-mm-dd') and tc_afn02=:orderno and tc_afn12=:dh and tc_afn13=:xh and tc_afn15=:useraccount ",
-  updatebgsj_bl: "Insert into tc_afn_file (tc_afn01, tc_afn02, tc_afn03, tc_afn04, tc_afn05, tc_afn06, tc_afn07, tc_afn08, tc_afn09, tc_afn10, tc_afn11 ,tc_afn12,tc_afn13,tc_afn14,tc_afn15) \
-  values (to_date(:todaydate,'yyyy-mm-dd'),:orderno,:ordertype,:ljbh,:pm,:count,:dw,:blyy,:pdjg,:ph,:gys,:dh,:xh,:tasktype,:useraccount) ",
+  updatebgsj_bl: "Insert into tc_afn_file (tc_afn01, tc_afn02, tc_afn03, tc_afn04, tc_afn05, tc_afn06, tc_afn07, tc_afn08, tc_afn09, tc_afn10, tc_afn11 ,tc_afn12,tc_afn13,tc_afn14,tc_afn15,tc_afn16,tc_afn17,tc_afn18,tc_afn19) \
+  values (to_date(:todaydate,'yyyy-mm-dd'),:orderno,:ordertype,:ljbh,:pm,:count,:dw,:blyy,:pdjg,:ph,:gys,:dh,:xh,:tasktype,:useraccount,:zsscbegin,:zsscend,:begin,:end) ",
   getbgsj_blyy: "SELECT qce01,qce03 FROM qce_file WHERE qce04='1' AND qceacti='Y'",
   getbgsj_bllj: "SELECT sfa03,ima02 FROM sfa_file \
   LEFT JOIN ima_file ON sfa03=ima01 \
@@ -87,17 +92,53 @@ var sqlmap = {
   getbgsj_blph: "SELECT DISTINCT sfe10 FROM sfe_file \
   WHERE sfe02 IN (SELECT DISTINCT tc_afs03 FROM tc_afs_file WHERE tc_afs01=to_date(:todaydate,'yyyy-mm-dd')) \
   AND sfe01=:orderno ",
+  resettaskstate: "update tc_afq_file set tc_afq05='1',tc_afq06='',tc_afq07='' \
+  Where tc_afq01=to_date(:todaydate,'yyyy-mm-dd') and tc_afq02=:orderno and tc_afq12=:dh \
+  and tc_afq13=:xh And tc_afq15=:useraccount \
+  And tc_afq04 IN ('D','E')",
+  restartzssc: "update tc_afl_file set tc_afl07=0 \
+  where tc_afl01=to_date(:todaydate,'yyyy-mm-dd') AND tc_afl02=:orderno AND tc_afl08=:dh AND tc_afl09=:xh \
+  AND tc_afl11=:useraccount",
 
 /*=============================利器管理====================================*/
-  getlqlist:"select tc_afx01,tc_afx02 from tc_afx_file",
-  getbrlist:"SELECT tc_afw01, tc_afw02, tc_afw03,tc_afw09, gen02,tc_afw04,to_char(tc_afw05,'YYYY-MM-DD') tc_afw05,tc_afw06 \
+  getlqlist:"select tc_afy01,tc_afx01,tc_afx02 from tc_afy_file \
+  inner join tc_afx_file on tc_afy01 = tc_afx01 \
+  where tc_afy03=:cjbh",
+  getcjlist:"select eca02 from eca_file where ecaacti='Y'",
+  getbrlist:"SELECT tc_afw01, tc_afw02, tc_afw03,tc_afw09, gen02,tc_afw04,to_char(tc_afw05,'YYYY-MM-DD') tc_afw05,tc_afw06,tc_afw12 \
   from tc_afw_file \
   left join gen_file on tc_afw09=gen01 \
   where tc_afw11='N'",
   addbrinfo:"insert into tc_afw_file (tc_afw01,tc_afw02,tc_afw03,tc_afw04,tc_afw05,tc_afw06,tc_afw07,tc_afw08,tc_afw09,tc_afw10,tc_afw11,tc_afw12,tc_afw13,tc_afw14,tc_afw15) \
-  values (:lqbh,:lqmc,:lqxh,:lqsl,to_date(:jcrq,'yyyy-mm-dd'),:jcsj,'','',:jcgh,'','N','','','','')",
+  values (:lqbh,:lqmc,:lqxh,:lqsl,to_date(:jcrq,'yyyy-mm-dd'),:jcsj,'','',:jcgh,'','N',:cjbh,'','','')",
   updatertinfo:"update tc_afw_file set tc_afw07=:ghrq,tc_afw08=:ghsj,tc_afw10=:ghgh,tc_afw11='Y' \
-  where tc_afw01=:lqbh and tc_afw03=:lqxh and tc_afw05=to_date(:jcrq,'yyyy-mm-dd') and tc_afw06=:jcsj"
+  where tc_afw01=:lqbh and tc_afw03=:lqxh and tc_afw05=to_date(:jcrq,'yyyy-mm-dd') and tc_afw06=:jcsj",
+
+  /*=============================设备维修====================================*/
+  getsblist:"select eci06,eci01 from eci_file \
+  where eci01 NOT like 'EQP%' AND eciacti='Y'",
+  getgdlist:"select tc_afr02,tc_afr05,tc_afr12,tc_afr14,tc_afr13 from tc_afr_file \
+  where tc_afr01=to_date(:todaydate,'yyyy-mm-dd')",
+  getbxlist:"SELECT tc_bab02,tc_bab01,tc_baa03,tc_baa04,gen02, to_char(tc_bab03,'YYYY-MM-DD') tc_bab03,tc_bab04,tc_baa13,tc_bab05,tc_bab06 \
+  FROM tc_bab_file \
+  inner JOIN tc_baa_file on tc_bab01=tc_baa01 AND tc_bab03=tc_baa05 and tc_bab04=tc_baa06 \
+  left join gen_file on tc_baa07=gen01 \
+  WHERE (tc_bab05 = 'A' and tc_bab06 = '1') or (tc_bab05 = 'B' and tc_bab06 = '1')",
+  addbxinfo:"INSERT INTO tc_baa_file(tc_baa01,tc_baa02,tc_baa03,tc_baa04,tc_baa05,tc_baa06,tc_baa07, \
+  tc_baa08,tc_baa09,tc_baa10,tc_baa11,tc_baa12) \
+  VALUES(:sbbh,:sbmc,:sbwz,:sbgz,to_date(:bxdate,'yyyy-mm-dd'),:bxtime,:useraccount, \
+  :gdgd,:gdgy,:gddh,:gdxh,:gdlx)",
+  addbxstatus:"insert into tc_bab_file (tc_bab01,tc_bab02,tc_bab03,tc_bab04,tc_bab05,tc_bab06,tc_bab07,tc_bab08,tc_bab09,tc_bab10 ) \
+  values (:sbbh,:sbmc,to_date(:bxdate,'yyyy-mm-dd'),:bxtime,:type,:status,to_date(:startdate,'yyyy-mm-dd'),:starttime,to_date(:enddate,'yyyy-mm-dd'),:endtime)",
+  getfplist:"select tc_afv05 FROM tc_afv_file WHERE tc_afv04='Y' AND tc_afv03='8'",
+  updatezpinfo:"UPDATE  tc_baa_file SET tc_baa13=:zpry \
+  WHERE tc_baa01=:sbbh AND tc_baa05=to_date(:bxdate,'yyyy-mm-dd') AND tc_baa06=:bxtime ",
+  updatebxstatus_begin: "UPDATE tc_bab_file SET tc_bab07=to_date(:begin,'yyyy-mm-dd'),tc_bab08=:end,tc_bab06=:bxtype \
+  WHERE tc_bab01=:sbbh AND tc_bab03=to_date(:bxdate,'yyyy-mm-dd') AND tc_bab04=:bxtime and tc_bab05=:bxstatus ",
+  updatebxstatus_end: "UPDATE tc_bab_file SET tc_bab09=to_date(:begin,'yyyy-mm-dd'),tc_bab10=:end,tc_bab06=:bxtype \
+  WHERE tc_bab01=:sbbh AND tc_bab03=to_date(:bxdate,'yyyy-mm-dd') AND tc_bab04=:bxtime and tc_bab05=:bxstatus ",
+  updatewxinfo:"UPDATE  tc_baa_file SET tc_baa14=:wxnr \
+  WHERE tc_baa01=:sbbh AND tc_baa05=to_date(:bxdate,'yyyy-mm-dd') AND tc_baa06=:bxtime ",
 };
 
 module.exports = sqlmap;

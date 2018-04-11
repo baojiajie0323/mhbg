@@ -86,7 +86,7 @@ Page({
   },
   onClickRt(e){
     wx.navigateTo({
-      url: `../lq_rt/lq_rt?lq=${JSON.stringify(e.target.dataset.lq)}`,
+      url: `../lq_rt/lq_rt?lq=${JSON.stringify(e.currentTarget.dataset.lq)}`,
     })
     console.log(e);
   }

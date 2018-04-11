@@ -40,7 +40,7 @@ Page({
   },
   onLoad: function (option) {
     console.log("onLoad", option);
-    this.setData({ state: option.state, no: option.no, ordertype: option.gy, dh: option.dh, xh: option.xh })
+    this.setData({ state: option.state, no: option.no, ordertype: option.gy, dh: option.dh, xh: option.xh, worker:option.worker })
     var no = option.no;
     var ordertype = option.type
     var dh = option.dh;
@@ -97,7 +97,7 @@ Page({
           orderno: no,
           dh,
           xh,
-          user: wx.getStorageSync("USERACCOUNT"),
+          user: context.data.worker ? context.data.worker : wx.getStorageSync("USERACCOUNT"),
         }
       },
       method: 'POST',
@@ -140,7 +140,7 @@ Page({
           orderno: context.data.no,
           dh: context.data.dh,
           xh: context.data.xh,
-          user: wx.getStorageSync("USERACCOUNT"),
+          user: context.data.worker ? context.data.worker : wx.getStorageSync("USERACCOUNT"),
           time,
           step: 'D'
         }
@@ -187,7 +187,7 @@ Page({
           ordertype: this.data.type,
           dh: this.data.dh,
           xh: this.data.xh,
-          user: wx.getStorageSync("USERACCOUNT"),
+          user: this.data.worker ? this.data.worker : wx.getStorageSync("USERACCOUNT"),
           zssc: this.data.zssc
         }
       },

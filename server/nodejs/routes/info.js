@@ -66,6 +66,9 @@ router.post('/', function (req, res, next) {
   } else if (req.body.cmd == "updatebgsj") {
     console.log('updatebgsj');
     infoDao.updateBgsj(req, res, next);
+  } else if (req.body.cmd == "continuetaskstate") {
+    console.log('continuetaskstate');
+    infoDao.continueTaskState(req, res, next);
   } else if (req.body.cmd == "getsbtj_lp") {
     console.log('getsbtj_lp');
     infoDao.getSbtj_lp(req, res, next);
@@ -81,6 +84,9 @@ router.post('/', function (req, res, next) {
   } else if (req.body.cmd == "getlqlist") {
     console.log('getlqlist');
     infoDao.getLqlist(req, res, next);
+  } else if (req.body.cmd == "getcjlist") {
+    console.log('getcjlist');
+    infoDao.getCjlist(req, res, next);
   } else if (req.body.cmd == "getbrlist") {
     console.log('getbrlist');
     infoDao.getBrlist(req, res, next);
@@ -90,6 +96,30 @@ router.post('/', function (req, res, next) {
   } else if (req.body.cmd == "updatertinfo") {
     console.log('updatertinfo');
     infoDao.updateRtinfo(req, res, next);
+  } else if (req.body.cmd == "getbxlist") {
+    console.log('getbxlist');
+    infoDao.getBxlist(req, res, next);
+  } else if (req.body.cmd == "getsblist") {
+    console.log('getsblist');
+    infoDao.getSblist(req, res, next);
+  } else if (req.body.cmd == "getgdlist") {
+    console.log('getgdlist');
+    infoDao.getGdlist(req, res, next);
+  } else if (req.body.cmd == "addbxinfo") {
+    console.log('addbxinfo');
+    infoDao.addBxinfo(req, res, next);
+  } else if (req.body.cmd == "getfplist") {
+    console.log('getfplist');
+    infoDao.getFplist(req, res, next);
+  } else if (req.body.cmd == "updatezpinfo") {
+    console.log('updatezpinfo');
+    infoDao.updateZpinfo(req, res, next);
+  } else if (req.body.cmd == "updatebxstatus") {
+    console.log('updatebxstatus');
+    infoDao.updateBxstatus(req, res, next);
+  } else if (req.body.cmd == "updatewxinfo") {
+    console.log('updatewxinfo');
+    infoDao.updateWxinfo(req, res, next);
   } 
 });
 

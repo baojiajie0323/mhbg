@@ -31,34 +31,28 @@ var showModel = (title, content) => {
 
 Page({
   data: {
-   lqlist:[],
-   cjlist:[]
   },
   onLoad: function (option) {
     console.log("onLoad", option);
-    this.requestInfo();
+    this.setData({bx: JSON.parse(option.bx)})
     // this.setData({ role: option.role, rolename: option.rolename, name: option.name, usertype: option.usertype, user: option.user, tasktype: option.usertype })
   },
   onShow: function () {
     //this.requestInfo();
+    this.updateBxStatus( '2', 'B');
   },
   requestInfo: function () {
-    //this.getLqList();
-    this.getCjList();
+    this.getFplist();
   },
-  getLqList: function () {
-    var {cjbh,cjlist} = this.data;
+  getFplist: function () {
     var context = this;
-    console.log("request getLqList");
+    console.log("request getFplist");
     qcloud.request({
       // 要请求的地址
       url: config.service.requestUrl,
       data: {
-        cmd: 'getlqlist',
+        cmd: 'getfplist',
         data: {
-          cjbh: cjlist[cjbh].ECA02
-          //stoday: new Date("2017-10-17").Format('yyyy-MM-dd')
-          //today: new Date().Format('yyyy-MM-dd')
         }
       },
       method: 'POST',
@@ -69,7 +63,7 @@ Page({
         //showSuccess('列表更新成功');
         console.log('request success', result);
         context.setData({
-          lqlist: result.data.data
+          fplist: result.data.data
         })
       },
 
@@ -83,61 +77,17 @@ Page({
       }
     });
   },
-  getCjList: function () {
-    var context = this;
-    console.log("request getCjList");
-    qcloud.request({
-      // 要请求的地址
-      url: config.service.requestUrl,
-      data: {
-        cmd: 'getcjlist',
-        data: {
-        }
-      },
-      method: 'POST',
-      // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
-      login: true,
-
-      success(result) {
-        //showSuccess('列表更新成功');
-        console.log('request success', result);
-        context.setData({
-          cjlist: result.data.data
-        })
-      },
-
-      fail(error) {
-        //showModel('请求失败', error);
-        console.log('request fail', error);
-      },
-
-      complete() {
-        console.log('request complete');
-      }
-    });
-  },
-  onlqInput: function (e) {
-    const {lqlist} = this.data;
+  onWxInput: function (e) {
     var key = e.target.id;
-    console.log('onlqInput',e);
+    console.log('onWxInput', e);
     //this.setData({ bgsj_bl })
-    if(key == "lqbh"){
-      //var lqbh = lqlist[parseInt(e.detail.value)].TC_AFX01;
-      this.setData({ lqbh : e.detail.value})
-    }else if(key == "lqxh"){
-      this.setData({lqxh: e.detail.value})
-    } else if (key == "lqsl") {
-      this.setData({ lqsl: e.detail.value })
-    } else if (key == "jcgh") {
-      this.setData({ jcgh: e.detail.value })
-    } else if (key == "cjbh") {
-      this.setData({ cjbh: e.detail.value })
-      this.getLqList();
+    if (key == "wxnr") {
+      this.setData({ wxnr: e.detail.value })
     }
   },
-  onClickOK: function(){
-    const{lqbh,lqxh,lqsl,jcgh,cjbh} = this.data;
-    if (!lqbh || !lqxh || !lqsl || !jcgh || !cjbh){
+  onClickOK: function () {
+    const { wxnr } = this.data;
+    if (!wxnr) {
       wx.showModal({
         title: '提示',
         content: '请填写记录',
@@ -146,34 +96,32 @@ Page({
       return;
     }
     wx.showModal({
-      content: "确定要提交利器借出记录吗？",
+      content: "确定要提交维修记录吗？",
       confirmText: "确定",
       cancelText: "取消",
       success: (res) => {
         if (res.confirm) {
-          this.insertBrRecord();
+          this.updateWxRecord();
         } else if (res.cancel) {
           console.log('用户点击取消')
         }
       }
     })
   },
-  insertBrRecord: function () {
-    const {lqlist,cjlist,lqbh,lqxh,lqsl,jcgh,cjbh} = this.data;
+  updateWxRecord: function () {
+    const { bx, wxnr } = this.data;
     var context = this;
-    console.log("request insertBrRecord");
+    console.log("request updateWxRecord");
     qcloud.request({
       // 要请求的地址
       url: config.service.requestUrl,
       data: {
-        cmd: 'addbrinfo',
+        cmd: 'updatewxinfo',
         data: {
-          lqbh: lqlist[lqbh].TC_AFX01,
-          lqmc: lqlist[lqbh].TC_AFX02,
-          lqxh,
-          lqsl,
-          jcgh,
-          cjbh: cjlist[cjbh].ECA02
+          sbbh: bx.TC_BAB01,
+          bxdate: bx.TC_BAB03,
+          bxtime: bx.TC_BAB04,
+          wxnr
         }
       },
       method: 'POST',
@@ -186,7 +134,43 @@ Page({
         if (result.data.code == 0) {
           //context.updateTaskState('endtask');
           showSuccess("提交记录成功");
-          wx.navigateBack()
+          context.updateBxStatus('3','B');
+          wx.navigateBack();
+        }
+      },
+      fail(error) {
+        console.log('request fail', error);
+      },
+      complete() {
+        console.log('request complete');
+      }
+    });
+  },
+  updateBxStatus: function (bxtype,bxstatus) {
+    const { bx } = this.data;
+    var context = this;
+    console.log("request updateBxStatus");
+    qcloud.request({
+      // 要请求的地址
+      url: config.service.requestUrl,
+      data: {
+        cmd: 'updatebxstatus',
+        data: {
+          sbbh: bx.TC_BAB01,
+          bxdate: bx.TC_BAB03,
+          bxtime: bx.TC_BAB04,
+          bxtype,
+          bxstatus
+        }
+      },
+      method: 'POST',
+      // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+      login: true,
+
+      success(result) {
+        //showSuccess('更新物料清点信息成功');
+        console.log('request success', result);
+        if (result.data.code == 0) {
         }
       },
       fail(error) {

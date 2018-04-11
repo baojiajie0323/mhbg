@@ -31,65 +31,30 @@ var showModel = (title, content) => {
 
 Page({
   data: {
+    bxlist:[]
   },
   onLoad: function (option) {
-  
     console.log("onLoad", option);
-    this.setData({lq: JSON.parse(option.lq)})
     // this.setData({ role: option.role, rolename: option.rolename, name: option.name, usertype: option.usertype, user: option.user, tasktype: option.usertype })
   },
   onShow: function () {
-    //this.requestInfo();
+    this.requestInfo();
   },
   requestInfo: function () {
+    //this.getLqList();
+    this.getBxList();
   },
-  onRtInput: function (e) {
-    var key = e.target.id;
-    console.log('onRtInput', e);
-    //this.setData({ bgsj_bl })
-    if (key == "rtgh") {
-      //var lqbh = lqlist[parseInt(e.detail.value)].TC_AFX01;
-      this.setData({ rtgh: e.detail.value })
-    }
-  },
-  onClickOK: function () {
-    const { rtgh } = this.data;
-    if (!rtgh) {
-      wx.showModal({
-        title: '提示',
-        content: '请填写记录',
-        showCancel: false
-      })
-      return;
-    }
-    wx.showModal({
-      content: "确定要提交利器归还记录吗？",
-      confirmText: "确定",
-      cancelText: "取消",
-      success: (res) => {
-        if (res.confirm) {
-          this.updateBrRecord();
-        } else if (res.cancel) {
-          console.log('用户点击取消')
-        }
-      }
-    })
-  },
-  updateBrRecord: function () {
-    const { lq,rtgh } = this.data;
+  getBxList: function () {
     var context = this;
-    console.log("request updateBrRecord");
+    console.log("request getBxList");
     qcloud.request({
       // 要请求的地址
       url: config.service.requestUrl,
       data: {
-        cmd: 'updatertinfo',
+        cmd: 'getbxlist',
         data: {
-          lqbh: lq.TC_AFW01,
-          lqxh: lq.TC_AFW03,
-          jcrq: lq.TC_AFW05,
-          jcsj: lq.TC_AFW06,
-          rtgh
+          //stoday: new Date("2017-10-17").Format('yyyy-MM-dd')
+          //today: new Date().Format('yyyy-MM-dd')
         }
       },
       method: 'POST',
@@ -97,20 +62,38 @@ Page({
       login: true,
 
       success(result) {
-        //showSuccess('更新物料清点信息成功');
+        //showSuccess('列表更新成功');
         console.log('request success', result);
-        if (result.data.code == 0) {
-          //context.updateTaskState('endtask');
-          showSuccess("提交记录成功");
-          wx.navigateBack()
-        }
+        context.setData({
+          bxlist: result.data.data
+        })
       },
+
       fail(error) {
+        //showModel('请求失败', error);
         console.log('request fail', error);
       },
+
       complete() {
         console.log('request complete');
       }
     });
   },
+  onClickBx(){
+    wx.navigateTo({
+      url: '../repair_bx/repair_bx',
+    })
+  },
+  onClickZp(e){
+    wx.navigateTo({
+      url: `../repair_zp/repair_zp?bx=${JSON.stringify(e.currentTarget.dataset.bx)}`,
+    })
+    console.log(e);
+  },
+  onClickWx(e) {
+    wx.navigateTo({
+      url: `../repair_wx/repair_wx?bx=${JSON.stringify(e.currentTarget.dataset.bx)}`,
+    })
+    console.log(e);
+  }
 })

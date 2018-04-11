@@ -34,11 +34,24 @@
       </view>
     </view>
     <view class="weui-cells weui-cells_after-title lpcontent">
-      <view class="page-section-title bgsubtitle">报工明细</view>
+      <view class="page-section-title bgsubtitle">报工明细 （今日已报工数：{{bghis}}）</view>
       <view class="weui-cell">
-        <view class="weui-cell__bd">本站报工数({{bgsj_lp.TC_AFM05}})</view>
+        <view class="weui-cell__bd">本站报工数({{bgsj.TC_AFQ11}})</view>
         <input class="weui-cell__ft" type='number' value='{{bgsj_lp.TC_AFM04}}' bindinput='onLpInput' placeholder='请输入本站报工数' />
       </view>
+      <view class="weui-cell">
+          <view class="weui-cell__bd">是否继续生产</view>
+          <view class="weui-form-preview__value">
+            <radio-group bindchange="radioChange">
+              <label class="radio">
+                <radio value="ok" checked="{{isContinue == 'ok'}}" />是
+              </label>
+              <label class="radio">
+                <radio value="ng" checked="{{isContinue == 'ng'}}" />否
+              </label>
+            </radio-group>
+          </view>
+        </view>
     </view>
 
     <view class="page-section-title bgsubtitle">不良品明细</view>

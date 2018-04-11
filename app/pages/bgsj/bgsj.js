@@ -49,7 +49,7 @@ Page({
   },
   onLoad: function (option) {
     console.log("onLoad", option);
-    this.setData({ state: option.state, no: option.no, ordertype: option.gy, dh: option.dh, xh: option.xh })
+    this.setData({ state: option.state, no: option.no, ordertype: option.gy, dh: option.dh, xh: option.xh,worker:option.worker })
     var no = option.no;
     var ordertype = option.type
     var dh = option.dh;
@@ -106,7 +106,7 @@ Page({
           orderno: no,
           dh,
           xh,
-          user: wx.getStorageSync("USERACCOUNT"),
+          user: context.data.worker ? context.data.worker : wx.getStorageSync("USERACCOUNT"),
         }
       },
       method: 'POST',
@@ -119,8 +119,10 @@ Page({
         if (result.data.code == 0) {
           context.setData({
             bgsj: result.data.data.bgsj,
-            bgsj_lp: result.data.data.bgsj_lp,
-            bgsj_bl: result.data.data.bgsj_bl,
+            bghis: result.data.data.bghis,
+            begintime: result.data.data.begintime,
+            //bgsj_lp: result.data.data.bgsj_lp,
+            //bgsj_bl: result.data.data.bgsj_bl,
             bllj: context.data.bllj.concat(result.data.data.bgsj_bllj),
             blyy: context.data.blyy.concat(result.data.data.bgsj_blyy),
             blph: context.data.blph.concat(result.data.data.bgsj_blph),
@@ -138,6 +140,7 @@ Page({
   updateTaskState: function (stateTypeString) {
     var context = this;
     console.log("request updateTaskState");
+    var begintime = new Date().Format('hh:mm:ss');
     qcloud.request({
       // 要请求的地址
       url: config.service.requestUrl,
@@ -150,8 +153,8 @@ Page({
           orderno: context.data.no,
           dh: context.data.dh,
           xh: context.data.xh,
-          user: wx.getStorageSync("USERACCOUNT"),
-          time: new Date().Format('hh:mm:ss'),
+          user: context.data.worker ? context.data.worker : wx.getStorageSync("USERACCOUNT"),
+          time: begintime,
           step: 'E'
         }
       },
@@ -168,7 +171,51 @@ Page({
           })
           if (stateTypeString == "endtask") {
             wx.navigateBack();
+          }else {
+            context.setData({ begintime })
           }
+        }
+      },
+      fail(error) {
+        console.log('request fail', error);
+      },
+      complete() {
+        console.log('request complete');
+      }
+    });
+  },
+  continueTaskState: function () {
+    var context = this;
+    console.log("request continueTaskState");
+    qcloud.request({
+      // 要请求的地址
+      url: config.service.requestUrl,
+      data: {
+        cmd: 'continuetaskstate',
+        data: {
+          today: new Date().Format('yyyy-MM-dd'),
+          orderno: context.data.no,
+          dh: context.data.dh,
+          xh: context.data.xh,
+          user: context.data.worker ? context.data.worker : wx.getStorageSync("USERACCOUNT"),
+        }
+      },
+      method: 'POST',
+      // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+      login: true,
+
+      success(result) {
+        //showSuccess('列表更新成功');
+        console.log('request success', result);
+        if (result.data.code == 0) {
+          // context.setData({
+          //   state: stateTypeString == "begintask" ? 2 : 3
+          // })
+          // if (stateTypeString == "endtask") {
+            wx.navigateBack();
+          // } else {
+          //   context.setData({ begintime })
+          // }
         }
       },
       fail(error) {
@@ -182,6 +229,7 @@ Page({
   updateBgsj: function () {
     var context = this;
     console.log("request updateBgsj");
+    var endtime = new Date().Format('hh:mm:ss');
     qcloud.request({
       // 要请求的地址
       url: config.service.requestUrl,
@@ -194,9 +242,15 @@ Page({
           ordertype: this.data.ordertype,
           dh: this.data.dh,
           xh: this.data.xh,
-          user: wx.getStorageSync("USERACCOUNT"),
+          dw: this.data.bgsj.TC_AFQ11,
+          user: this.data.worker ? this.data.worker : wx.getStorageSync("USERACCOUNT"),
           bgsj_lp: this.data.bgsj_lp,
           bgsj_bl: this.data.bgsj_bl,
+          zssc_begin: this.data.bgsj.TC_AFQ06,
+          zssc_end:this.data.bgsj.TC_AFQ07,
+          zssc_count: this.data.bgsj.TC_AFL05,
+          begintime: this.data.begintime,
+          endtime
         }
       },
       method: 'POST',
@@ -207,7 +261,11 @@ Page({
         //showSuccess('更新物料清点信息成功');
         console.log('request success', result);
         if (result.data.code == 0) {
-          context.updateTaskState('endtask');
+          if(context.data.isContinue == "ok"){
+            context.continueTaskState();
+          }else{
+            context.updateTaskState('endtask');
+          }
         }
       },
       fail(error) {
@@ -233,11 +291,12 @@ Page({
     })
   },
   checkSubmit: function () {
-    var { bgsj_lp, bgsj_bl } = this.data;
+    var { bgsj_lp, bgsj_bl, isContinue } = this.data;
+    console.log(isContinue);
     for (var i = 0; i < bgsj_bl.length; i++) {
       var lj = bgsj_bl[i];
       if (!lj.TC_AFN04 || !lj.TC_AFN05 || !lj.TC_AFN06
-        || !lj.TC_AFN08 || !lj.TC_AFN09) {
+        || !lj.TC_AFN08 || !lj.TC_AFN09 ) {
         wx.showModal({
           title: '提示',
           content: '请填写结果',
@@ -246,7 +305,7 @@ Page({
         return false;
       }
     }
-    if (!bgsj_lp.TC_AFM04) {
+    if (!bgsj_lp.TC_AFM04 || !isContinue) {
       wx.showModal({
         title: '提示',
         content: '请填写结果',
@@ -349,4 +408,8 @@ Page({
     }
     this.setData({ bgsj_bl })
   },
+  radioChange: function (e){
+    console.log('radioChange',e);
+    this.setData({ isContinue: e.detail.value});
+  }
 })

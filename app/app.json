@@ -9,7 +9,11 @@
     "pages/sjqr/sjqr",
     "pages/sbtj/sbtj",
     "pages/zssc/zssc",
-    "pages/bgsj/bgsj"
+    "pages/bgsj/bgsj",
+    "pages/repair/repair",
+    "pages/repair_bx/repair_bx",
+    "pages/repair_zp/repair_zp",
+    "pages/repair_wx/repair_wx"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -34,6 +38,12 @@
         "iconPath": "image/lq.png",
         "selectedIconPath": "image/lq_sel.png",
         "text": "利器管理"
+      },
+      {
+        "pagePath": "pages/repair/repair",
+        "iconPath": "image/repair.png",
+        "selectedIconPath": "image/repair_sel.png",
+        "text": "设备管理"
       }
     ]
   }

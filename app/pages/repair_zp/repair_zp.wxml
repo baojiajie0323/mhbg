@@ -1,0 +1,52 @@
+<!--lq——br.wxml-->
+
+<view class="container">
+  <view class="weui-cells weui-cells_after-title cpcontent">
+    <view class="weui-form-preview taskcontent">
+      <view class="weui-form-preview__hd">
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">设备名称</view>
+          <view class="weui-form-preview__value_in-hd"> {{bx.TC_BAB02}}</view>
+        </view>
+      </view>
+      <view class="weui-form-preview__bd">
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">设备编号</view>
+          <view class="weui-form-preview__value">{{bx.TC_BAB01}}</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">设备位置</view>
+          <view class="weui-form-preview__value">{{bx.TC_BAA03}}</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">故障说明</view>
+          <view class="weui-form-preview__value">{{bx.TC_BAA04}}</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">报修人</view>
+          <view class="weui-form-preview__value">{{bx.GEN02}}</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">报修日期</view>
+          <view class="weui-form-preview__value">{{bx.TC_BAB03}} {{bx.TC_BAB04}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="weui-cells weui-cells_after-title cpcontent">
+      <view class="weui-cell weui-cell_input">
+        <view class="weui-cell__hd">
+          <view class="weui-label">分配人员</view>
+        </view>
+        <view class="weui-cell__bd rightalign">
+          <picker bindchange="onzpInput" id="zpry" value="{{zpry}}" range="{{fplist}}" range-key="TC_AFV05">
+            <view class="weui-select weui-select_in-select-after">{{fplist[zpry].TC_AFV05}}</view>
+          </picker>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="brcontainer">
+    <button bindtap="onClickOK" type="primary">确定</button>
+  </view>
+</view>

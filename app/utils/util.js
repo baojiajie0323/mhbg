@@ -14,7 +14,9 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
-
+Array.prototype.uniq = function () {
+  return [...new Set(this)];
+}
 
 Date.prototype.Format = function (fmt) { //author: meizz
   var o = {

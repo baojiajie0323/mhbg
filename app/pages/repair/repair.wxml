@@ -1,0 +1,48 @@
+<!--lq.wxml-->
+<import src="../common/bottomTab.wxml" />
+
+<view class="container">
+  <view class="brcontainer">
+    <button type="primary" bindtap="onClickBx" >设备报修</button>
+  </view>
+  <scroll-view scroll-y="true" class="taskscroll">
+    <view wx:for="{{bxlist}}" wx:for-item="bx" class="weui-form-preview taskcontent">
+      <view  class="weui-form-preview__hd">
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">{{index+1}}. 设备名称</view>
+          <view class="weui-form-preview__value_in-hd"> {{bx.TC_BAB02}}</view>
+        </view>
+      </view>
+      <view class="weui-form-preview__bd">
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">设备编号</view>
+          <view class="weui-form-preview__value">{{bx.TC_BAB01}}</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">设备位置</view>
+          <view class="weui-form-preview__value">{{bx.TC_BAA03}}</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">故障说明</view>
+          <view class="weui-form-preview__value">{{bx.TC_BAA04}}</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">报修人</view>
+          <view class="weui-form-preview__value">{{bx.GEN02}}</view>
+        </view>
+        <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">报修日期</view>
+          <view class="weui-form-preview__value">{{bx.TC_BAB03}} {{bx.TC_BAB04}}</view>
+        </view>
+      </view>
+      <view class="weui-form-preview__ft">
+        <view wx:if="{{bx.TC_BAB05 == 'A'}}" data-bx="{{bx}}" bindtap="onClickZp" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">
+          <text>指派</text>
+        </view>
+        <view wx:if="{{bx.TC_BAB05 == 'B'}}" data-bx="{{bx}}" bindtap="onClickWx" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">
+          <text>维修</text>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>
