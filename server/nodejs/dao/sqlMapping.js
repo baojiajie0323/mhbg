@@ -130,7 +130,7 @@ var sqlmap = {
   :gdgd,:gdgy,:gddh,:gdxh,:gdlx)",
   addbxstatus:"insert into tc_bab_file (tc_bab01,tc_bab02,tc_bab03,tc_bab04,tc_bab05,tc_bab06,tc_bab07,tc_bab08,tc_bab09,tc_bab10 ) \
   values (:sbbh,:sbmc,to_date(:bxdate,'yyyy-mm-dd'),:bxtime,:type,:status,to_date(:startdate,'yyyy-mm-dd'),:starttime,to_date(:enddate,'yyyy-mm-dd'),:endtime)",
-  getfplist:"select tc_afv05 FROM tc_afv_file WHERE tc_afv04='Y' AND tc_afv03='8'",
+  getfplist:"select tc_afv05 FROM tc_afv_file WHERE tc_afv03='8'",
   updatezpinfo:"UPDATE  tc_baa_file SET tc_baa13=:zpry \
   WHERE tc_baa01=:sbbh AND tc_baa05=to_date(:bxdate,'yyyy-mm-dd') AND tc_baa06=:bxtime ",
   updatebxstatus_begin: "UPDATE tc_bab_file SET tc_bab07=to_date(:begin,'yyyy-mm-dd'),tc_bab08=:end,tc_bab06=:bxtype \

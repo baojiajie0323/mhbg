@@ -30,6 +30,7 @@ var showModel = (title, content) => {
 };
 
 Page({
+  isFinish: false,
   data: {
   },
   onLoad: function (option) {
@@ -40,6 +41,11 @@ Page({
   onShow: function () {
     //this.requestInfo();
     this.updateBxStatus( '2', 'B');
+  },
+  onUnload: function () {
+    if (!this.isFinish) {
+      this.updateBxStatus('1', 'B');
+    }
   },
   requestInfo: function () {
     this.getFplist();
@@ -134,6 +140,7 @@ Page({
         if (result.data.code == 0) {
           //context.updateTaskState('endtask');
           showSuccess("提交记录成功");
+          context.isFinish = true;
           context.updateBxStatus('3','B');
           wx.navigateBack();
         }

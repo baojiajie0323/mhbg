@@ -30,16 +30,22 @@ var showModel = (title, content) => {
 };
 
 Page({
+  isFinish: false,
   data: {
   },
   onLoad: function (option) {
     console.log("onLoad", option);
-    this.setData({bx: JSON.parse(option.bx)})
+    this.setData({ bx: JSON.parse(option.bx) })
     // this.setData({ role: option.role, rolename: option.rolename, name: option.name, usertype: option.usertype, user: option.user, tasktype: option.usertype })
   },
   onShow: function () {
     this.requestInfo();
-    this.updateBxStatus( '2', 'A');
+    this.updateBxStatus('2', 'A');
+  },
+  onUnload: function () {
+    if (!this.isFinish) {
+      this.updateBxStatus('1', 'A');
+    }
   },
   requestInfo: function () {
     this.getFplist();
@@ -134,8 +140,9 @@ Page({
         if (result.data.code == 0) {
           //context.updateTaskState('endtask');
           showSuccess("提交记录成功");
-          context.updateBxStatus('3','A');
-          context.updateBxStatus('1','B');
+          context.isFinish = true;
+          context.updateBxStatus('3', 'A');
+          context.updateBxStatus('1', 'B');
           wx.navigateBack();
         }
       },
@@ -147,7 +154,7 @@ Page({
       }
     });
   },
-  updateBxStatus: function (bxtype,bxstatus) {
+  updateBxStatus: function (bxtype, bxstatus) {
     const { bx } = this.data;
     var context = this;
     console.log("request updateBxStatus");

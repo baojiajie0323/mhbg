@@ -31,8 +31,8 @@ var showModel = (title, content) => {
 
 Page({
   data: {
-   sblist:[],
-   gdlist:[]
+    sblist: [],
+    gdlist: [],
   },
   onLoad: function (option) {
     console.log("onLoad", option);
@@ -47,7 +47,7 @@ Page({
     this.getSbList();
   },
   getSbList: function () {
-    var {cjbh,cjlist} = this.data;
+    var { cjbh, cjlist } = this.data;
     var context = this;
     console.log("request getSbList");
     qcloud.request({
@@ -85,9 +85,9 @@ Page({
     var gdlist_gy = gdlist.map(g => g.TC_AFR05).uniq();
     var gdlist_dh = gdlist.map(g => g.TC_AFR12).uniq();
     var gdlist_xh = gdlist.map(g => g.TC_AFR14).uniq();
-    var gdlist_lx =[{lx:1,name:'工单报工'},{lx:2,name:'个人报工'}];
-    
-    this.setData({ gdlist_gd, gdlist_gy, gdlist_dh, gdlist_xh, gdlist_lx});
+    var gdlist_lx = [{ lx: 1, name: '工单报工' }, { lx: 2, name: '个人报工' }];
+
+    this.setData({ gdlist_gd, gdlist_gy, gdlist_dh, gdlist_xh, gdlist_lx });
   },
   getGdList: function () {
     console.log("request getGdList");
@@ -123,15 +123,15 @@ Page({
     });
   },
   onsbInput: function (e) {
-    const {sblist} = this.data;
+    const { sblist } = this.data;
     var key = e.target.id;
-    console.log('onsbInput',e);
+    console.log('onsbInput', e);
     //this.setData({ bgsj_bl })
-    if(key == "sbbh"){
+    if (key == "sbbh") {
       //var lqbh = lqlist[parseInt(e.detail.value)].TC_AFX01;
-      this.setData({ sbbh : e.detail.value})
-    }else if(key == "gddh"){
-      this.setData({ gddh: e.detail.value})
+      this.setData({ sbbh: e.detail.value })
+    } else if (key == "gddh") {
+      this.setData({ gddh: e.detail.value })
     } else if (key == "sbwz") {
       this.setData({ sbwz: e.detail.value })
     } else if (key == "gzsm") {
@@ -148,9 +148,9 @@ Page({
       this.setData({ gdlx: e.detail.value })
     }
   },
-  onClickOK: function(){
-    const{sbbh,sbwz,gzsm,gdgd,gdgy,gddh,gdxh,gdlx} = this.data;
-    if (!sbbh || !sbwz || !gzsm || !gdgd || !gdgy || !gddh || !gdxh || !gdlx){
+  onClickOK: function () {
+    const { sbbh, sbwz, gzsm, gdgd, gdgy, gddh, gdxh, gdlx } = this.data;
+    if (!sbbh || !sbwz || !gzsm) {
       wx.showModal({
         title: '提示',
         content: '请填写记录',
@@ -172,7 +172,7 @@ Page({
     })
   },
   insertBxRecord: function () {
-    const { sbbh, sbwz, gzsm, gdgd, gdgy, gddh, gdxh, gdlx, sblist, gdlist_gd, gdlist_gy, gdlist_dh, gdlist_xh,gdlist_lx} = this.data;
+    const { sbbh, sbwz, gzsm, gdgd, gdgy, gddh, gdxh, gdlx, sblist, gdlist_gd, gdlist_gy, gdlist_dh, gdlist_xh, gdlist_lx } = this.data;
     var context = this;
     console.log("request insertBxRecord");
     qcloud.request({
@@ -185,11 +185,11 @@ Page({
           sbmc: sblist[sbbh].ECI06,
           sbwz,
           gzsm,
-          gdgd:gdlist_gd[gdgd],
-          gdgy: gdlist_gy[gdgy],
-          gddh: gdlist_dh[gddh],
-          gdxh: gdlist_xh[gdxh],
-          gdlx: gdlist_lx[gdlx].lx,
+          gdgd: gdgd ? gdlist_gd[gdgd] : '',
+          gdgy: gdgy ? gdlist_gy[gdgy] : '',
+          gddh: gddh ? gdlist_dh[gddh] : '',
+          gdxh: gdxh ? gdlist_xh[gdxh] : '',
+          gdlx: gdlx ? gdlist_lx[gdlx].lx : '',
           user: wx.getStorageSync("USERNAME")
         }
       },
