@@ -38,10 +38,8 @@
         <view class="weui-cell__hd">
           <view class="weui-label">维修内容</view>
         </view>
-        <view class="weui-cell__bd rightalign">
-          <input class="weui-input rightalign" id="wxnr" value="{{wxnr}}" bindinput='onWxInput' placeholder="请输入维修内容" />
-        </view>
       </view>
+      <textarea class="wx_textarea" auto-height id="wxnr" value="{{wxnr}}" bindinput='onWxInput' placeholder="请输入维修内容" />
     </view>
   </view>
   <view class="brcontainer">

@@ -321,6 +321,9 @@ Page({
     this.setData({ orderList, realorderList, realorderList_merge, title });
   },
   requestInfo: function () {
+    if(this.data.role == 'GCWX'){
+      return;
+    }
     this.getTodayTask();
   },
   getTodayTask: function () {

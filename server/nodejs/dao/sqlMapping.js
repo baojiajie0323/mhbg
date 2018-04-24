@@ -123,7 +123,7 @@ var sqlmap = {
   FROM tc_bab_file \
   inner JOIN tc_baa_file on tc_bab01=tc_baa01 AND tc_bab03=tc_baa05 and tc_bab04=tc_baa06 \
   left join gen_file on tc_baa07=gen01 \
-  WHERE (tc_bab05 = 'A' and tc_bab06 = '1') or (tc_bab05 = 'B' and tc_bab06 = '1')",
+  WHERE (tc_bab05 = 'A' and tc_bab06 = '1') or (tc_bab05 = 'A' and tc_bab06 = '2') or (tc_bab05 = 'B' and tc_bab06 = '1')",
   addbxinfo:"INSERT INTO tc_baa_file(tc_baa01,tc_baa02,tc_baa03,tc_baa04,tc_baa05,tc_baa06,tc_baa07, \
   tc_baa08,tc_baa09,tc_baa10,tc_baa11,tc_baa12) \
   VALUES(:sbbh,:sbmc,:sbwz,:sbgz,to_date(:bxdate,'yyyy-mm-dd'),:bxtime,:useraccount, \

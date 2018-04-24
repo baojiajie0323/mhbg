@@ -35,6 +35,9 @@ Page({
   },
   onLoad: function (option) {
     console.log("onLoad", option);
+    this.setData({ 
+      role: wx.getStorageSync('role'),
+    })
     // this.setData({ role: option.role, rolename: option.rolename, name: option.name, usertype: option.usertype, user: option.user, tasktype: option.usertype })
   },
   onShow: function () {

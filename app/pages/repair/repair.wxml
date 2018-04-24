@@ -34,12 +34,16 @@
           <view class="weui-form-preview__label">报修日期</view>
           <view class="weui-form-preview__value">{{bx.TC_BAB03}} {{bx.TC_BAB04}}</view>
         </view>
+        <view wx:if="{{bx.TC_BAA13}}" class="weui-form-preview__item">
+          <view class="weui-form-preview__label">指派维修人</view>
+          <view class="weui-form-preview__value">{{bx.TC_BAA13}}</view>
+        </view>
       </view>
       <view class="weui-form-preview__ft">
-        <view wx:if="{{bx.TC_BAB05 == 'A'}}" data-bx="{{bx}}" bindtap="onClickZp" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">
+        <view wx:if="{{bx.TC_BAB05 == 'A' && (role == 'SCJHY' || role == 'ADMIN') }}" data-bx="{{bx}}" bindtap="onClickZp" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">
           <text>指派</text>
         </view>
-        <view wx:if="{{bx.TC_BAB05 == 'B'}}" data-bx="{{bx}}" bindtap="onClickWx" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">
+        <view wx:if="{{bx.TC_BAB05 == 'B' && (role == 'SCJHY' || role == 'ADMIN' || role == 'GCWX') }}" data-bx="{{bx}}" bindtap="onClickWx" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">
           <text>维修</text>
         </view>
       </view>

@@ -7,3 +7,7 @@
 .rightalign{
   text-align: right;
 }
+
+.wx_textarea{
+  padding: 10px 13px;
+}
