@@ -46,7 +46,7 @@ Page({
   },
   onLoad: function (option) {
     console.log("onLoad", option);
-    this.setData({ state: option.state, no: option.no, ordertype: option.gy, dh: option.dh, xh: option.xh, worker:option.worker })
+    this.setData({ state: option.state, no: option.no, ordertype: option.gy, dh: option.dh, xh: option.xh, worker: option.worker })
     var no = option.no;
     var ordertype = option.type
     var dh = option.dh;
@@ -79,7 +79,7 @@ Page({
         if (result.data.data.length > 0) {
           context.setData({ order: result.data.data[0] })
         }
-        context.getSjqr(no, dh,xh);
+        context.getSjqr(no, dh, xh);
       },
       fail(error) {
         console.log('request fail', error);
@@ -89,14 +89,14 @@ Page({
       }
     });
   },
-  getSjqr: function (no, dh,xh) {
+  getSjqr: function (no, dh, xh) {
     var context = this;
     console.log("request getSjqr");
     qcloud.request({
       // 要请求的地址
       url: config.service.requestUrl,
       data: {
-        cmd: 'getsjqr',
+        cmd: 'getsjqr_n',
         data: {
           //today: new Date("2017-10-17").Format('yyyy-MM-dd'),
           today: new Date().Format('yyyy-MM-dd'),
@@ -113,9 +113,11 @@ Page({
       success(result) {
         //showSuccess('列表更新成功');
         console.log('request success', result);
-        if (result.data.data.length > 0) {
-          context.setData({ sjqr: result.data.data[0] })
-        }
+        var sjqrlist = result.data.data;
+        var sjqr_wlqr = sjqrlist.filter(s => s.TC_ABG08 == 1);
+        var sjqr_sbcs = sjqrlist.filter(s => s.TC_ABG08 == 2);
+        var sjqr_cpzl = sjqrlist.filter(s => s.TC_ABG08 == 3);
+        context.setData({ sjqr_wlqr, sjqr_sbcs, sjqr_cpzl })
       },
       fail(error) {
         console.log('request fail', error);
@@ -176,16 +178,18 @@ Page({
       // 要请求的地址
       url: config.service.requestUrl,
       data: {
-        cmd: 'updatesjqr',
+        cmd: 'updatesjqr_n',
         data: {
           //today: new Date("2017-10-17").Format("yyyy-MM-dd"),
           today: new Date().Format("yyyy-MM-dd"),
           orderno: this.data.no,
           ordertype: this.data.ordertype,
           dh: this.data.dh,
-          xh: this.data.xh, 
+          xh: this.data.xh,
           user: context.data.worker ? context.data.worker : wx.getStorageSync("USERACCOUNT"),
-          sjqr: this.data.sjqr
+          sjqr_wlqr: this.data.sjqr_wlqr,
+          sjqr_sbcs: this.data.sjqr_sbcs,
+          sjqr_cpzl: this.data.sjqr_cpzl
         }
       },
       method: 'POST',
@@ -222,8 +226,10 @@ Page({
     })
   },
   checkSubmit: function () {
-    var { sjqr } = this.data;
-    if (!sjqr.TC_AFK04 || !sjqr.TC_AFK06 || !sjqr.TC_AFK08 || !sjqr.TC_AFK10) {
+    var { sjqr_wlqr, sjqr_sbcs, sjqr_cpzl } = this.data;
+    if (sjqr_wlqr.filter(s => !s.TC_ABG15).length > 0 ||
+      sjqr_wlqr.filter(s => !s.TC_ABG15).length > 0 ||
+      sjqr_wlqr.filter(s => !s.TC_ABG15).length > 0) {
       wx.showModal({
         title: '提示',
         content: '请填写结果',
@@ -250,22 +256,24 @@ Page({
       }
     })
   },
-  radioChange: function (e) {
-    var { sjqr } = this.data;
-    console.log("radioChange", e, sjqr);
-    var key = e.target.id;
-    if (sjqr.hasOwnProperty(key)) {
-      sjqr[key] = e.detail.value;
-    }
-    this.setData({ sjqr })
+  radioChangeCp: function (e) {
+    console.log("radioChange", e);
+    var type = e.currentTarget.dataset.type;
+    var index = e.currentTarget.dataset.index;
+    var sjqr = this.data[type];
+    sjqr[index].TC_ABG15 = e.detail.value;
+    this.setData({
+      [type]: sjqr
+    })
   },
-  bindSjqrInput: function (e) {
-    var { sjqr } = this.data;
-    console.log("bindSjqrInput", e, sjqr);
-    var key = e.target.id;
-    if (sjqr.hasOwnProperty(key)) {
-      sjqr[key] = e.detail.value;
-    }
-    this.setData({ sjqr })
+  bindCPInput: function (e) {
+    console.log("radioChange", e);
+    var type = e.currentTarget.dataset.type;
+    var index = e.currentTarget.dataset.index;
+    var sjqr = this.data[type];
+    sjqr[index].TC_ABG16 = e.detail.value;
+    this.setData({
+      [type]: sjqr
+    })
   }
 })

@@ -100,6 +100,14 @@ var sqlmap = {
   where tc_afl01=to_date(:todaydate,'yyyy-mm-dd') AND tc_afl02=:orderno AND tc_afl08=:dh AND tc_afl09=:xh \
   AND tc_afl11=:useraccount",
 
+  //首件确认整合版本
+  getsjqr_n: "SELECT tc_abg08,tc_abg09,tc_abg10,tc_abg11,tc_abg12,tc_abg13,tc_abg14,tc_abg15,tc_abg16 FROM tc_abg_file \
+  WHERE tc_abg01=to_date(:todaydate,'yyyy-mm-dd') AND tc_abg02=:orderno AND tc_abg04=:dh AND tc_abg05=:xh \
+  AND tc_abg06=:lx AND tc_abg07=:useraccount ",
+  updatesjqr_n: "UPDATE tc_abg_file  SET tc_abg15=:state ,tc_abg16=:bz \
+  WHERE tc_abg01=to_date(:todaydate,'yyyy-mm-dd') AND tc_abg02=:orderno AND tc_abg04=:dh AND tc_abg05=:xh \
+  AND tc_abg06=:lx AND tc_abg07=:useraccount AND tc_abg08=:lb AND tc_abg10=:xm ",
+
 /*=============================利器管理====================================*/
   getlqlist:"select tc_afy01,tc_afx01,tc_afx02 from tc_afy_file \
   inner join tc_afx_file on tc_afy01 = tc_afx01 \

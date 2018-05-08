@@ -54,6 +54,12 @@ router.post('/', function (req, res, next) {
   } else if (req.body.cmd == "updatesjqr") {
     console.log('updatesjqr');
     infoDao.updateSjqr(req, res, next);
+  } else if (req.body.cmd == "getsjqr_n") {
+    console.log('getsjqr_n');
+    infoDao.getSjqr_n(req, res, next);
+  } else if (req.body.cmd == "updatesjqr_n") {
+    console.log('updatesjqr_n');
+    infoDao.updateSjqr_n(req, res, next);
   } else if (req.body.cmd == "getzssc") {
     console.log('getzssc');
     infoDao.getZssc(req, res, next);

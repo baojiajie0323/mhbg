@@ -49,6 +49,12 @@
 					"name": "利器管理",
 					"pathName": "pages/lq/lq",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "首件确认",
+					"pathName": "pages/sjqr/sjqr",
+					"query": ""
 				}
 			]
 		}
