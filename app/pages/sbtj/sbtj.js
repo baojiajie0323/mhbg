@@ -95,7 +95,7 @@ Page({
       // 要请求的地址
       url: config.service.requestUrl,
       data: {
-        cmd: 'getsbtj',
+        cmd: 'getsbtj_n',
         data: {
           //today: new Date("2017-10-17").Format('yyyy-MM-dd'), wx.canIUse(string)
           today: new Date().Format('yyyy-MM-dd'),
@@ -173,7 +173,7 @@ Page({
       // 要请求的地址
       url: config.service.requestUrl,
       data: {
-        cmd: 'updatesbtj',
+        cmd: 'updatesbtj_n',
         data: {
           //today: new Date("2017-10-17").Format("yyyy-MM-dd"),
           today: new Date().Format("yyyy-MM-dd"),
@@ -250,37 +250,37 @@ Page({
       }
     })
   },
-  onRemoveDevice: function (e) {
-    console.log(e);
-    var index = e.target.id;
-    wx.showModal({
-      content: "确定要删除这个设备吗？",
-      confirmText: "确定",
-      cancelText: "取消",
-      success: (res) => {
-        if (res.confirm) {
-          var { sbtj } = this.data;
-          if (sbtj.length > index) {
-            sbtj.splice(index, 1);
-            this.setData({ sbtj });
-          }
-        } else if (res.cancel) {
-          console.log('用户点击取消')
-        }
-      }
-    })
-  },
-  ontapAddDevice() {
-    var { sbtj } = this.data;
-    sbtj.push({
-      TC_AFJ04: '',
-      TC_AFJ05: '',
-      TC_AFJ06: '',
-      TC_AFJ07: '',
-      TC_AFJ08: '',
-    })
-    this.setData({ sbtj })
-  },
+  // onRemoveDevice: function (e) {
+  //   console.log(e);
+  //   var index = e.target.id;
+  //   wx.showModal({
+  //     content: "确定要删除这个设备吗？",
+  //     confirmText: "确定",
+  //     cancelText: "取消",
+  //     success: (res) => {
+  //       if (res.confirm) {
+  //         var { sbtj } = this.data;
+  //         if (sbtj.length > index) {
+  //           sbtj.splice(index, 1);
+  //           this.setData({ sbtj });
+  //         }
+  //       } else if (res.cancel) {
+  //         console.log('用户点击取消')
+  //       }
+  //     }
+  //   })
+  // },
+  // ontapAddDevice() {
+  //   var { sbtj } = this.data;
+  //   sbtj.push({
+  //     TC_AFJ04: '',
+  //     TC_AFJ05: '',
+  //     TC_AFJ06: '',
+  //     TC_AFJ07: '',
+  //     TC_AFJ08: '',
+  //   })
+  //   this.setData({ sbtj })
+  // },
   bind04Input: function (e) {
     var { sbtj } = this.data;
     var key = e.target.id;

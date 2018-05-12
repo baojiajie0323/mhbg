@@ -29,7 +29,7 @@
     <button bindtap="startbg" class="startbgbtn" type="primary">开始报工</button>
   </block>
   <view class="weui-footer weui-footer_fixed-bottom">
-    <view class="weui-footer__text">Copyright © 2017 上海满好日用品有限公司 |
+    <view class="weui-footer__text">Copyright © 2018 上海满好日用品有限公司 |
       <text bindtap='ontapMore' class="reloadserver"> 更多操作</text>
     </view>
   </view>

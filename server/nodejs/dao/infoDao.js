@@ -234,6 +234,50 @@ module.exports = {
       });
     });
   },
+  getSbtj_n: function (req, res, next) {
+    //var pool = _dao.getPool();
+    console.log('infoDao getSbtj_n');
+    var param = req.body.data;
+    var context = this;
+    _dao.getConnection(res, function (connection) {
+      var sqlstring = _sql.getsbtj_n;
+      var where_params = [param.today, param.orderno, param.dh, param.xh, param.user == 'tiptop' ? 1 : 2, param.user];
+      connection.execute(sqlstring, where_params, function (err, result) {
+        context.listresult(res, err, result);
+        connection.release();
+      });
+    });
+  },
+  updateSbtj_n: function (req, res, next) {
+    //var pool = _dao.getPool();
+    console.log('infoDao updateSbtj_n', req.body.data);
+    var param = req.body.data;
+    var context = this;
+    _dao.getConnection(res, function (connection) {
+      var tasks = [];
+      var sbtj = param.sbtj;
+      sbtj.forEach(s => {
+        tasks.push(function (callback) {
+          var sqlstring = _sql.updatesbtj_n;
+          var where_params = [s.TC_ABI12, param.today, param.orderno, param.dh, param.xh, param.user == 'tiptop' ? 1 : 2, param.user, s.TC_ABI08, s.TC_ABI10];
+          console.log(sqlstring, where_params)
+          connection.execute(sqlstring, where_params, function (err, result) {
+            callback(err);
+          })
+        })
+      })
+      async.series(tasks, function (err, results) {
+        if (err) {
+          console.log('tasks error', err);
+          connection.rollback(); // 发生错误事务回滚
+          jsonWrite(res, {}, dbcode.FAIL);
+        } else {
+          jsonWrite(res, param, dbcode.SUCCESS);
+        }
+        connection.release();
+      });
+    });
+  },
   getSjqr: function (req, res, next) {
     //var pool = _dao.getPool();
     console.log('infoDao getSjqr');
@@ -241,7 +285,7 @@ module.exports = {
     var context = this;
     _dao.getConnection(res, function (connection) {
       var sqlstring = _sql.getsjqr;
-      var where_params = [param.today, param.orderno, param.dh, param.xh,param.user];
+      var where_params = [param.today, param.orderno, param.dh, param.xh, param.user];
       connection.execute(sqlstring, where_params, function (err, result) {
         context.listresult(res, err, result);
         connection.release();
@@ -256,7 +300,7 @@ module.exports = {
     _dao.getConnection(res, function (connection) {
       var sqlstring = _sql.updatesjqr;
       var lj = param.sjqr;
-      var where_params = [lj.TC_AFK04, lj.TC_AFK05 || "", lj.TC_AFK06, lj.TC_AFK07 || "", lj.TC_AFK08, lj.TC_AFK09 || "", lj.TC_AFK10, lj.TC_AFK11 || "", param.today, param.orderno, param.dh, param.xh,param.user];
+      var where_params = [lj.TC_AFK04, lj.TC_AFK05 || "", lj.TC_AFK06, lj.TC_AFK07 || "", lj.TC_AFK08, lj.TC_AFK09 || "", lj.TC_AFK10, lj.TC_AFK11 || "", param.today, param.orderno, param.dh, param.xh, param.user];
       console.log(sqlstring, where_params)
       connection.execute(sqlstring, where_params, function (err, result) {
         if (err) {
@@ -276,7 +320,7 @@ module.exports = {
     var context = this;
     _dao.getConnection(res, function (connection) {
       var sqlstring = _sql.getsjqr_n;
-      var where_params = [param.today, param.orderno, param.dh, param.xh,param.user == 'tiptop' ? 1 : 2,param.user];
+      var where_params = [param.today, param.orderno, param.dh, param.xh, param.user == 'tiptop' ? 1 : 2, param.user];
       connection.execute(sqlstring, where_params, function (err, result) {
         context.listresult(res, err, result);
         connection.release();
@@ -293,11 +337,11 @@ module.exports = {
       var sjqr_wlqr = param.sjqr_wlqr;
       var sjqr_sbcs = param.sjqr_sbcs;
       var sjqr_cpzl = param.sjqr_cpzl;
-      var sjqr = sjqr_wlqr.concat(sjqr_sbcs,sjqr_cpzl);
+      var sjqr = sjqr_wlqr.concat(sjqr_sbcs, sjqr_cpzl);
       sjqr.forEach(s => {
         tasks.push(function (callback) {
           var sqlstring = _sql.updatesjqr_n;
-          var where_params = [s.TC_ABG15,s.TC_ABG16,s.today, s.orderno, s.dh, s.xh, s.user == 'tiptop' ? 1 : 2, s.user,s.TC_ABG08,s.TC_ABG10];
+          var where_params = [s.TC_ABG15, s.TC_ABG16, param.today, param.orderno, param.dh, param.xh, param.user == 'tiptop' ? 1 : 2, param.user, s.TC_ABG08, s.TC_ABG10];
           console.log(sqlstring, where_params)
           connection.execute(sqlstring, where_params, function (err, result) {
             callback(err);
@@ -324,7 +368,7 @@ module.exports = {
     _dao.getConnection(res, function (connection) {
       var sqlstring = _sql.getzssc;
       console.log(sqlstring);
-      var where_params = [param.today, param.orderno, param.dh, param.xh,param.user];
+      var where_params = [param.today, param.orderno, param.dh, param.xh, param.user];
       connection.execute(sqlstring, where_params, function (err, result) {
         context.listresult(res, err, result);
         connection.release();
@@ -339,7 +383,7 @@ module.exports = {
     _dao.getConnection(res, function (connection) {
       var sqlstring = _sql.updatezssc;
       var lj = param.zssc;
-      var where_params = [lj.TC_AFL04, lj.TC_AFL05, lj.TC_AFL06, param.today, param.orderno, param.dh, param.xh,param.user];
+      var where_params = [lj.TC_AFL04, lj.TC_AFL05, lj.TC_AFL06, param.today, param.orderno, param.dh, param.xh, param.user];
       console.log(sqlstring, where_params)
       connection.execute(sqlstring, where_params, function (err, result) {
         if (err) {
@@ -369,7 +413,7 @@ module.exports = {
       var bgsj_blph = [];
       tasks.push(function (callback) {
         var sqlstring = _sql.getbgsj;
-        var where_params = [param.today, param.orderno, param.dh, param.xh,param.user];
+        var where_params = [param.today, param.orderno, param.dh, param.xh, param.user];
         console.log(sqlstring, where_params)
         connection.execute(sqlstring, where_params, function (err, result) {
           if (!err) {
@@ -391,7 +435,7 @@ module.exports = {
       })
       tasks.push(function (callback) {
         var sqlstring = _sql.getbghis;
-        var where_params = [param.today, param.orderno, param.dh, param.xh,param.user];
+        var where_params = [param.today, param.orderno, param.dh, param.xh, param.user];
         console.log(sqlstring, where_params)
         connection.execute(sqlstring, where_params, function (err, result) {
           if (!err) {
@@ -404,7 +448,7 @@ module.exports = {
               })
               return json;
             })
-            console.log('getbghis',dbresult);
+            console.log('getbghis', dbresult);
             if (dbresult.length > 0) {
               bghis = dbresult[0].ALLHIS || 0;
             }
@@ -414,7 +458,7 @@ module.exports = {
       })
       tasks.push(function (callback) {
         var sqlstring = _sql.getbgsj_begintime;
-        var where_params = [param.today, param.orderno, param.dh, param.xh,param.user];
+        var where_params = [param.today, param.orderno, param.dh, param.xh, param.user];
         console.log(sqlstring, where_params)
         connection.execute(sqlstring, where_params, function (err, result) {
           if (!err) {
@@ -427,7 +471,7 @@ module.exports = {
               })
               return json;
             })
-            console.log('getbgsj_begintime',dbresult);
+            console.log('getbgsj_begintime', dbresult);
             if (dbresult.length > 0) {
               begintime = dbresult[0].TC_AFQ06;
             }
@@ -542,7 +586,7 @@ module.exports = {
           connection.rollback(); // 发生错误事务回滚
           jsonWrite(res, {}, dbcode.FAIL);
         } else {
-          jsonWrite(res, { bgsj, bgsj_lp, bgsj_bl, bgsj_blyy, bgsj_bllj, bgsj_blph,bghis,begintime }, dbcode.SUCCESS);
+          jsonWrite(res, { bgsj, bgsj_lp, bgsj_bl, bgsj_blyy, bgsj_bllj, bgsj_blph, bghis, begintime }, dbcode.SUCCESS);
         }
         connection.release();
       });
@@ -558,8 +602,8 @@ module.exports = {
       tasks.push(function (callback) {
         var sqlstring = _sql.updatebgsj_lp;
         var bgsj_lp = param.bgsj_lp;
-        var where_params = [param.today, param.orderno, param.ordertype, bgsj_lp.TC_AFM04, param.dw,param.dh, param.xh,param.user == 'tiptop' ? 1 : 2,param.user,
-          param.zssc_begin,param.zssc_end,param.begintime,param.endtime,param.zssc_count];
+        var where_params = [param.today, param.orderno, param.ordertype, bgsj_lp.TC_AFM04, param.dw, param.dh, param.xh, param.user == 'tiptop' ? 1 : 2, param.user,
+        param.zssc_begin, param.zssc_end, param.begintime, param.endtime, param.zssc_count, param.ph || ''];
         console.log(sqlstring, where_params)
         connection.execute(sqlstring, where_params, function (err, result) {
           callback(err);
@@ -571,8 +615,8 @@ module.exports = {
       for (let i = 0; i < bgsj_bl.length; i++) {
         let bl = bgsj_bl[i];
         tasks.push(function (callback) {
-          var where_params = [param.today, param.orderno, param.ordertype,bl.TC_AFN04, bl.TC_AFN05, parseInt(bl.TC_AFN06), bl.TC_AFN07, bl.TC_AFN08, bl.TC_AFN09, bl.TC_AFN10, bl.TC_AFN11,param.dh, param.xh,param.user == 'tiptop' ? 1 : 2,param.user,
-        param.zssc_begin,param.zssc_end,param.begintime,param.endtime];
+          var where_params = [param.today, param.orderno, param.ordertype, bl.TC_AFN04, bl.TC_AFN05, parseInt(bl.TC_AFN06), bl.TC_AFN07, bl.TC_AFN08, bl.TC_AFN09, bl.TC_AFN10, bl.TC_AFN11, param.dh, param.xh, param.user == 'tiptop' ? 1 : 2, param.user,
+          param.zssc_begin, param.zssc_end, param.begintime, param.endtime];
           console.log(sqlstring, where_params)
           connection.execute(sqlstring, where_params, function (err, result) {
             callback(err);
@@ -601,7 +645,7 @@ module.exports = {
       var tasks = [];
       tasks.push(function (callback) {
         var sqlstring = _sql.resettaskstate;
-        var where_params = [param.today, param.orderno, param.dh, param.xh,param.user];
+        var where_params = [param.today, param.orderno, param.dh, param.xh, param.user];
         console.log(sqlstring, where_params)
         connection.execute(sqlstring, where_params, function (err, result) {
           callback(err);
@@ -610,7 +654,7 @@ module.exports = {
 
       tasks.push(function (callback) {
         var sqlstring = _sql.restartzssc;
-        var where_params = [param.today, param.orderno, param.dh, param.xh,param.user];
+        var where_params = [param.today, param.orderno, param.dh, param.xh, param.user];
         console.log(sqlstring, where_params)
         connection.execute(sqlstring, where_params, function (err, result) {
           callback(err);
@@ -629,20 +673,20 @@ module.exports = {
       });
     });
   },
-  getLqlist: function(req,res,next) {
+  getLqlist: function (req, res, next) {
     console.log('infoDao getLqlist');
     var param = req.body.data;
     var context = this;
     _dao.getConnection(res, function (connection) {
       var sqlstring = _sql.getlqlist;
-      console.log("getLqlist",sqlstring,param.cjbh);
+      console.log("getLqlist", sqlstring, param.cjbh);
       connection.execute(sqlstring, [param.cjbh], function (err, result) {
         context.listresult(res, err, result);
         connection.release();
       });
     });
   },
-  getCjlist: function(req,res,next) {
+  getCjlist: function (req, res, next) {
     console.log('infoDao getCjlist');
     var param = req.body.data;
     var context = this;
@@ -654,7 +698,7 @@ module.exports = {
       });
     });
   },
-  getBrlist: function(req,res,next) {
+  getBrlist: function (req, res, next) {
     console.log('infoDao getbrlist');
     var param = req.body.data;
     var context = this;
@@ -668,14 +712,14 @@ module.exports = {
       });
     });
   },
-  addBrinfo: function(req,res,next) {
+  addBrinfo: function (req, res, next) {
     console.log('infoDao addBrinfo');
     var param = req.body.data;
     var context = this;
     _dao.getConnection(res, function (connection) {
       var sqlstring = _sql.addbrinfo;
       var nowDate = new Date();
-      var paramlist = [param.lqbh,param.lqmc,param.lqxh,parseInt(param.lqsl),nowDate.Format("yyyy-MM-dd"),nowDate.Format("hh:mm:ss"),param.jcgh,param.cjbh]
+      var paramlist = [param.lqbh, param.lqmc, param.lqxh, parseInt(param.lqsl), nowDate.Format("yyyy-MM-dd"), nowDate.Format("hh:mm:ss"), param.jcgh, param.cjbh]
       console.log(paramlist);
       connection.execute(sqlstring, paramlist, function (err, result) {
         if (err) {
@@ -688,14 +732,14 @@ module.exports = {
       });
     });
   },
-  updateRtinfo: function(req,res,next) {
+  updateRtinfo: function (req, res, next) {
     console.log('infoDao updateRtinfo');
     var param = req.body.data;
     var context = this;
     _dao.getConnection(res, function (connection) {
       var sqlstring = _sql.updatertinfo;
       var nowDate = new Date();
-      var paramlist = [nowDate.Format("yyyyMMdd"),nowDate.Format("hh:mm:ss"),param.rtgh,param.lqbh,param.lqxh,param.jcrq,param.jcsj]
+      var paramlist = [nowDate.Format("yyyyMMdd"), nowDate.Format("hh:mm:ss"), param.rtgh, param.lqbh, param.lqxh, param.jcrq, param.jcsj]
       console.log(paramlist);
       connection.execute(sqlstring, paramlist, function (err, result) {
         if (err) {
@@ -708,7 +752,7 @@ module.exports = {
       });
     });
   },
-  getSblist: function(req,res,next) {
+  getSblist: function (req, res, next) {
     console.log('infoDao getsblist');
     var param = req.body.data;
     var context = this;
@@ -720,7 +764,7 @@ module.exports = {
       });
     });
   },
-  getGdlist: function(req,res,next) {
+  getGdlist: function (req, res, next) {
     console.log('infoDao getGdlist');
     var param = req.body.data;
     var context = this;
@@ -732,7 +776,7 @@ module.exports = {
       });
     });
   },
-  getBxlist: function(req,res,next) {
+  getBxlist: function (req, res, next) {
     console.log('infoDao getbxlist');
     var param = req.body.data;
     var context = this;
@@ -756,8 +800,8 @@ module.exports = {
       var todayDate = new Date();
       tasks.push(function (callback) {
         var sqlstring = _sql.addbxinfo;
-        var where_params = [param.sbbh,param.sbmc,param.sbwz,param.gzsm,todayDate.Format('yyyy-MM-dd'),todayDate.Format('hh:mm:ss'),param.user,
-        param.gdgd,param.gdgy,param.gddh,param.gdxh,param.gdlx];
+        var where_params = [param.sbbh, param.sbmc, param.sbwz, param.gzsm, todayDate.Format('yyyy-MM-dd'), todayDate.Format('hh:mm:ss'), param.user,
+        param.gdgd, param.gdgy, param.gddh, param.gdxh, param.gdlx];
         console.log(sqlstring, where_params)
         connection.execute(sqlstring, where_params, function (err, result) {
           callback(err);
@@ -766,7 +810,7 @@ module.exports = {
 
       tasks.push(function (callback) {
         var sqlstring = _sql.addbxstatus;
-        var where_params = [param.sbbh,param.sbmc,todayDate.Format('yyyy-MM-dd'),todayDate.Format('hh:mm:ss'),'A',1,todayDate.Format('yyyy-MM-dd'),'',todayDate.Format('yyyy-MM-dd'),''];
+        var where_params = [param.sbbh, param.sbmc, todayDate.Format('yyyy-MM-dd'), todayDate.Format('hh:mm:ss'), 'A', 1, todayDate.Format('yyyy-MM-dd'), '', todayDate.Format('yyyy-MM-dd'), ''];
         console.log(sqlstring, where_params)
         connection.execute(sqlstring, where_params, function (err, result) {
           callback(err);
@@ -775,7 +819,7 @@ module.exports = {
 
       tasks.push(function (callback) {
         var sqlstring = _sql.addbxstatus;
-        var where_params = [param.sbbh,param.sbmc,todayDate.Format('yyyy-MM-dd'),todayDate.Format('hh:mm:ss'),'B',0,todayDate.Format('yyyy-MM-dd'),'',todayDate.Format('yyyy-MM-dd'),''];
+        var where_params = [param.sbbh, param.sbmc, todayDate.Format('yyyy-MM-dd'), todayDate.Format('hh:mm:ss'), 'B', 0, todayDate.Format('yyyy-MM-dd'), '', todayDate.Format('yyyy-MM-dd'), ''];
         console.log(sqlstring, where_params)
         connection.execute(sqlstring, where_params, function (err, result) {
           callback(err);
@@ -794,7 +838,7 @@ module.exports = {
       });
     });
   },
-  getFplist: function(req,res,next) {
+  getFplist: function (req, res, next) {
     console.log('infoDao getFplist');
     var param = req.body.data;
     var context = this;
@@ -808,14 +852,14 @@ module.exports = {
       });
     });
   },
-  updateZpinfo: function(req,res,next) {
+  updateZpinfo: function (req, res, next) {
     console.log('infoDao updateZpinfo');
     var param = req.body.data;
     var context = this;
     _dao.getConnection(res, function (connection) {
       var sqlstring = _sql.updatezpinfo;
-      var paramlist = [param.zpry,param.sbbh,param.bxdate,param.bxtime]
-      console.log(sqlstring,paramlist);
+      var paramlist = [param.zpry, param.sbbh, param.bxdate, param.bxtime]
+      console.log(sqlstring, paramlist);
       connection.execute(sqlstring, paramlist, function (err, result) {
         if (err) {
           console.log('updateZpinfo error', err);
@@ -827,20 +871,20 @@ module.exports = {
       });
     });
   },
-  updateBxstatus: function(req,res,next) {
+  updateBxstatus: function (req, res, next) {
     console.log('infoDao updateBxstatus');
     var param = req.body.data;
     var context = this;
     _dao.getConnection(res, function (connection) {
       var sqlstring = "";
-      if(param.bxtype == 2){
+      if (param.bxtype == 2) {
         sqlstring = _sql.updatebxstatus_begin;
-      }else{
+      } else {
         sqlstring = _sql.updatebxstatus_end;
       }
       var nowDate = new Date();
-      var paramlist = [nowDate.Format("yyyy-MM-dd"),nowDate.Format("hh:mm:ss"),param.bxtype,param.sbbh,param.bxdate,param.bxtime,param.bxstatus]
-      console.log(sqlstring,paramlist);
+      var paramlist = [nowDate.Format("yyyy-MM-dd"), nowDate.Format("hh:mm:ss"), param.bxtype, param.sbbh, param.bxdate, param.bxtime, param.bxstatus]
+      console.log(sqlstring, paramlist);
       connection.execute(sqlstring, paramlist, function (err, result) {
         if (err) {
           console.log('updateBxstatus error', err);
@@ -852,14 +896,14 @@ module.exports = {
       });
     });
   },
-  updateWxinfo: function(req,res,next) {
+  updateWxinfo: function (req, res, next) {
     console.log('infoDao updateWxinfo');
     var param = req.body.data;
     var context = this;
     _dao.getConnection(res, function (connection) {
       var sqlstring = _sql.updatewxinfo;
-      var paramlist = [param.wxnr,param.sbbh,param.bxdate,param.bxtime]
-      console.log(sqlstring,paramlist);
+      var paramlist = [param.wxnr, param.sbbh, param.bxdate, param.bxtime]
+      console.log(sqlstring, paramlist);
       connection.execute(sqlstring, paramlist, function (err, result) {
         if (err) {
           console.log('updateWxinfo error', err);

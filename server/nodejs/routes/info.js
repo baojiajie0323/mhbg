@@ -48,6 +48,12 @@ router.post('/', function (req, res, next) {
   } else if (req.body.cmd == "updatesbtj") {
     console.log('updatesbtj');
     infoDao.updateSbtj(req, res, next);
+  } else if (req.body.cmd == "getsbtj_n") {
+    console.log('getsbtj_n');
+    infoDao.getSbtj_n(req, res, next);
+  } else if (req.body.cmd == "updatesbtj_n") {
+    console.log('updatesbtj_n');
+    infoDao.updateSbtj_n(req, res, next);
   } else if (req.body.cmd == "getsjqr") {
     console.log('getsjqr');
     infoDao.getSjqr(req, res, next);

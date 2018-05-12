@@ -40,6 +40,10 @@
         <input class="weui-cell__ft" type='number' value='{{bgsj_lp.TC_AFM04}}' bindinput='onLpInput' placeholder='请输入本站报工数' />
       </view>
       <view class="weui-cell">
+        <view class="weui-cell__bd">包装批号</view>
+        <input class="weui-cell__ft" value='{{bgsj_lp.TC_AFM16}}' bindinput='onPhInput' placeholder='请输入包装批号' />
+      </view>
+      <view class="weui-cell">
           <view class="weui-cell__bd">是否继续生产</view>
           <view class="weui-form-preview__value">
             <radio-group bindchange="radioChange">
@@ -132,6 +136,6 @@
     </view>
   </scroll-view>
   <view class="weui-footer weui-footer_fixed-bottom">
-    <view class="weui-footer__text">Copyright © 2017 上海满好日用品有限公司</view>
+    <view class="weui-footer__text">Copyright © 2018 上海满好日用品有限公司</view>
   </view>
 </view>
