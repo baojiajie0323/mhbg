@@ -113,7 +113,7 @@ var sqlmap = {
   FROM tc_abi_file \
   WHERE tc_abi01=to_date(:todaydate,'yyyy-mm-dd') AND tc_abi02=:orderno AND tc_abi04=:dh AND tc_abi05=:xh \
   AND tc_abi06=:lx AND tc_abi07=:useraccount",
-  updatesbtj_n: "UPDATE tc_abi12=:bz \
+  updatesbtj_n: "UPDATE tc_abi_file set tc_abi12=:bz \
   WHERE tc_abi01=to_date(:todaydate,'yyyy-mm-dd') AND tc_abi02=:orderno AND tc_abi04=:dh AND tc_abi05=:xh \
   AND tc_abi06=:lx AND tc_abi07=:useraccount AND tc_abi08=:jqbh AND tc_abi10=:xmbh",
 

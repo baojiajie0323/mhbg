@@ -55,6 +55,12 @@
 					"name": "首件确认",
 					"pathName": "pages/sjqr/sjqr",
 					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "设备调机",
+					"pathName": "pages/sbtj/sbtj",
+					"query": ""
 				}
 			]
 		}

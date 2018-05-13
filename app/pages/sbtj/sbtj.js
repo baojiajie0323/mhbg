@@ -222,7 +222,7 @@ Page({
     var { sbtj } = this.data;
     for (var i = 0; i < sbtj.length; i++) {
       var lj = sbtj[i];
-      if (!lj.TC_AFJ04 || !lj.TC_AFJ05 || !lj.TC_AFJ06 || !lj.TC_AFJ07 ) {
+      if (!lj.TC_ABI12) {
         wx.showModal({
           title: '提示',
           content: '请填写结果',
@@ -281,44 +281,44 @@ Page({
   //   })
   //   this.setData({ sbtj })
   // },
-  bind04Input: function (e) {
+  bind12Input: function (e) {
     var { sbtj } = this.data;
     var key = e.target.id;
     if (sbtj.length > key) {
-      sbtj[key].TC_AFJ04 = e.detail.value;
+      sbtj[key].TC_ABI12 = e.detail.value;
     }
     this.setData({ sbtj })
   },
-  bind05Input: function (e) {
-    var { sbtj } = this.data;
-    var key = e.target.id;
-    if (sbtj.length > key) {
-      sbtj[key].TC_AFJ05 = e.detail.value;
-    }
-    this.setData({ sbtj })
-  },
-  bind06Input: function (e) {
-    var { sbtj } = this.data;
-    var key = e.target.id;
-    if (sbtj.length > key) {
-      sbtj[key].TC_AFJ06 = e.detail.value;
-    }
-    this.setData({ sbtj })
-  },
-  bind07Input: function (e) {
-    var { sbtj } = this.data;
-    var key = e.target.id;
-    if (sbtj.length > key) {
-      sbtj[key].TC_AFJ07 = e.detail.value;
-    }
-    this.setData({ sbtj })
-  },
-  bind08Input: function (e) {
-    var { sbtj } = this.data;
-    var key = e.target.id;
-    if (sbtj.length > key) {
-      sbtj[key].TC_AFJ08 = e.detail.value;
-    }
-    this.setData({ sbtj })
-  },
+  // bind05Input: function (e) {
+  //   var { sbtj } = this.data;
+  //   var key = e.target.id;
+  //   if (sbtj.length > key) {
+  //     sbtj[key].TC_AFJ05 = e.detail.value;
+  //   }
+  //   this.setData({ sbtj })
+  // },
+  // bind06Input: function (e) {
+  //   var { sbtj } = this.data;
+  //   var key = e.target.id;
+  //   if (sbtj.length > key) {
+  //     sbtj[key].TC_AFJ06 = e.detail.value;
+  //   }
+  //   this.setData({ sbtj })
+  // },
+  // bind07Input: function (e) {
+  //   var { sbtj } = this.data;
+  //   var key = e.target.id;
+  //   if (sbtj.length > key) {
+  //     sbtj[key].TC_AFJ07 = e.detail.value;
+  //   }
+  //   this.setData({ sbtj })
+  // },
+  // bind08Input: function (e) {
+  //   var { sbtj } = this.data;
+  //   var key = e.target.id;
+  //   if (sbtj.length > key) {
+  //     sbtj[key].TC_AFJ08 = e.detail.value;
+  //   }
+  //   this.setData({ sbtj })
+  // },
 })

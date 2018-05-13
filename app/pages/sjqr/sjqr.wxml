@@ -45,7 +45,7 @@
           <view class="subtitle">设备参数</view>
           <view wx:for="{{sjqr_sbcs}}" wx:for-item="sj" class="wlqr_content">
             <view class="title">
-              {{sj.TC_ABG10}}({{sj.TC_ABG16}})
+              {{sj.TC_ABG10}}({{sj.TC_ABG17}})
             </view>
             <view>机器编号:{{sj.TC_ABG18}}</view>
             <view>设备名称:{{sj.TC_ABG19}}</view>
@@ -82,7 +82,7 @@
           <view class="subtitle">产品质量</view>
           <view wx:for="{{sjqr_cpzl}}" wx:for-item="sj" class="wlqr_content">
             <view class="title">
-              {{sj.TC_ABG10}}({{sj.TC_ABG16}})
+              {{sj.TC_ABG10}}({{sj.TC_ABG17}})
             </view>
             <view class="content">
               <view>标准:{{sj.TC_ABG12}}</view>

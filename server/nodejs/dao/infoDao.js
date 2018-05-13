@@ -603,7 +603,7 @@ module.exports = {
         var sqlstring = _sql.updatebgsj_lp;
         var bgsj_lp = param.bgsj_lp;
         var where_params = [param.today, param.orderno, param.ordertype, bgsj_lp.TC_AFM04, param.dw, param.dh, param.xh, param.user == 'tiptop' ? 1 : 2, param.user,
-        param.zssc_begin, param.zssc_end, param.begintime, param.endtime, param.zssc_count, param.ph || ''];
+        param.zssc_begin, param.zssc_end, param.begintime, param.endtime, param.zssc_count, bgsj_lp.TC_AFM16 || ''];
         console.log(sqlstring, where_params)
         connection.execute(sqlstring, where_params, function (err, result) {
           callback(err);

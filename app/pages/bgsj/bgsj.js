@@ -305,7 +305,7 @@ Page({
         return false;
       }
     }
-    if (!bgsj_lp.TC_AFM04 || !isContinue) {
+    if (!bgsj_lp.TC_AFM04 || !bgsj_lp.TC_AFM16 || !isContinue) {
       wx.showModal({
         title: '提示',
         content: '请填写结果',

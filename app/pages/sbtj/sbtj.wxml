@@ -10,45 +10,42 @@
     <view wx:for="{{sbtj}}" class="weui-cells weui-cells_after-title sbtjcontent">
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
-          <view class="weui-label">设备名称</view>
+          <view class="weui-label">机器编号</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" value="{{item.TC_AFJ04}}" id="{{index}}" bindinput="bind04Input" placeholder="请输入设备名称" />
-        </view>
-        <view>
-          <icon bindtap='onRemoveDevice' id="{{index}}" type="cancel" size="23"></icon>
+          <input class="weui-input" disabled="{{true}}" value="{{item.TC_ABI08}}" />
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
-          <view class="weui-label">线别</view>
+          <view class="weui-label">机器名称</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" value="{{item.TC_AFJ05}}" id="{{index}}" bindinput="bind05Input" placeholder="请输入线别" />
+          <input class="weui-input" disabled="{{true}}" value="{{item.TC_ABI09}}" />
         </view>
       </view>
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
-          <view class="weui-label">调机人员</view>
+          <view class="weui-label">项目编号</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" value="{{item.TC_AFJ06}}" id="{{index}}" bindinput="bind06Input" placeholder="请输入调机人员" />
+          <input class="weui-input" disabled="{{true}}" value="{{item.TC_ABI10}}" />
         </view>
       </view>
-      <!-- <view class="weui-cell weui-cell_input">
+      <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
-          <view class="weui-label">工艺</view>
+          <view class="weui-label">项目名称</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" value="{{item.TC_AFJ08}}" id="{{index}}" bindinput="bind08Input" placeholder="请输入工艺" />
+          <input class="weui-input" disabled="{{true}}" value="{{item.TC_ABI11}}({{item.TC_ABI13}})" />
         </view>
-      </view> -->
+      </view>
       <view class="weui-cell weui-cell_input">
         <view class="weui-cell__hd">
           <view class="weui-label">调整参数</view>
         </view>
         <view class="weui-cell__bd">
-          <input class="weui-input" value="{{item.TC_AFJ07}}" id="{{index}}" bindinput="bind07Input" placeholder="请输入调整参数" />
+          <input class="weui-input" value="{{item.TC_ABI12}}" id="{{index}}" bindinput="bind12Input" placeholder="请输入调整参数" />
         </view>
       </view>
     </view>
