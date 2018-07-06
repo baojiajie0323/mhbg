@@ -339,7 +339,7 @@ Page({
   },  
   onPhInput: function (e) {
     var { bgsj_lp } = this.data;
-    bgsj_lp.TC_AFM16 = parseInt(e.detail.value);
+    bgsj_lp.TC_AFM16 = e.detail.value;
     this.setData({ bgsj_lp })
   },
   onBlInput: function (e) {
