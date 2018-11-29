@@ -1,0 +1,136 @@
+<!--logs.wxml-->
+<import src="../common/order.wxml" />
+
+<view class="container">
+  <template is="order" data="{{...order}}" />
+  <view wx:if="{{state == 1}}" class="btn-area">
+    <button bindtap='ontapstart' type="primary">开始</button>
+  </view>
+  <scroll-view wx:else scroll-y="true" class="wlscroll">
+    <view class="weui-panel weui-panel_access">
+      <view class="weui-form-preview__bd sjqr_from_preview">
+        <view class="weui-form-preview__item">
+          <view class="subtitle">物料确认</view>
+
+          <view wx:for="{{sjqr_wlqr}}" wx:for-item="sj" class="wlqr_content">
+            <view class="title">
+              {{sj.TC_ABL10}}
+            </view>
+            <view>编号:{{sj.TC_ABL09}}</view>
+            <view>规格:{{sj.TC_ABL11}}</view>
+            <view class="weui-form-preview__item">
+              <view class="weui-form-preview__label sjqr_preview_label">确认</view>
+              <view class="weui-form-preview__value sjqr_preview_value">
+                <radio-group data-type="sjqr_wlqr" data-index="{{index}}" id="{{sj.TC_ABL09}}" bindchange="radioChangeCp">
+                  <label class="radio">
+                    <radio value="ok" checked="{{sj.TC_ABL15 == 'ok'}}" />OK
+                  </label>
+                  <label class="radio">
+                    <radio value="ng" checked="{{sj.TC_ABL15 == 'ng'}}" />NG
+                  </label>
+                </radio-group>
+              </view>
+            </view>
+            <view wx:if="{{sj.TC_ABL15 == 'ng'}}" class="weui-form-preview__item">
+              <view class="weui-form-preview__label adjustlabel">NG原因</view>
+              <view class="weui-form-preview__value">
+                <input class="weui-input" data-type="sjqr_wlqr" data-index="{{index}}" id="{{sj.TC_ABL09}}" value="{{sj.TC_ABL16}}" bindinput="bindCPInput" placeholder="请输入NG原因" />
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="weui-form-preview__bd sjqr_from_preview">
+        <view class="weui-form-preview__item">
+          <view class="subtitle">设备参数</view>
+          <view wx:for="{{sjqr_sbcs}}" wx:for-item="sj" class="wlqr_content">
+            <view class="title">
+              {{sj.TC_ABL10}}({{sj.TC_ABL17}})
+            </view>
+            <view>机器编号:{{sj.TC_ABL18}}</view>
+            <view>设备名称:{{sj.TC_ABL19}}</view>
+            <view class="content">
+              <view>标准:{{sj.TC_ABL12}}</view>
+              <view>上偏差:{{sj.TC_ABL13}}</view>
+              <view>下偏差:{{sj.TC_ABL14}}</view>
+            </view>
+            <view class="weui-form-preview__item">
+              <view class="weui-form-preview__label sjqr_preview_label">确认</view>
+              <view class="weui-form-preview__value sjqr_preview_value">
+                <radio-group id="{{sj.TC_ABL09}}" data-type="sjqr_sbcs" data-index="{{index}}" bindchange="radioChangeCp">
+                  <label class="radio">
+                    <radio value="ok" checked="{{sj.TC_ABL15 == 'ok'}}" />OK
+                  </label>
+                  <label class="radio">
+                    <radio value="ng" checked="{{sj.TC_ABL15 == 'ng'}}" />NG
+                  </label>
+                </radio-group>
+              </view>
+            </view>
+            <view wx:if="{{sj.TC_ABL15 == 'ng'}}" class="weui-form-preview__item">
+              <view class="weui-form-preview__label adjustlabel">NG原因</view>
+              <view class="weui-form-preview__value">
+                <input class="weui-input" id="{{sj.TC_ABL09}}" data-type="sjqr_sbcs" data-index="{{index}}"  value="{{sj.TC_ABL16}}" bindinput="bindCPInput" placeholder="请输入NG原因" />
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="weui-form-preview__bd sjqr_from_preview">
+        <view class="weui-form-preview__item">
+          <view class="subtitle">产品质量</view>
+          <view wx:for="{{sjqr_cpzl}}" wx:for-item="sj" class="wlqr_content">
+            <view class="title">
+              {{sj.TC_ABL10}}({{sj.TC_ABL17}})
+            </view>
+            <view class="content">
+              <view>标准:{{sj.TC_ABL12}}</view>
+              <view>上偏差:{{sj.TC_ABL13}}</view>
+              <view>下偏差:{{sj.TC_ABL14}}</view>
+            </view>
+            <view class="weui-form-preview__item">
+              <view class="weui-form-preview__label sjqr_preview_label">确认</view>
+              <view class="weui-form-preview__value sjqr_preview_value">
+                <radio-group id="{{sj.TC_ABL09}}" data-type="sjqr_cpzl" data-index="{{index}}"  bindchange="radioChangeCp">
+                  <label class="radio">
+                    <radio value="ok" checked="{{sj.TC_ABL15 == 'ok'}}" />OK
+                  </label>
+                  <label class="radio">
+                    <radio value="ng" checked="{{sj.TC_ABL15 == 'ng'}}" />NG
+                  </label>
+                </radio-group>
+              </view>
+            </view>
+            <view wx:if="{{sj.TC_ABL15 == 'ng'}}" class="weui-form-preview__item">
+              <view class="weui-form-preview__label adjustlabel">NG原因</view>
+              <view class="weui-form-preview__value">
+                <input class="weui-input" id="{{sj.TC_ABL09}}" data-type="sjqr_cpzl" data-index="{{index}}" value="{{sj.TC_ABL16}}" bindinput="bindCPInput" placeholder="请输入NG原因" />
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="weui-form-preview__bd sjqr_from_preview">
+        <view class="weui-form-preview__item">
+          <view class="subtitle">抽样</view>
+          <view class="wlqr_content">
+            <view class="weui-form-preview__item">
+              <view class="weui-form-preview__label adjustlabel">抽样数量</view>
+              <view class="weui-form-preview__value">
+                <input class="weui-input" bindinput="bindcyInput" placeholder="请输入抽样数量" />
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>   
+    </view>
+    <view class="btn-area">
+      <button bindtap='ontapsubmit' type="warn">提交</button>
+    </view>
+  </scroll-view>
+  <view class="weui-footer weui-footer_fixed-bottom">
+    <view class="weui-footer__text">Copyright © 2018 上海满好日用品有限公司</view>
+  </view>
+</view>

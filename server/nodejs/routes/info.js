@@ -132,6 +132,12 @@ router.post('/', function (req, res, next) {
   } else if (req.body.cmd == "updatewxinfo") {
     console.log('updatewxinfo');
     infoDao.updateWxinfo(req, res, next);
+  } else if (req.body.cmd == "getxj") {
+    console.log('getxj');
+    infoDao.getXj(req, res, next);
+  } else if (req.body.cmd == "updatexj") {
+    console.log('updatexj');
+    infoDao.updateXj(req, res, next);
   } 
 });
 

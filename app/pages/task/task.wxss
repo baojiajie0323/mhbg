@@ -16,6 +16,7 @@
 .orderName {
   font-size: 18px;
   text-align: left;
+  float: left;
 }
 
 .taskdrive {
@@ -32,7 +33,9 @@
   margin-right: 20rpx;
   color: #2964bb;
 }
-
+.xjtext {
+  color: #2964bb;
+}
 .taskscroll {
   position: absolute;
   width: 100%;

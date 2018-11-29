@@ -1,0 +1,48 @@
+@import "../common/lib/weui.wxss";
+@import "../common/order.wxss";
+
+.wlscroll {
+  position: absolute;
+  width: 100%;
+  top: 180px;
+  bottom: 50px;
+}
+
+.sjqr_from_preview {
+  border-bottom: 1px solid #eee;
+}
+
+.wlqr_content {
+  background-color: #eee;
+  margin: 5px 0;
+  text-align: left;
+}
+
+.wlqr_content .title {
+  font-size: 1.1em;
+  color: #777;
+}
+
+.wlqr_content .content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.subtitle {
+  text-align: left;
+  font-size: 1.2em;
+  color: #333;
+  font-weight: bold;
+}
+
+.sjqr_preview_label{
+  min-width: auto;
+}
+
+.sjqr_preview_value{
+  text-align: right;
+}
+
+.adjustlabel{
+  padding: 5px 0 0;
+}

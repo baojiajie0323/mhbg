@@ -100,6 +100,19 @@ var sqlmap = {
   where tc_afl01=to_date(:todaydate,'yyyy-mm-dd') AND tc_afl02=:orderno AND tc_afl08=:dh AND tc_afl09=:xh \
   AND tc_afl11=:useraccount",
 
+  getxjcount: "SELECT COUNT(*) xjcount FROM tc_abk_file \
+  WHERE tc_abk01=to_date(:todaydate,'yyyy-mm-dd') AND tc_abk02=:orderno AND tc_abk04=:dh AND tc_abk05=:xh \
+  AND tc_abk06=:type AND tc_abk07=:useraccount AND tc_abk08='1' ",
+  getxj:"SELECT tc_abl08,tc_abl09,tc_abl10,tc_abl11,tc_abl12,tc_abl13,tc_abl14,tc_abl15,tc_abl16,tc_abl17,tc_abl18,tc_abl19 FROM tc_abl_file \
+  WHERE tc_abl01=to_date(:todaydate,'yyyy-mm-dd') AND tc_abl02=:orderno AND tc_abl04=:dh AND tc_abl05=:xh \
+  AND tc_abl06=:lx AND tc_abl07=:useraccount AND tc_abl22=:xjcount",
+  //getxj:"select * from tc_abl_file where tc_abl02='411-MH011810150162'",
+  insertcyxj : "INSERT INTO tc_abk_file values(to_date(:todaydate,'yyyy-mm-dd'),:orderno,:gy,:dh,:xh,:type,\
+  :useraccount,'1',:begintime,:endtime,:count,:times,'','','','') ",
+  updatexj: "UPDATE tc_abl_file  SET tc_abl15=:state ,tc_abl16=:bz \
+  WHERE tc_abl01=to_date(:todaydate,'yyyy-mm-dd') AND tc_abl02=:orderno AND tc_abl04=:dh AND tc_abl05=:xh \
+  AND tc_abl06=:lx AND tc_abl07=:useraccount AND tc_abl08=:lb AND tc_abl10=:xm ",
+
   //首件确认整合版本
   getsjqr_n: "SELECT tc_abg08,tc_abg09,tc_abg10,tc_abg11,tc_abg12,tc_abg13,tc_abg14,tc_abg15,tc_abg16,tc_abg17,tc_abg18,tc_abg19 FROM tc_abg_file \
   WHERE tc_abg01=to_date(:todaydate,'yyyy-mm-dd') AND tc_abg02=:orderno AND tc_abg04=:dh AND tc_abg05=:xh \

@@ -20,6 +20,7 @@
       <view  class="weui-form-preview__hd">
         <view class="weui-form-preview__item">
           <view class="weui-form-preview__value_in-hd orderName">{{index+1}}. {{order.IMA02}}</view>
+          <navigator wx:if="{{order.steps[2].done}}" url="{{order.xjurl}}"><text class="xjtext">巡检</text></navigator>
         </view>
       </view>
       <view class="weui-form-preview__bd">

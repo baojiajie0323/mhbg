@@ -1,5 +1,6 @@
 <!--index.wxml-->
 <view class="container">
+  <button open-type="getUserInfo">用户授权信息</button>
   <view class="userinfo">
     <block wx:if="{{!hasUserInfo && canIUse}}">
       <button class="authorbtn" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 登录微信 </button>

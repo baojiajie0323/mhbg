@@ -269,6 +269,7 @@ Page({
         }
       }
       var operatelist = this.getOperateList(taskStateList, orderList[i].TC_AFR02, orderList[i].TC_AFR04, orderList[i].TC_AFR12, orderList[i].TC_AFR14, orderList[i].TC_AFR13, orderList[i].TC_AFT08);
+      var xjurl = `../cyxj/cyxj?no=${orderList[i].TC_AFR02}&dh=${orderList[i].TC_AFR12}&xh=${orderList[i].TC_AFR14}&gy=${orderList[i].TC_AFR04}&worker=${orderList[i].TC_AFT08 ? orderList[i].TC_AFT08 : 'tiptop'}`
       var steps = [];
       var bFinish = true;
       for (var j = 0; j < stepName.length; j++) {
@@ -289,6 +290,7 @@ Page({
       }
       orderList[i].steps = steps;
       orderList[i].operatelist = operatelist;
+      orderList[i].xjurl = xjurl;
       realorderList.push(orderList[i]);
     }
     var title = `已完成${finishOrder}/${allOrder}个`;
@@ -403,5 +405,8 @@ Page({
   onPullDownRefresh: function () {
     console.log("onPullDownRefresh");
     this.requestInfo();
+  },
+  onClickxj: function () {
+    console.log("onclickxj")
   }
 })

@@ -8,7 +8,7 @@ var jsonWrite = _dao.jsonWrite;
 var dbcode = _dao.dbcode;
 
 module.exports = {
-  listresult: function (res, err, result) {
+  listresult: function (res, err, result ,nCount) {
     console.log('dbresult', err, result);
     if (err) {
       jsonWrite(res, {}, dbcode.FAIL);
@@ -22,7 +22,7 @@ module.exports = {
         })
         return json;
       })
-      jsonWrite(res, dbresult, dbcode.SUCCESS);
+      jsonWrite(res, dbresult, dbcode.SUCCESS,nCount);
     }
   },
   getOrder: function (req, res, next) {
@@ -360,6 +360,98 @@ module.exports = {
       });
     });
   },
+  getXj: function (req, res, next) {
+    //var pool = _dao.getPool();
+    console.log('infoDao getXj');
+    var param = req.body.data;
+    var context = this;
+    _dao.getConnection(res, function (connection) {
+      var tasks = [];
+      var xjresult;
+      var xjcount = 0;
+      tasks.push(function (callback) {
+        var sqlstring = _sql.getxjcount;
+        var where_params = [param.today, param.orderno, param.dh, param.xh, param.user == 'tiptop' ? 1 : 2, param.user];
+        console.log('getxjcount',sqlstring,where_params);
+        connection.execute(sqlstring, where_params, function (err, result) {
+          console.log('getxjcount res:',err,result);
+          if (!err) {
+            xjcount = result.rows[0][0];
+          }
+          callback(err);
+          // context.listresult(res, err, result);
+          // connection.release();
+        });
+      })
+      tasks.push(function (callback) {
+        var sqlstring = _sql.getxj;
+        var where_params = [param.today, param.orderno, param.dh, parseInt(param.xh), param.user == 'tiptop' ? '1' : '2', param.user,xjcount+1];
+        console.log('getxj',sqlstring,where_params);
+        connection.execute(sqlstring, where_params, function (err, result) {
+          console.log('getxj res:',err,result);
+          xjresult = result;
+          callback(err);
+          // context.listresult(res, err, result);
+          // connection.release();
+        });
+      })
+      async.series(tasks, function (err, results) {
+        if (err) {
+          console.log('tasks error', err);
+          connection.rollback(); // 发生错误事务回滚
+          jsonWrite(res, {}, dbcode.FAIL);
+        } else {
+          context.listresult(res, err, xjresult,xjcount);
+          //jsonWrite(res, param, dbcode.SUCCESS);
+        }
+        connection.release();
+      });
+    });
+  },
+  updateXj: function (req, res, next) {
+    //var pool = _dao.getPool();
+    console.log('infoDao updateXj', req.body.data);
+    var param = req.body.data;
+    var context = this;
+    _dao.getConnection(res, function (connection) {
+      var tasks = [];
+      var sjqr_wlqr = param.sjqr_wlqr;
+      var sjqr_sbcs = param.sjqr_sbcs;
+      var sjqr_cpzl = param.sjqr_cpzl;
+      var sjqr = sjqr_wlqr.concat(sjqr_sbcs, sjqr_cpzl);
+
+      tasks.push(function (callback) {
+        var sqlstring = _sql.insertcyxj;
+        var where_params = [param.today, param.orderno,param.ordertype, param.dh, param.xh, param.user == 'tiptop' ? 1 : 2, param.user, 
+          param.starttime,param.endtime,param.xj,param.xjtimes + 1];
+        console.log(sqlstring, where_params)
+        connection.execute(sqlstring, where_params, function (err, result) {
+          callback(err);
+        })
+      })
+
+      sjqr.forEach(s => {
+        tasks.push(function (callback) {
+          var sqlstring = _sql.updatesjqr_n;
+          var where_params = [s.TC_ABL15, s.TC_ABL16, param.today, param.orderno, param.dh, param.xh, param.user == 'tiptop' ? 1 : 2, param.user, s.TC_ABL08, s.TC_ABL10];
+          console.log(sqlstring, where_params)
+          connection.execute(sqlstring, where_params, function (err, result) {
+            callback(err);
+          })
+        })
+      })
+      async.series(tasks, function (err, results) {
+        if (err) {
+          console.log('tasks error', err);
+          connection.rollback(); // 发生错误事务回滚
+          jsonWrite(res, {}, dbcode.FAIL);
+        } else {
+          jsonWrite(res, param, dbcode.SUCCESS);
+        }
+        connection.release();
+      });
+    });
+  },
   getZssc: function (req, res, next) {
     //var pool = _dao.getPool();
     console.log('infoDao getZssc');
@@ -615,7 +707,7 @@ module.exports = {
       for (let i = 0; i < bgsj_bl.length; i++) {
         let bl = bgsj_bl[i];
         tasks.push(function (callback) {
-          var where_params = [param.today, param.orderno, param.ordertype, bl.TC_AFN04, bl.TC_AFN05, parseInt(bl.TC_AFN06), bl.TC_AFN07, bl.TC_AFN08, bl.TC_AFN09, bl.TC_AFN10, bl.TC_AFN11, param.dh, param.xh, param.user == 'tiptop' ? 1 : 2, param.user,
+          var where_params = [param.today, param.orderno, param.ordertype, bl.TC_AFN04, bl.TC_AFN05, parseFloat(bl.TC_AFN06), bl.TC_AFN07, bl.TC_AFN08, bl.TC_AFN09, bl.TC_AFN10, bl.TC_AFN11, param.dh, param.xh, param.user == 'tiptop' ? 1 : 2, param.user,
           param.zssc_begin, param.zssc_end, param.begintime, param.endtime];
           console.log(sqlstring, where_params)
           connection.execute(sqlstring, where_params, function (err, result) {

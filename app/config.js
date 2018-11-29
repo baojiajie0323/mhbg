@@ -3,7 +3,7 @@
  */
 
 // 此处主机域名修改成腾讯云解决方案分配的域名
-var host = '62771876.myhome-sh.cn';
+var host = 'wms.myhome-sh.cn';
 
 var config = {
 
