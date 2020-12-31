@@ -35,14 +35,34 @@
   font-weight: bold;
 }
 
-.sjqr_preview_label{
+.sjqr_preview_label {
   min-width: auto;
 }
 
-.sjqr_preview_value{
+.sjqr_preview_value {
   text-align: right;
+  margin-right: 10px;
 }
 
-.adjustlabel{
+.adjustlabel {
   padding: 5px 0 0;
+}
+
+.sizeContent {
+  margin: 5px 0;
+  text-align: left;
+  border: 1px solid black;
+}
+
+.sizeContent .sizehead {
+  display: flex;
+  padding: 0 10px;
+  text-align: center;
+}
+
+.sizeContent .sizebody .sizetr {
+  display: flex;
+  padding: 0 10px;
+  text-align: center;
+  border-top: 1px solid black;
 }

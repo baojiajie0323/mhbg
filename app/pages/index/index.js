@@ -31,14 +31,43 @@ var showModel = (title, content) => {
   });
 };
 
-var userRole = [{ value: 'JXY', name: '机修员' },
-{ value: 'SCZZ', name: '生产组长' },
-{ value: 'PGY', name: '品管员' },
-{ value: 'CGY', name: '仓管员' },
-{ value: 'SCJHY', name: '生产计划员' },
-{ value: 'ADMIN', name: '系统管理员' },
-{ value: 'SCZZ_JXY', name: '生产组长+机修员' },
-{ value: 'GCWX', name: '工程维修' },]
+var userRole = [{
+    value: 'JXY',
+    name: '机修员'
+  },
+  {
+    value: 'SCZZ',
+    name: '生产组长'
+  },
+  {
+    value: 'PGY',
+    name: '品管员'
+  },
+  {
+    value: 'CGY',
+    name: '仓管员'
+  },
+  {
+    value: 'SCJHY',
+    name: '生产计划员'
+  },
+  {
+    value: 'ADMIN',
+    name: '系统管理员'
+  },
+  {
+    value: 'SCZZ_JXY',
+    name: '生产组长+机修员'
+  },
+  {
+    value: 'GCWX',
+    name: '工程维修'
+  },
+  {
+    value: 'PGZG',
+    name: '品管主管'
+  }
+]
 /**
  * 使用 Page 初始化页面，具体可参考微信公众平台上的文档
  */
@@ -49,20 +78,50 @@ Page({
    */
   data: {
     userInfo: {},
-    hasUserInfo: true,
+    hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     //userRole: '',
     username: '',
     password: '',
-    items: [
-      { value: 'JXY', name: '机修员' },
-      { value: 'SCZZ', name: '生产组长' },
-      { value: 'PGY', name: '品管员' },
-      { value: 'CGY', name: '仓管员' },
-      { value: 'SCJHY', name: '生产计划员' },
-      { value: 'ADMIN', name: '系统管理员' },
+    items: [{
+        value: 'JXY',
+        name: '机修员'
+      },
+      {
+        value: 'SCZZ',
+        name: '生产组长'
+      },
+      {
+        value: 'PGY',
+        name: '品管员'
+      },
+      {
+        value: 'CGY',
+        name: '仓管员'
+      },
+      {
+        value: 'SCJHY',
+        name: '生产计划员'
+      },
+      {
+        value: 'ADMIN',
+        name: '系统管理员'
+      },
     ],
     welcomeText: "欢迎使用满好报工系统,请登录微信"
+  },
+  getUserInfo(e) {
+    console.log('getuserinfo',e);
+    this.setData({hasUserInfo:true});
+    // wx.authorize({
+    //   scope: 'scope.userInfo',
+    //   success() {
+    //     // 用户已经同意小程序使用录音功能，后续调用 wx.startRecord 接口不会弹窗询问
+
+    //     this.doLogin();
+    //     //wx.startRecord()
+    //   }
+    // })
   },
   radioChange(value) {
     this.setData({
@@ -70,12 +129,29 @@ Page({
     })
     console.log(value);
   },
-  onLoad: function () {
-    this.doLogin();
+  onLoad: function() {
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.userInfo']) {
+          wx.authorize({
+            scope: 'scope.userInfo',
+            success() {
+              // 用户已经同意小程序使用录音功能，后续调用 wx.startRecord 接口不会弹窗询问
+
+              this.doLogin();
+              //wx.startRecord()
+            }
+          })
+        }
+      }
+    })
     //var userRole = wx.getStorageSync("ROLE");
     var username = wx.getStorageSync("USERNAME");
     var password = wx.getStorageSync("PASSWORD");
-    this.setData({ username, password });
+    this.setData({
+      username,
+      password
+    });
     // if (userRole) {
     //   // Do something with return value
     //   this.setData({
@@ -94,7 +170,10 @@ Page({
       success(result) {
         //showSuccess('登录成功');
         console.log('登录成功', result);
-        context.setData({ userInfo: result })
+        context.setData({
+          userInfo: result,
+          hasUserInfo: true
+        })
       },
 
       fail(error) {
@@ -103,7 +182,7 @@ Page({
       }
     });
   },
-  loginbg: function () {
+  loginbg: function() {
     var context = this;
     console.log("request loginbg");
     qcloud.request({
@@ -134,7 +213,7 @@ Page({
           }
 
           var useraccount = context.data.username;
-          if (userInfo.TC_AFV06 == 1){
+          if (userInfo.TC_AFV06 == 1) {
             useraccount = 'tiptop'
           }
           wx.setStorageSync("USERACCOUNT", useraccount);
@@ -171,7 +250,7 @@ Page({
       }
     });
   },
-  startbg: function () {
+  startbg: function() {
     if (this.data.username == "") {
       wx.showModal({
         title: '登录失败',
@@ -194,7 +273,7 @@ Page({
     //   url: '../task/task?role=' + this.data.userRole
     // })
   },
-  ontapMore: function () {
+  ontapMore: function() {
     wx.showActionSheet({
       itemList: ['重启后台服务'],
       success: (res) => {
@@ -203,12 +282,12 @@ Page({
           this.restartServe();
         }
       },
-      fail: function (res) {
+      fail: function(res) {
         console.log(res.errMsg)
       }
     })
   },
-  restartServe: function () {
+  restartServe: function() {
     var context = this;
     console.log("request restartServe");
     qcloud.request({
@@ -216,8 +295,7 @@ Page({
       url: config.service.requestUrl,
       data: {
         cmd: 'restartserve',
-        data: {
-        }
+        data: {}
       },
       method: 'POST',
       // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
@@ -242,10 +320,15 @@ Page({
       }
     });
   },
-  onbindInput_user: function (e) {
-    this.setData({ username: e.detail.value });
+  onbindInput_user: function(e) {
+    // console.log("onbindInput_user",e);
+    this.setData({
+      username: e.detail.value
+    });
   },
-  onbindInput_pass: function (e) {
-    this.setData({ password: e.detail.value });
+  onbindInput_pass: function(e) {
+    this.setData({
+      password: e.detail.value
+    });
   }
 });

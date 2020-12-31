@@ -1,0 +1,14 @@
+var getGdType = function (gd) {
+  console.log("getGdType",gd);
+  if (!gd){
+    return '';
+  }
+  if (gd.indexOf('411') === 0) {
+    return '一般工单'
+  }else if(gd.indexOf('412') === 0){
+    return '返工工单'
+  }
+  return '未知工单';
+}
+
+module.exports.getGdType = getGdType;

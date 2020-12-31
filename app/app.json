@@ -2,6 +2,20 @@
   "pages": [
     "pages/index/index",
     "pages/task/task",
+    "pages/pg/pg",
+    "pages/pg/sjlb/sj",
+    "pages/pg/sjjy/sjjy",
+    "pages/pg/sjmx/sjmx",
+    "pages/pg/sjmx/sjmx_wlqr",
+    "pages/pg/sjmx/sjmx_cpqrn",
+    "pages/pg/sjmx/sjmx_cpqry",
+    "pages/pg/sjcs/sjcs",
+    "pages/pg/xjlb/xj",
+    "pages/pg/xjjy/xjjy",
+    "pages/pg/cpjlb/cpj",
+    "pages/pg/cpjjy/cpjjy",
+    "pages/pg/cpjmx/cpjmx_n",
+    "pages/pg/cpjmx/cpjmx_y",
     "pages/lq/lq",
     "pages/lq_br/lq_br",
     "pages/lq_rt/lq_rt",
@@ -14,7 +28,8 @@
     "pages/repair/repair",
     "pages/repair_bx/repair_bx",
     "pages/repair_zp/repair_zp",
-    "pages/repair_wx/repair_wx"
+    "pages/repair_wx/repair_wx",
+    "pages/zssc/selectUser"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -41,11 +56,18 @@
         "text": "利器管理"
       },
       {
+        "pagePath": "pages/pg/pg",
+        "iconPath": "image/kc.png",
+        "selectedIconPath": "image/kc_sel.png",
+        "text": "品管检验"
+      },
+      {
         "pagePath": "pages/repair/repair",
         "iconPath": "image/repair.png",
         "selectedIconPath": "image/repair_sel.png",
         "text": "设备管理"
       }
     ]
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }

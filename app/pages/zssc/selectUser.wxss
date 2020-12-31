@@ -1,0 +1,24 @@
+/* pages/zssc/selectUser.wxss */
+
+.container{
+  padding: 0 20px;
+}
+
+.checkbox{
+  margin: 15px 0;
+}
+
+.title{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between；
+}
+
+.content{
+  position: absolute;
+  width: 100%;
+  top: 50px;
+  bottom: 20px;
+  overflow: auto;
+}

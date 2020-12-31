@@ -43,7 +43,8 @@ Page({
     orderList: [],
     taskstatelist: [],
     title: '下拉刷新任务列表',
-    tasktype: 1
+    tasktype: 1,
+    abmList: [],
   },
   scanCode: function () {
     var context = this
@@ -147,7 +148,7 @@ Page({
     var state = '1';
     for (var i = 0; i < taskStateList.length; i++) {
       if (taskStateList[i].TC_AFQ02 == tc_afr02 && taskStateList[i].TC_AFQ12 == tc_afr12 && taskStateList[i].TC_AFQ13 == tc_afr14 && taskStateList[i].TC_AFQ04 == short) {
-        //如果是个人工单类型，并且不是物料轻点步骤的需要匹配到工号，因为物料清点个人工单也是公用的。
+        //如果是个人工单类型，并且不是物料清点步骤的需要匹配到工号，因为物料清点个人工单也是公用的。
         if (tc_aft08 && short != 'A') {
           if (tc_aft08 == taskStateList[i].TC_AFQ15) {
             return taskStateList[i].TC_AFQ05;
@@ -171,7 +172,7 @@ Page({
     }
     return state;
   },
-  getOperateList: function (taskStateList, tc_afr02, tc_afr04, tc_afr12, tc_afr14, tc_afr13, tc_aft08) {
+  getOperateList: function (taskStateList, tc_afr02, tc_afr04, tc_afr12, tc_afr14, tc_afr13, tc_aft08)  {
     var { role, user, usertype } = this.data;
     var operatelist = [];
     var checkoperate = (step) => {
@@ -188,7 +189,7 @@ Page({
         } else if (step == "C") {
           operatelist.push({ name: '首件确认', url: `../sjqr/sjqr?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&gy=${tc_afr04}&worker=${tc_aft08 ? tc_aft08 : 'tiptop'}&state=${stepstate}` })
         } else if (step == "D") {
-          operatelist.push({ name: '正式生产', url: `../zssc/zssc?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&gy=${tc_afr04}&worker=${tc_aft08 ? tc_aft08 : 'tiptop'}&state=${stepstate}` })
+          operatelist.push({ name: '正式生产', url: `../zssc/zssc?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&gy=${tc_afr04}&worker=${tc_aft08 ? tc_aft08 : 'tiptop'}&state=${stepstate}&worktype=${tc_afr13}` })
         } else if (step == "E") {
           operatelist.push({ name: '报工送检', url: `../bgsj/bgsj?no=${tc_afr02}&dh=${tc_afr12}&xh=${tc_afr14}&gy=${tc_afr04}&worker=${tc_aft08 ? tc_aft08 : 'tiptop'}&state=${stepstate}` })
         }
@@ -208,7 +209,7 @@ Page({
       var stepstateB = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "B", tc_aft08);
       var stepstateC = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "C", tc_aft08);
       var stepstateD = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "D", tc_aft08);
-      if (stepstateA == "3" && stepstateB == "3" && stepstateC == "3") {
+      if (stepstateA == "3" && stepstateB == "3" && (this.isInAbm(tc_afr04) || stepstateC == "3")) {
         checkoperate("D");
       }
       if (stepstateD == "3") {
@@ -231,7 +232,7 @@ Page({
       if (stepstateA == "3" && stepstateB == "3") {
         checkoperate("C");
       }
-      if (stepstateA == "3" && stepstateB == "3" && stepstateC == "3") {
+      if (stepstateA == "3" && stepstateB == "3" && (this.isInAbm(tc_afr04) || stepstateC == "3")) {
         checkoperate("D");
       }
       if (stepstateD == "3") {
@@ -244,7 +245,7 @@ Page({
       var stepstateB = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "B", tc_aft08);
       var stepstateC = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "C", tc_aft08);
       var stepstateD = this.getOrderState(taskStateList, tc_afr02, tc_afr12, tc_afr14, "D", tc_aft08);
-      if (stepstateA == "3" && stepstateB == "3" && stepstateC == "3") {
+      if (stepstateA == "3" && stepstateB == "3" && (this.isInAbm(tc_afr04) || stepstateC == "3")) {
         checkoperate("D");
       }
       if (stepstateD == "3") {
@@ -322,11 +323,50 @@ Page({
     }
     this.setData({ orderList, realorderList, realorderList_merge, title });
   },
+  isInAbm: function (abm) {
+    const {abmList} = this.data;
+    return abmList.some(a => a.TC_ABM01 == abm);
+  },
   requestInfo: function () {
     if(this.data.role == 'GCWX'){
       return;
     }
     this.getTodayTask();
+    this.getABMlist();
+  },
+  getABMlist: function () {
+    var context = this;
+    console.log("request getABMlist");
+    qcloud.request({
+      // 要请求的地址
+      url: config.service.requestUrl,
+      data: {
+        cmd: 'getabmlist',
+        data: {
+        }
+      },
+      method: 'POST',
+      // 请求之前是否登陆，如果该项指定为 true，会在请求之前进行登录
+      login: true,
+
+      success(result) {
+        //showSuccess('列表更新成功');
+        console.log('request success', result);
+        context.setData({
+          abmList: result.data.data
+        })
+      },
+
+      fail(error) {
+        //showModel('请求失败', error);
+        console.log('request fail', error);
+      },
+
+      complete() {
+        console.log('request complete');
+        //wx.stopPullDownRefresh();
+      }
+    });
   },
   getTodayTask: function () {
     var context = this;
@@ -348,8 +388,12 @@ Page({
       success(result) {
         //showSuccess('列表更新成功');
         console.log('request success', result);
+        var orderList = result.data.data;
+        if (context.data.role == "SCZZ_JXY"){
+          orderList = orderList.filter(o => o.TC_AFR08 == context.data.user)
+        }
         context.setData({
-          orderList: result.data.data
+          orderList
         })
 
         context.getTodayTaskState();

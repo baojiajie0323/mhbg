@@ -43,6 +43,6 @@
     </view>
   </view>
   <view class="brcontainer">
-    <button bindtap="onClickOK" type="primary">确定</button>
+    <button bindtap="onClickOK" type="primary">维修结束</button>
   </view>
 </view>

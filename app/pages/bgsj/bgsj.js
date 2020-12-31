@@ -124,7 +124,7 @@ Page({
             //bgsj_lp: result.data.data.bgsj_lp,
             //bgsj_bl: result.data.data.bgsj_bl,
             bllj: context.data.bllj.concat(result.data.data.bgsj_bllj),
-            blyy: context.data.blyy.concat(result.data.data.bgsj_blyy),
+            blyy: context.data.blyy.concat(result.data.data.bgsj_blyy2),
             blph: context.data.blph.concat(result.data.data.bgsj_blph),
           })
         }

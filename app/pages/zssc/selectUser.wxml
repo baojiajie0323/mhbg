@@ -1,0 +1,16 @@
+<!--pages/zssc/selectUser.wxml-->
+<view class="container">
+  <view class="title">
+    <label>请选择员工 已选择{{checkeduser.length}}项</label>
+    <button size="mini" bindtap='onClickOK'>确定</button>
+  </view>
+
+  <view class="content">
+    <checkbox-group bindchange="checkboxChange">
+      <view class="checkbox" wx:for="{{users}}">
+        <checkbox value="{{item.HRAT01}}" />{{item.HRAO02}} - {{item.HRAT02}}
+      </view>
+    </checkbox-group>
+  </view>
+
+</view>

@@ -44,7 +44,7 @@ Page({
   },
   onUnload: function () {
     if (!this.isFinish) {
-      this.updateBxStatus('1', 'A');
+      // this.updateBxStatus('1', 'A');
     }
   },
   requestInfo: function () {

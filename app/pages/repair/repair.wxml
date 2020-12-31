@@ -41,10 +41,10 @@
       </view>
       <view class="weui-form-preview__ft">
         <view wx:if="{{bx.TC_BAB05 == 'A' && (role == 'SCJHY' || role == 'ADMIN') }}" data-bx="{{bx}}" bindtap="onClickZp" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">
-          <text>指派</text>
+          <text>{{bx.TC_BAB06 > 1 ? '指派中':'指派'}}</text>
         </view>
         <view wx:if="{{bx.TC_BAB05 == 'B' && (role == 'SCJHY' || role == 'ADMIN' || role == 'GCWX') }}" data-bx="{{bx}}" bindtap="onClickWx" class="weui-form-preview__btn weui-form-preview__btn_primary" hover-class="weui-form-preview__btn_active">
-          <text>维修</text>
+          <text>{{bx.TC_BAB06 > 1 ? '维修中':'开始维修'}}</text>
         </view>
       </view>
     </view>

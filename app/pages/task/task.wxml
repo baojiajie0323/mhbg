@@ -47,6 +47,10 @@
           <view class="weui-form-preview__value">{{order.TC_AFR09}}</view>
         </view>
         <view class="weui-form-preview__item">
+          <view class="weui-form-preview__label">规格</view>
+          <view class="weui-form-preview__value">{{order.IMA021}}</view>
+        </view>
+        <view class="weui-form-preview__item">
           <view class="weui-form-preview__label">生产数量</view>
           <view class="weui-form-preview__value">{{order.TC_AFR03}} {{order.IMA55}}</view>
         </view>

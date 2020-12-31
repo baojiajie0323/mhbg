@@ -49,6 +49,7 @@
         <view class="weui-cell__bd">
           <input type="number" class="weui-input" id="TC_AFL05" value="{{zssc.TC_AFL05}}" bindinput="onBindInput" placeholder="请输入人数" />
         </view>
+        <button wx:if="{{worktype==1}}" type="default" size="mini" bindtap='onClickSelectUser'>选择人</button>
       </view>
     </view>
 

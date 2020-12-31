@@ -27,6 +27,9 @@ router.post('/', function (req, res, next) {
   } else if (req.body.cmd == "gettodaytask") {
     console.log('gettodaytask');
     infoDao.getTodayTask(req, res, next);
+  } else if (req.body.cmd == "getabmlist") {
+    console.log('getabmlist');
+    infoDao.getAbmList(req, res, next);
   } else if (req.body.cmd == "gettaskstate") {
     console.log('gettaskstate');
     infoDao.getTaskState(req, res, next);
@@ -69,6 +72,9 @@ router.post('/', function (req, res, next) {
   } else if (req.body.cmd == "getzssc") {
     console.log('getzssc');
     infoDao.getZssc(req, res, next);
+  } else if (req.body.cmd == "getusers") {
+    console.log('getusers');
+    infoDao.getusers(req, res, next);
   } else if (req.body.cmd == "updatezssc") {
     console.log('updatezssc');
     infoDao.updateZssc(req, res, next);
@@ -138,7 +144,95 @@ router.post('/', function (req, res, next) {
   } else if (req.body.cmd == "updatexj") {
     console.log('updatexj');
     infoDao.updateXj(req, res, next);
+  } else if (req.body.cmd == "getsjcount") {
+    console.log('getsjcount');
+    infoDao.getsjcount(req, res, next);
+  } else if (req.body.cmd == "getsjlist") {
+    console.log('getsjlist');
+    infoDao.getsjlist(req, res, next);
+  } else if (req.body.cmd == "getjylist") {
+    console.log('getjylist');
+    infoDao.getjylist(req, res, next);
+  } else if (req.body.cmd == "getjymx") {
+    console.log('getjymx');
+    infoDao.getjymx(req, res, next);
+  } else if (req.body.cmd == "getjymx_wlqr") {
+    console.log('getjymx_wlqr');
+    infoDao.getjymx_wlqr(req, res, next);
+  } else if (req.body.cmd == "getjymx_cpqrn") {
+    console.log('getjymx_cpqrn');
+    infoDao.getjymx_cpqrn(req, res, next);
+  } else if (req.body.cmd == "getjymx_cpqry") {
+    console.log('getjymx_cpqry');
+    infoDao.getjymx_cpqry(req, res, next);
+  } else if (req.body.cmd == "getcsbz") {
+    console.log('getcsbz');
+    infoDao.getcsbz(req, res, next);
+  } else if (req.body.cmd == "getcslist") {
+    console.log('getcslist');
+    infoDao.getcslist(req, res, next);
+  } else if (req.body.cmd == "getcslist_cpqry") {
+    console.log('getcslist_cpqry');
+    infoDao.getcslist_cpqry(req, res, next);
+  } else if (req.body.cmd == "updatesjbegintime") {
+    console.log('updatesjbegintime');
+    infoDao.updatesjbegintime(req, res, next);
+  } else if (req.body.cmd == "updatesjcs") {
+    console.log('updatesjcs');
+    infoDao.updatesjcs(req, res, next);
+  } else if (req.body.cmd == "updatesjcs_cpqrn") {
+    console.log('updatesjcs_cpqrn');
+    infoDao.updatesjcs_cpqrn(req, res, next);
+  } else if (req.body.cmd == "updatesjcs_cpqry") {
+    console.log('updatesjcs_cpqry');
+    infoDao.updatesjcs_cpqry(req, res, next);
+  } else if (req.body.cmd == "updatejymx") {
+    console.log('updatejymx');
+    infoDao.updatejymx(req, res, next);
+  } else if (req.body.cmd == "updatesjjy") {
+    console.log('updatesjjy');
+    infoDao.updatesjjy(req, res, next);
+  } else if (req.body.cmd == "getxjcount_nnn") {
+    console.log('getxjcount_nnn');
+    infoDao.getxjcount_nnn(req, res, next);
+  } else if (req.body.cmd == "getxjlist") {
+    console.log('getxjlist');
+    infoDao.getxjlist(req, res, next);
+  } else if (req.body.cmd == "updatesjmxBeginTime") {
+    console.log('updatesjmxBeginTime');
+    infoDao.updatesjmxBeginTime(req,res,next);
+  } else if (req.body.cmd == "getcpjcount") {
+    console.log('getcpjcount');
+    infoDao.getcpjcount(req, res, next);
+  } else if (req.body.cmd == "getcpjlist") {
+    console.log('getcpjlist');
+    infoDao.getcpjlist(req, res, next);
+  } else if (req.body.cmd == "getcpjjylist") {
+    console.log('getcpjjylist');
+    infoDao.getcpjjylist(req, res, next);
+  } else if (req.body.cmd == "updatecpjjy") {
+    console.log('updatecpjjy');
+    infoDao.updatecpjjy(req, res, next);
+  } else if (req.body.cmd == "getcpjjymx_y") {
+    console.log('getcpjjymx_y');
+    infoDao.getcpjjymx_y(req, res, next);
+  } else if (req.body.cmd == "updatecpjcs_y") {
+    console.log('updatecpjcs_y');
+    infoDao.updatecpjcs_y(req, res, next);
+  } else if (req.body.cmd == "updatecpjcs_n") {
+    console.log('updatecpjcs_n');
+    infoDao.updatecpjcs_n(req, res, next);
+  } else if (req.body.cmd == "updatecpjmxBeginTime") {
+    console.log('updatecpjmxBeginTime');
+    infoDao.updatecpjmxBeginTime(req,res,next);
+  } else if (req.body.cmd == "getcpjjymx_n") {
+    console.log('getcpjjymx_n');
+    infoDao.getcpjjymx_n(req, res, next);
   } 
+
+
+
+  
 });
 
 

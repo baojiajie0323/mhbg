@@ -179,8 +179,10 @@ Page({
       data: {
         cmd: 'updatewlqd',
         data: {
-          //today: new Date("2017-10-17").Format("yyyy-MM-dd"),
           today: new Date().Format("yyyy-MM-dd"),
+          dh: context.data.dh,
+          xh: context.data.xh,
+          useraccount: context.data.worker ? context.data.worker : wx.getStorageSync("USERACCOUNT"),
           orderno: this.data.no,
           gy: this.data.gy,
           wlqd: this.data.wlqd

@@ -70,13 +70,12 @@
             <view wx:if="{{sj.TC_ABL15 == 'ng'}}" class="weui-form-preview__item">
               <view class="weui-form-preview__label adjustlabel">NG原因</view>
               <view class="weui-form-preview__value">
-                <input class="weui-input" id="{{sj.TC_ABL09}}" data-type="sjqr_sbcs" data-index="{{index}}"  value="{{sj.TC_ABL16}}" bindinput="bindCPInput" placeholder="请输入NG原因" />
+                <input class="weui-input" id="{{sj.TC_ABL09}}" data-type="sjqr_sbcs" data-index="{{index}}" value="{{sj.TC_ABL16}}" bindinput="bindCPInput" placeholder="请输入NG原因" />
               </view>
             </view>
           </view>
         </view>
       </view>
-
       <view class="weui-form-preview__bd sjqr_from_preview">
         <view class="weui-form-preview__item">
           <view class="subtitle">产品质量</view>
@@ -92,7 +91,7 @@
             <view class="weui-form-preview__item">
               <view class="weui-form-preview__label sjqr_preview_label">确认</view>
               <view class="weui-form-preview__value sjqr_preview_value">
-                <radio-group id="{{sj.TC_ABL09}}" data-type="sjqr_cpzl" data-index="{{index}}"  bindchange="radioChangeCp">
+                <radio-group id="{{sj.TC_ABL09}}" data-type="sjqr_cpzl" data-index="{{index}}" bindchange="radioChangeCp">
                   <label class="radio">
                     <radio value="ok" checked="{{sj.TC_ABL15 == 'ok'}}" />OK
                   </label>
@@ -111,20 +110,58 @@
           </view>
         </view>
       </view>
-
       <view class="weui-form-preview__bd sjqr_from_preview">
         <view class="weui-form-preview__item">
           <view class="subtitle">抽样</view>
           <view class="wlqr_content">
             <view class="weui-form-preview__item">
-              <view class="weui-form-preview__label adjustlabel">抽样数量</view>
-              <view class="weui-form-preview__value">
-                <input class="weui-input" bindinput="bindcyInput" placeholder="请输入抽样数量" />
+              <view class="weui-form-preview__label adjustlabel">尺寸抽样</view>
+              <view class="weui-form-preview__value sjqr_preview_value">
+                <input class="weui-input" bindblur="bindcyInput_cc" placeholder="请输入抽样数量" />
+              </view>
+            </view>
+            <view class="weui-form-preview__item">
+              <view class="weui-form-preview__label adjustlabel">外观抽样</view>
+              <view class="weui-form-preview__value sjqr_preview_value">
+                <input class="weui-input" bindinput="bindcyInput_wg" placeholder="请输入抽样数量" />
+              </view>
+            </view>
+            <view class="weui-form-preview__item">
+              <view class="weui-form-preview__label adjustlabel">性能抽样</view>
+              <view class="weui-form-preview__value sjqr_preview_value">
+                <input class="weui-input" bindinput="bindcyInput_xn" placeholder="请输入抽样数量" />
               </view>
             </view>
           </view>
         </view>
-      </view>   
+      </view>
+      <view wx:if="{{sizeInput.length > 0}}" class="weui-form-preview__bd sjqr_from_preview">
+        <view class="weui-form-preview__item">
+          <view class="subtitle">尺寸</view>
+          <view class="sizeContent">
+            <view class="sizehead">
+              <view style="width:40px">序号</view>
+              <view style="width:0; flex-grow:1">长</view>
+              <view style="width:0; flex-grow:1">宽</view>
+              <view style="width:0; flex-grow:1">高</view>
+            </view>
+            <view class="sizebody">
+              <view wx:for="{{sizeInput}}" wx:for-item="sj" wx:for-index="index" class="sizetr">
+                <view style="width:40px">{{index + 1}}</view>
+                <view style="width:0; flex-grow:1">
+                  <input bindinput="bindsizeinput" data-index="{{index}}" data-type="c" value="0"></input>
+                </view>
+                <view style="width:0; flex-grow:1">
+                  <input bindinput="bindsizeinput" data-index="{{index}}" data-type="k"  value="0"></input>
+                </view>
+                <view style="width:0; flex-grow:1">
+                  <input bindinput="bindsizeinput" data-index="{{index}}" data-type="g"  value="0"></input>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
     </view>
     <view class="btn-area">
       <button bindtap='ontapsubmit' type="warn">提交</button>

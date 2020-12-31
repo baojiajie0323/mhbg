@@ -43,6 +43,7 @@ Page({
       //   TC_AFK11: '3',
     },
     state: 0,
+    sizeInput:[]
   },
   onLoad: function (option) {
     this.starttime = new Date().Format('hh:mm:ss');
@@ -192,7 +193,10 @@ Page({
           sjqr_wlqr: this.data.sjqr_wlqr,
           sjqr_sbcs: this.data.sjqr_sbcs,
           sjqr_cpzl: this.data.sjqr_cpzl,
-          xj:this.data.xj,
+          xj_cc:this.data.xj_cc,
+          xj_wg:this.data.xj_wg,
+          xj_xn:this.data.xj_xn,
+          sizeInput:this.data.sizeInput,
           starttime: this.starttime,
           endtime:new Date().Format('hh:mm:ss'),
           xjtimes:this.data.xjtimes
@@ -233,11 +237,11 @@ Page({
     })
   },
   checkSubmit: function () {
-    var { sjqr_wlqr, sjqr_sbcs, sjqr_cpzl,xj } = this.data;
+    var { sjqr_wlqr, sjqr_sbcs, sjqr_cpzl,xj_cc,xj_wg,xj_xn } = this.data;
     if (sjqr_wlqr.filter(s => !s.TC_ABL15).length > 0 ||
       sjqr_wlqr.filter(s => !s.TC_ABL15).length > 0 ||
       sjqr_wlqr.filter(s => !s.TC_ABL15).length > 0 ||
-      !xj) {
+      (xj_cc == undefined || xj_wg == undefined || xj_xn == undefined)) {
       wx.showModal({
         title: '提示',
         content: '请填写结果',
@@ -284,7 +288,33 @@ Page({
       [type]: sjqr
     })
   },
-  bindcyInput: function(e) {
-    this.setData({xj: e.detail.value});
+  bindcyInput_cc: function(e) {
+    var { sizeInput }  = this.data;
+    var originCount = sizeInput.length;
+    var count = parseInt(e.detail.value);
+    if(count > originCount){
+      for (var i = originCount ; i < count; i++) {
+        sizeInput.push({});
+      }  
+    }else{
+      sizeInput.length = count;
+    }
+    
+    this.setData({ xj_cc: count, sizeInput});
+  },
+  bindcyInput_wg: function (e) {
+    this.setData({ xj_wg: e.detail.value });
+  },
+  bindcyInput_xn: function (e) {
+    this.setData({ xj_xn: e.detail.value });
+  },
+  bindsizeinput: function(e) {
+    var { sizeInput } = this.data;
+    var type = e.currentTarget.dataset.type;
+    var index = e.currentTarget.dataset.index;
+    if(index < sizeInput.length){
+      sizeInput[index][type] = e.detail.value;
+      this.setData({sizeInput});
+    }
   }
 })

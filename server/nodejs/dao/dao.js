@@ -2,6 +2,7 @@ var oracledb = require('oracledb');
 var $conf = require('../conf/db');
 var $util = require('../util/util');
 oracledb.autoCommit = true;
+oracledb.maxRows = 50000;
 // 使用连接池，提升性能
 // var _pool = null;
 // oracledb.createPool($util.extend({}, $conf.oracle), function (err, pool) {

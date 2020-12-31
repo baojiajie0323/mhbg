@@ -1,0 +1,11 @@
+<view class="container">
+  <view class="rkcontent" bindtap="pg_sj">
+    <label>首件任务({{sjcount}})</label>
+  </view>
+  <view class="rkcontent" bindtap="pg_xj">
+    <label>巡检任务({{xjcount}})</label>
+  </view>
+    <view class="rkcontent" bindtap="pg_cpj">
+    <label>成品检任务({{cpjcount}})</label>
+  </view>
+</view>

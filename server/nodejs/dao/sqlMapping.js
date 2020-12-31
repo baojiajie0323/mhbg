@@ -17,11 +17,13 @@ var sqlmap = {
   login: "SELECT tc_afv03,tc_afv05,tc_afv06 \
   FROM tc_afv_file \
   WHERE tc_afv01=:username and tc_afv02=:password and tc_afv04='Y' ",
-  gettodaytask: "SELECT tc_afr09,ima02,tc_afr02,tc_afr03,ima55,tc_afr04,tc_afr05,tc_aft08,tc_afv05,tc_afr12,tc_afr13,tc_afr14 FROM tc_afr_file \
+  gettodaytask: "SELECT tc_afr09,ima02,ima021,tc_afr02,tc_afr03,tc_afr08,tc_afr19 ima55,tc_afr04,tc_afr05,tc_aft08,tc_afv05,tc_afr12,tc_afr13,tc_afr14 \
+  FROM tc_afr_file \
   LEFT JOIN ima_file ON tc_afr09=ima01 \
   LEFT JOIN tc_aft_file ON tc_afr01 = tc_aft01 AND tc_afr02 = tc_aft02 AND tc_afr12 = tc_aft05 AND tc_afr14 = tc_aft06 \
   LEFT JOIN tc_afv_file ON tc_aft08 = tc_afv01 \
   WHERE tc_afr01 = to_date(:todaydate,'yyyy-mm-dd')",
+  getabmlist: "SELECT tc_abm01 FROM tc_abm_file",
   gettaskstate: "Select tc_afq02,tc_afq03,tc_afq04,tc_afq05,tc_afq12,tc_afq13,tc_afq14,tc_afq15 FROM tc_afq_file \
   Where tc_afq01 = to_date(:todaydate,'yyyy-mm-dd')",
   begintask: "Update tc_afq_file set tc_afq06=:begintime,tc_afq05='2' \
@@ -67,6 +69,11 @@ var sqlmap = {
   Where tc_afq01=to_date(:todaydate,'yyyy-mm-dd') and tc_afq02=:orderno and tc_afq12=:dh and tc_afq13 =:xh and tc_afq15 =:useraccount and tc_afq04='D' ",
   updatezssc: "Update tc_afl_file set tc_afl04=:xb,tc_afl05=:rs,tc_afl06=:gx \
   Where tc_afl01=to_date(:todaydate,'yyyy-mm-dd') and tc_afl02=:orderno and tc_afl08=:dh and tc_afl09=:xh and tc_afl11=:useraccount ",
+  getusers: "SELECT hrat01,hrat02,hrao02  FROM hrat_file,hrao_file \
+  WHERE hrat04=hrao01 \
+  AND hrat44='Y' order by hrao02",
+  updateusers: "insert into tc_bat_file(tc_bat01,tc_bat02,tc_bat03,tc_bat04,tc_bat05,tc_bat06) \
+  values(to_date(:todaydate,'yyyy-mm-dd'),:orderno,:dh,:xh,'1',:userno)",
   getbgsj: "select to_char(tc_afq01,'YYYY-MM-DD') tc_afq01,tc_afq06,tc_afq07,tc_afq08,tc_afl05,to_number(tc_afq09) tc_afq09,to_number(tc_afq10) tc_afq10,tc_afq11 \
   from tc_afq_file \
   inner join tc_afl_file on tc_afq01=tc_afl01 and tc_afq02=tc_afl02 and tc_afq12=tc_afl08 and tc_afq13=tc_afl09 and tc_afq15=tc_afl11 \
@@ -86,9 +93,17 @@ var sqlmap = {
   updatebgsj_bl: "Insert into tc_afn_file (tc_afn01, tc_afn02, tc_afn03, tc_afn04, tc_afn05, tc_afn06, tc_afn07, tc_afn08, tc_afn09, tc_afn10, tc_afn11 ,tc_afn12,tc_afn13,tc_afn14,tc_afn15,tc_afn16,tc_afn17,tc_afn18,tc_afn19) \
   values (to_date(:todaydate,'yyyy-mm-dd'),:orderno,:ordertype,:ljbh,:pm,:count,:dw,:blyy,:pdjg,:ph,:gys,:dh,:xh,:tasktype,:useraccount,:zsscbegin,:zsscend,:begin,:end) ",
   getbgsj_blyy: "SELECT qce01,qce03 FROM qce_file WHERE qce04='1' AND qceacti='Y'",
+  getbgsj_blyy2: "SELECT tc_qce01 qce01,tc_qce03 qce03 FROM tc_qce_file,eca_file,tc_afr_file \
+  WHERE tc_qce02=eca01 AND eca05=tc_afr06 \
+  AND tc_afr01=to_date(:todaydate,'yyyy-mm-dd') AND tc_afr02=:orderno \
+  AND tc_afr12=:dh AND tc_afr14=:xh",
   getbgsj_bllj: "SELECT sfa03,ima02 FROM sfa_file \
   LEFT JOIN ima_file ON sfa03=ima01 \
-  WHERE sfa01=:orderno ",
+  WHERE sfa01=:orderno \
+  UNION \
+  SELECT sfb05,ima02 FROM sfb_file \
+  LEFT JOIN ima_file ON sfb05=ima01 \
+  WHERE sfb01=:orderno",
   getbgsj_blph: "SELECT DISTINCT sfe10 FROM sfe_file \
   WHERE sfe02 IN (SELECT DISTINCT tc_afs03 FROM tc_afs_file WHERE tc_afs01=to_date(:todaydate,'yyyy-mm-dd')) \
   AND sfe01=:orderno ",
@@ -103,15 +118,17 @@ var sqlmap = {
   getxjcount: "SELECT COUNT(*) xjcount FROM tc_abk_file \
   WHERE tc_abk01=to_date(:todaydate,'yyyy-mm-dd') AND tc_abk02=:orderno AND tc_abk04=:dh AND tc_abk05=:xh \
   AND tc_abk06=:type AND tc_abk07=:useraccount AND tc_abk08='1' ",
-  getxj:"SELECT tc_abl08,tc_abl09,tc_abl10,tc_abl11,tc_abl12,tc_abl13,tc_abl14,tc_abl15,tc_abl16,tc_abl17,tc_abl18,tc_abl19 FROM tc_abl_file \
+  getxj: "SELECT tc_abl08,tc_abl09,tc_abl10,tc_abl11,tc_abl12,tc_abl13,tc_abl14,tc_abl15,tc_abl16,tc_abl17,tc_abl18,tc_abl19 FROM tc_abl_file \
   WHERE tc_abl01=to_date(:todaydate,'yyyy-mm-dd') AND tc_abl02=:orderno AND tc_abl04=:dh AND tc_abl05=:xh \
   AND tc_abl06=:lx AND tc_abl07=:useraccount AND tc_abl22=:xjcount",
   //getxj:"select * from tc_abl_file where tc_abl02='411-MH011810150162'",
-  insertcyxj : "INSERT INTO tc_abk_file values(to_date(:todaydate,'yyyy-mm-dd'),:orderno,:gy,:dh,:xh,:type,\
-  :useraccount,'1',:begintime,:endtime,:count,:times,'','','','') ",
+  insertcyxj: "INSERT INTO tc_abk_file values(to_date(:todaydate,'yyyy-mm-dd'),:orderno,:gy,:dh,:xh,:type,\
+  :useraccount,'1',:begintime,:endtime,:count_cc,:times,:count_wg,:count_xn,'','') ",
   updatexj: "UPDATE tc_abl_file  SET tc_abl15=:state ,tc_abl16=:bz \
   WHERE tc_abl01=to_date(:todaydate,'yyyy-mm-dd') AND tc_abl02=:orderno AND tc_abl04=:dh AND tc_abl05=:xh \
   AND tc_abl06=:lx AND tc_abl07=:useraccount AND tc_abl08=:lb AND tc_abl10=:xm ",
+  insertxj_cc: "INSERT INTO tc_abn_file values(to_date(:todaydate,'yyyy-mm-dd'),:orderno,:gy,:dh,:xh,:type,\
+  :useraccount,'1',:begintime,:endtime,:indexc,:sizec,:sizek,:sizeg,:times,'','')",
 
   //首件确认整合版本
   getsjqr_n: "SELECT tc_abg08,tc_abg09,tc_abg10,tc_abg11,tc_abg12,tc_abg13,tc_abg14,tc_abg15,tc_abg16,tc_abg17,tc_abg18,tc_abg19 FROM tc_abg_file \
@@ -130,6 +147,98 @@ var sqlmap = {
   WHERE tc_abi01=to_date(:todaydate,'yyyy-mm-dd') AND tc_abi02=:orderno AND tc_abi04=:dh AND tc_abi05=:xh \
   AND tc_abi06=:lx AND tc_abi07=:useraccount AND tc_abi08=:jqbh AND tc_abi10=:xmbh",
 
+
+  /*=============================品管检验====================================*/
+  getRwbh: "select tc_afq20 from tc_afq_file \
+  where tc_afq01=to_date(:todaydate,'yyyy-mm-dd') and tc_afq02=:orderno and tc_afq12=:dh and tc_afq13=:xh \
+  and tc_afq04='C' and tc_afq15=:useraccount ",
+  updatewlqd_pg: "update tc_bae_file set tc_bae02='Y' \
+  where tc_bae01=:rwbh and tc_bae05=to_date(:todaydate,'yyyy-mm-dd')",
+  updatesbtj_pg: "update tc_bae_file set tc_bae03='Y' \
+  where tc_bae01=:rwbh and tc_bae05=to_date(:todaydate,'yyyy-mm-dd')",
+  getsjcount: "SELECT COUNT(*) FROM tc_bae_file,tc_ttr_file \
+  WHERE tc_bae01=tc_ttr01 AND tc_bae02='Y' AND tc_bae03='Y' AND tc_ttr03=0 AND tc_ttr02=to_date(:todaydate,'yyyy-mm-dd') AND tc_ttr20='N'",
+  getsjlist: "SELECT tc_ttr04,tc_ttr05,tc_ttr06,tc_ttr16,tc_ttr22,tc_ttr23,tc_ttr24,tc_ttr19,tc_ttr20,tc_ttr26 \
+  FROM tc_ttr_file,tc_bae_file \
+  WHERE tc_ttr01=tc_bae01 AND tc_ttr20='N' AND tc_bae02='Y' AND tc_bae03='Y' AND tc_ttr02=to_date(:todaydate,'yyyy-mm-dd') AND tc_ttr03='0'",
+  getjylist: "SELECT tc_tts03,tc_tts04, tc_tts05,tc_tts19,tc_tts20,tc_tts21 FROM tc_tts_file \
+  WHERE tc_tts22=:rwbh",
+  getjylist_wlqr: "SELECT tc_tts03,tc_tts05,tc_tts19,tc_tts20,tc_tts21 FROM tc_tts_file \
+  WHERE tc_tts22=:rwbh AND tc_tts04='1'",
+  getjylist_sbcs: "SELECT tc_tts03,tc_tts20,tc_tts21 FROM tc_tts_file \
+  WHERE tc_tts22=:rwbh AND tc_tts04='2'",
+  getjylist_cpqr: "SELECT DISTINCT tc_tts25,CASE tc_tts24 WHEN 'N' THEN tc_tts05 ELSE tc_tts23 END tc_tts05,tc_tts24,tc_tts21 \
+  FROM tc_tts_file  WHERE tc_tts22=:rwbh  AND tc_tts04='3'  ORDER BY tc_tts05",
+  getjymx: "SELECT tc_tts20,tc_tts19,tc_tts09,tc_tts03,tc_tts05, tc_tts22,tc_tts15,tc_tts17 \
+  FROM tc_tts_file \
+  WHERE tc_tts22=:rwbh AND tc_tts03=:xh",
+  getjymx_wlqr: "SELECT tc_tts05, tc_tts19,tc_tts20,tc_tts09, tc_tts03 FROM tc_tts_file \
+  WHERE tc_tts22=:rwbh AND tc_tts05=:ljbh",
+  getjymx_cpqrn: "SELECT tc_tts19,tc_tts09,tc_tts03,tc_tts22,tc_tts15,tc_tts17 FROM tc_tts_file \
+  WHERE tc_tts22=:rwbh AND tc_tts05=:ljbh",
+  getjymx_cpqry: "SELECT DISTINCT tc_tts22,tc_tts09,tc_tts15 FROM tc_tts_file \
+  WHERE tc_tts22=:rwbh AND tc_tts23=:ljbh",
+  getjymx_cpqry_xc: "SELECT tc_tts03,tc_tts19 FROM tc_tts_file \
+  WHERE tc_tts22=:rwbh AND tc_tts23=:ljbh",
+  getcsbz: "select ta_qcd04,qcd061,qcd062 \
+  from qcd_file \
+  WHERE qcd01=:ljbh AND qcd02=:xmbh",
+  getcslist: "select tc_bmq03,tc_bmq04 FROM tc_bmq_file where tc_bmq01=:rwbh AND tc_bmq02=:xc",
+  getcslist_cpqry: "select tc_bmq02,tc_bmq03,tc_bmq04 FROM tc_bmq_file where tc_bmq01=:rwbh",
+  updatecs: "merge into tc_bmq_file \
+  using (select :rwbh aa,:xc bb,:jgxc cc,:zhi dd FROM dual) \
+  ON (tc_bmq01=aa AND tc_bmq02=bb AND tc_bmq03=cc) \
+  WHEN MATCHED THEN \
+  UPDATE SET tc_bmq04=dd \
+  WHEN NOT MATCHED THEN \
+  INSERT VALUES(aa,bb,cc,dd,:sfcl,'','','')",
+  updatecsresult: "update tc_tts_file set tc_tts21='Y',tc_tts28=:useraccount,tc_tts27=:todaytime where tc_tts22=:rwbh and tc_tts03=:xc",
+  updatecsresult_cpqr: "update tc_tts_file set tc_tts21='Y',tc_tts28=:useraccount,tc_tts27=:todaytime where tc_tts22=:rwbh",
+  updatejymx: "update tc_baf_file set tc_baf08=:result \
+  where tc_baf01=:rwxh AND tc_baf04=:xh AND tc_baf02=0",
+  insertjyjl_x: "insert into tc_bad_file(tc_bad01,tc_bad02,tc_bad03,tc_bad04,tc_bad05,tc_bad06,tc_bad07,tc_bad11) \
+  values(:rwbh,to_date(:todaydate,'yyyy-mm-dd'),:begintime,:endtime,'NG',:bz,:cysl,:curdw)",
+  insertjyjl_y: "insert into tc_bad_file(tc_bad01,tc_bad02,tc_bad03,tc_bad04,tc_bad05) \
+  values(:rwbh,to_date(:todaydate,'yyyy-mm-dd'),:begintime,:endtime,'OK')",
+  updatesjstatus: "update tc_ttr_file set tc_ttr27='Y' \
+  where tc_ttr01 IN (SELECT tc_ttr01 FROM tc_ttr_file WHERE tc_ttr26=:rwbh)",
+  updatesjqr_nn: "update tc_afq_file set tc_afq06=:begintime,tc_afq07=:endtime ,tc_afq05='3'\
+  where tc_afq20 IN (SELECT tc_ttr01 FROM tc_ttr_file WHERE tc_ttr26=:rwbh) and tc_afq04='C'",
+  updatesjbegintime: "update tc_ttr_file set tc_ttr16=:begintime \
+  where tc_ttr26=:rwbh",
+  getsjmxbegintime: "select distinct tc_tts26 from tc_tts_file WHERE tc_tts22=:rwbh ",
+  updatesjmxbegintime: "update tc_tts_file set tc_tts26=:begintime WHERE tc_tts22=:rwbh",
+  getxjcount_n: "select count(*) from tc_bai_file where tc_bai01=:rwbh",
+  getxjduration: "select tc_bai02, tc_bai25 from tc_bai_file where tc_bai01=:rwbh",
+  updatexjjl: "update tc_bai_file set tc_bai21=:begintime',tc_bai22=:endtime \
+  where tc_bai01=:rwbh and tc_bai02=:times",
+
+  /*巡检*/
+  getxjcount_nnn: "SELECT COUNT(*) FROM tc_ttr_file \
+  WHERE tc_ttr03 > 0 and tc_ttr27 = 'Y' AND tc_ttr02=to_date(:todaydate,'yyyy-mm-dd') AND tc_ttr20='N' and  tc_ttr14 <=:nowtime",
+  getxjlist: "SELECT tc_ttr04,tc_ttr05,tc_ttr06,tc_ttr22,tc_ttr23,tc_ttr24,tc_ttr19,tc_ttr20,tc_ttr26,tc_ttr14,tc_ttr15,tc_ttr16 \
+  FROM tc_ttr_file \
+  WHERE tc_ttr03 > 0  AND tc_ttr27='Y' AND tc_ttr20='N' AND tc_ttr02=to_date(:todaydate,'yyyy-mm-dd') and  tc_ttr14 <=:nowtime",
+
+  /*成品检*/
+  getcpjcount: "SELECT COUNT(*) FROM tc_ttu_file WHERE tc_ttu19='N'",
+  getcpjlist: "SELECT tc_ttu13,tc_ttu01,tc_ttu03,tc_ttu15,tc_ttu17,tc_ttu18 \
+  FROM tc_ttu_file \
+  WHERE tc_ttu19='N'",
+  getcpjjylist: "SELECT DISTINCT tc_ttw20,CASE tc_ttw22 WHEN 'N' THEN tc_ttw03 ELSE tc_ttw13 END tc_ttw03, tc_ttw22,tc_ttw21 \
+  FROM tc_ttw_file \
+  WHERE tc_ttw01=:rwbh \
+  ORDER BY tc_ttw03",
+  updatecpjjy: "update tc_ttu_file set tc_ttu19='Y' \
+  where tc_ttu01=:rwbh ",
+  getcpjjymx_y: "SELECT tc_ttw01,tc_ttw02,tc_ttw07,tc_ttw15,tc_ttw19 FROM tc_ttw_file \
+  WHERE tc_ttw01=:rwbh AND tc_ttw13=:bh",
+  updatecpjresult: "update tc_ttw_file SET tc_ttw21='Y',tc_ttw23=:useraccount,tc_ttw26=to_date(:todaydate,'yyyy-mm-dd'),tc_ttw27=:todaytime \
+   WHERE tc_ttw01=:rwbh ",
+  getcpjmxbegintime: "select distinct tc_ttw25 from tc_ttw_file WHERE tc_ttw01=:rwbh ",
+  updatecpjmxbegintime: "update tc_ttw_file set tc_ttw24=to_date(:begindate,'yyyy-mm-dd'),tc_ttw25=:begintime WHERE tc_ttw01=:rwbh",
+  getcpjjymx_n: "SELECT tc_ttw20,tc_ttw07,tc_ttw02,tc_ttw01,tc_ttw15,tc_ttw17 FROM tc_ttw_file \
+  WHERE tc_ttw01=:rwbh AND tc_ttw03=:bh",
   /*=============================利器管理====================================*/
   getlqlist: "select tc_afy01,tc_afx01,tc_afx02 from tc_afy_file \
   inner join tc_afx_file on tc_afy01 = tc_afx01 \
@@ -153,7 +262,7 @@ var sqlmap = {
   FROM tc_bab_file \
   inner JOIN tc_baa_file on tc_bab01=tc_baa01 AND tc_bab03=tc_baa05 and tc_bab04=tc_baa06 \
   left join gen_file on tc_baa07=gen01 \
-  WHERE (tc_bab05 = 'A' and tc_bab06 = '1') or (tc_bab05 = 'A' and tc_bab06 = '2') or (tc_bab05 = 'B' and tc_bab06 = '1')",
+  WHERE (tc_bab05 = 'A' and tc_bab06 = '1') or (tc_bab05 = 'A' and tc_bab06 = '2') or (tc_bab05 = 'B' and tc_bab06 = '1') or (tc_bab05 = 'B' and tc_bab06 = '2')",
   addbxinfo: "INSERT INTO tc_baa_file(tc_baa01,tc_baa02,tc_baa03,tc_baa04,tc_baa05,tc_baa06,tc_baa07, \
   tc_baa08,tc_baa09,tc_baa10,tc_baa11,tc_baa12) \
   VALUES(:sbbh,:sbmc,:sbwz,:sbgz,to_date(:bxdate,'yyyy-mm-dd'),:bxtime,:useraccount, \
@@ -169,6 +278,10 @@ var sqlmap = {
   WHERE tc_bab01=:sbbh AND tc_bab03=to_date(:bxdate,'yyyy-mm-dd') AND tc_bab04=:bxtime and tc_bab05=:bxstatus ",
   updatewxinfo: "UPDATE  tc_baa_file SET tc_baa14=:wxnr \
   WHERE tc_baa01=:sbbh AND tc_baa05=to_date(:bxdate,'yyyy-mm-dd') AND tc_baa06=:bxtime ",
+
+  checkbxstatus: "SELECT COUNT(*) FROM tc_bab_file \
+  WHERE tc_bab01=:sbbh AND tc_bab03=to_date(:bxdate,'yyyy-mm-dd') AND tc_bab04=:bxtime AND tc_bab06=:bxstatus AND tc_bab05=:bxtype"
+
 };
 
 module.exports = sqlmap;

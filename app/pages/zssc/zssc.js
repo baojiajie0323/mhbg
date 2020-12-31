@@ -40,7 +40,7 @@ Page({
   },
   onLoad: function (option) {
     console.log("onLoad", option);
-    this.setData({ state: option.state, no: option.no, ordertype: option.gy, dh: option.dh, xh: option.xh, worker:option.worker })
+    this.setData({ state: option.state, no: option.no, ordertype: option.gy, dh: option.dh, xh: option.xh, worker:option.worker,worktype:option.worktype })
     var no = option.no;
     var ordertype = option.type
     var dh = option.dh;
@@ -188,7 +188,8 @@ Page({
           dh: this.data.dh,
           xh: this.data.xh,
           user: this.data.worker ? this.data.worker : wx.getStorageSync("USERACCOUNT"),
-          zssc: this.data.zssc
+          zssc: this.data.zssc,
+          checkeduser: this.data.checkeduser
         }
       },
       method: 'POST',
@@ -225,11 +226,19 @@ Page({
     })
   },
   checkSubmit: function () {
-    var { zssc } = this.data;
+    var { zssc, checkeduser,worktype } = this.data;
     if (!zssc.TC_AFL04 || !zssc.TC_AFL05 || !zssc.TC_AFL06) {
       wx.showModal({
         title: '提示',
         content: '请填写结果',
+        showCancel: false
+      })
+      return false;
+    }
+    if (worktype == 1 && (!checkeduser || checkeduser.length == 0)){
+      wx.showModal({
+        title: '提示',
+        content: '请填写投入人数',
         showCancel: false
       })
       return false;
@@ -251,6 +260,11 @@ Page({
           console.log('用户点击取消')
         }
       }
+    })
+  },
+  onClickSelectUser: function (e) {
+    wx.navigateTo({
+      url: './selectUser'
     })
   },
   onBindInput: function (e) {
